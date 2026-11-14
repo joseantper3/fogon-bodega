@@ -8025,7 +8025,7 @@ function wood(rnd,base='#4a3022',line='#3a2519'){ let o=`<rect width="800" heigh
 function stone(rnd){ let o=`<rect width="800" height="400" fill="#25282c"/>`; o+=scat(rnd,260,600,(x,y,r)=>`<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(r()*2+.5)}" fill="#fff" opacity="${f1(r()*.06)}"/>`,400,200); return o; }
 let _u='u0', _uc=0;
 const gOv=(r,cx=CX,cy=CY)=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#${_u}pg)"/>`;
-const shadow=(r,cx=CX,cy=CY,rx)=>`<ellipse cx="${cx+10}" cy="${cy+14}" rx="${rx||r}" ry="${r}" fill="#000" opacity=".32"/>`;
+const shadow=(r,cx=CX,cy=CY,rx)=>_ph?'':`<ellipse cx="${cx+10}" cy="${cy+14}" rx="${rx||r}" ry="${r}" fill="#000" opacity=".32"/>`;
 const plate=(r=150)=>shadow(r)+`<circle cx="${CX}" cy="${CY}" r="${r}" fill="#f2eee5"/><circle cx="${CX}" cy="${CY}" r="${f1(r*.78)}" fill="#fbf9f4" stroke="#e4ddd0" stroke-width="2"/>${gOv(r)}<path d="M${CX-r*.7} ${CY-r*.5} A${r*.86} ${r*.86} 0 0 1 ${CX+r*.2} ${CY-r*.84}" stroke="#fff" stroke-width="5" fill="none" opacity=".7"/>`;
 function glass(col){ return `<circle cx="352" cy="88" r="44" fill="#000" opacity=".25"/><circle cx="346" cy="80" r="44" fill="#fff" opacity=".1" stroke="#fff" stroke-opacity=".55" stroke-width="2"/><circle cx="346" cy="80" r="30" fill="${col}" opacity=".9"/><circle cx="337" cy="71" r="9" fill="#fff" opacity=".35"/>`; }
 function cutlery(){ return `<rect x="300" y="260" width="10" height="120" rx="5" fill="#cfd2d4" transform="rotate(-18 305 320)"/><rect x="318" y="250" width="8" height="34" rx="3" fill="#cfd2d4" transform="rotate(-18 322 267)"/>`; }
@@ -8180,6 +8180,17 @@ function viewEscandallo(r,n){
 
 /* ---------- Ilustraciones genéricas parametrizadas (recetas ampliadas) ---------- */
 const SPEC = {
+ r1:{v:'bowl',b:'#d8452e',it:[['drizzle','#d9c23d'],['dice','#86b04f',14,9,70],['dice','#e3cd97',10,10,75],['dice','#c0392b',8,8,70]]},
+ r2:{v:'plate',it:[['dot','#e2a83e',1,90,0],['dot','#c2802c',20,8,80]]},
+ r3:{v:'board',it:[['slice','#8a2a4a',14,24,85,'#f3e6e0'],['dot','#c8401a',40,2,95],['slice','#e8d090',8,26,90,'#f0e0b0']]},
+ r4:{v:'cazuela',b:'#4a1a12',it:[['chunk','#5a2516',7,32,85],['dice','#e8812c',8,9,100],['leaf','#4c7a35',3,14,90]]},
+ r5:{v:'cazuela',b:'#8aa04a',it:[['chunk','#f6efe4',4,34,70],['clam','#e8dcc8',8,16,110],['leaf','#3f8a2c',10,7,105]]},
+ r6:{v:'paella',b:'#1c1a1a',it:[['grain','#2a2626',420,3,145],['ring','#e8dcc8',8,12,110],['dot','#f3ead0',3,16,90],['leaf','#4c7a35',4,12,100]]},
+ r7:{v:'plate',b:'#e8d8a8',br:100,it:[['grain','#f0e2b8',300,3,95],['mush','#8a5a34',8,16,80],['leaf','#4c7a35',4,8,85]]},
+ r8:{v:'bowl',b:'#8aa850',it:[['chunk','#f0d8a8',8,22,85],['slice','#c0392b',6,12,95,'#e86a4a'],['leaf','#2f7a2a',10,9,100]]},
+ r9:{v:'slate',it:[['slice','#a8303a',6,30,80,'#e89aa0'],['dot','#f0e8d0',40,1.6,90],['leaf','#4c8a35',4,10,100]]},
+ r10:{v:'board',it:[['meat','#a8602a',1,90,0,'#e8c8a0'],['chunk','#e8c070',8,18,115],['leaf','#4c7a35',4,12,110]]},
+ r11:{v:'plate',it:[['dot','#f0d890',1,90,0],['dot','#6a3a1a',30,5,80]]},
  r12:{v:'bowl',b:'#e8743c',it:[['drizzle','#d9c23d'],['dice','#f6f1e2',10,10,60],['dice','#f2c94c',6,8,55],['dice','#b02a3a',12,9,65]]},
  r13:{v:'cazuela',b:'#b8642c',it:[['stick','#f3ebdf',10,30,90],['bean','#86b54c',30,9,105],['leaf','#5c7a35',2,22,60]]},
  r14:{v:'cazuela',b:'#cf9446',it:[['strand','#f0d39a',30,26,110],['chunk','#7d2b2b',7,26,85],['leaf','#5c7a35',2,24,80]]},
@@ -9374,6 +9385,7 @@ const photoDefs=u=>`<defs>
 <feFlood flood-color="#000" flood-opacity=".5"/><feComposite in2="so" operator="in" result="shd"/>
 <feMerge><feMergeNode in="shd"/><feMergeNode in="lit"/></feMerge></filter>
 <filter id="${u}gr" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="1" seed="2"/><feColorMatrix type="matrix" values="0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  .9 0 0 0 -.3"/></filter>
+<filter id="${u}gd" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feColorMatrix in="SourceGraphic" type="matrix" values="1.6 0 0 0 -.92  0 1.6 0 0 -.92  0 0 1.6 0 -.92  0 0 0 1 0" result="hl"/><feGaussianBlur in="hl" stdDeviation="8" result="bl"/><feComposite in="SourceGraphic" in2="bl" operator="arithmetic" k1="0" k2="1" k3=".22" k4="0"/></filter>
 </defs>`;
 /* ---------- Emplatado de alta cocina (ilustraciones gourmet) ---------- */
 function gsh(h,a){ h=h.replace('#',''); if(h.length===3) h=h.split('').map(x=>x+x).join(''); const n=parseInt(h,16); let r=n>>16,g=(n>>8)&255,b=n&255;
@@ -9486,7 +9498,7 @@ function gourmetArt(r,code){
   const [P,B,S,M,Gs]=code.split('|');
   let seed=0; for(const ch of r.id) seed=seed*31+ch.charCodeAt(0); const rnd=rng(seed);
   const t=gBg(B,rnd);
-  let f=gPlate(P,rnd);
+  const v=gPlate(P,rnd); let f='';
   const [st,sc]=(S||'-').split(':');
   const [mt,mc,mc2]=(M||'').split(':');
   f+=gSauce(st,sc,rnd,seed%7);
@@ -9495,8 +9507,7 @@ function gourmetArt(r,code){
   (Gs||'').split(';').filter(Boolean).forEach(g=>{ const [gt,gc]=g.split(':'); m+=gGarn(gt,gc,rnd); });
   f+=`<g transform="translate(${CX} ${CY}) scale(${k}) translate(${-CX} ${-CY})">${m}</g>`;
   const top=rankWines(r.profile)[0], col=TYPECOL[top.w.type];
-  f+=`<ellipse cx="${232}" cy="${108}" rx="46" ry="44" fill="#000" opacity=".22" filter="url(#${_u}gb)"/><circle cx="222" cy="96" r="44" fill="#fff" opacity=".1" stroke="#fff" stroke-opacity=".6" stroke-width="2"/><circle cx="222" cy="96" r="31" fill="${col}" opacity=".9"/><circle cx="222" cy="96" r="31" fill="url(#${_u}in)" opacity=".5"/><ellipse cx="210" cy="84" rx="10" ry="6" fill="#fff" opacity=".45" transform="rotate(-30 210 84)"/><path d="M${185} ${300} l60 -14" stroke="#cfd2d4" stroke-width="7" stroke-linecap="round" opacity=".0"/>`;
-  return {t,f,light:B==='m'||B==='l'};
+  return {t,v,f,col,B,code,steam:false,light:B==='m'||B==='l'};
 }
 /* ---------- Compositor automático: cocina tradicional ---------- */
 function hPlate(k,rnd){
@@ -9624,11 +9635,148 @@ function autoCode(r){
   if(G.indexOf('prn0')>=0){ G.splice(G.indexOf('prn0'),1); }
   return {code:[P,B,S,M,G.join(';')].join('|'),k,steam};
 }
+/* ---------- Escena fotográfica (v2): mesa, atrezo, luz y revelado ---------- */
+let _ph=false;
+function photoDefs2(u,B,light,sd){
+  const s1=1+(sd%40), s2=3+(sd%23);
+  const surf = B==='m' ? `<filter id="${u}sf" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+<feTurbulence type="fractalNoise" baseFrequency=".004 .009" numOctaves="4" seed="${s1}" result="n"/>
+<feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="a"/>
+<feComponentTransfer in="a" result="v"><feFuncA type="table" tableValues="0 0 0 0 0 0 0 0 .05 .5 .05 0 0 0 0 0 0 0 0"/></feComponentTransfer>
+<feFlood flood-color="#8a857d"/><feComposite in2="v" operator="in" result="veins"/><feGaussianBlur in="veins" stdDeviation="1.1" result="vb"/>
+<feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="2" seed="${s2}" result="n2"/>
+<feColorMatrix in="n2" type="matrix" values="0 0 0 0 .62  0 0 0 0 .6  0 0 0 0 .58  .3 0 0 0 -.1" result="cl"/>
+<feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="cl"/><feMergeNode in="vb"/></feMerge></filter>`
+  : B==='l' ? `<pattern id="${u}wv" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#d9d0c0"/><path d="M0 1.2h5M0 3.7h5" stroke="#f3ece0" stroke-width="1.1" opacity=".75"/><path d="M1.2 0v5M3.7 0v5" stroke="#a2957f" stroke-width=".9" opacity=".32"/></pattern>
+<filter id="${u}sf" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+<feTurbulence type="fractalNoise" baseFrequency=".008 .014" numOctaves="3" seed="${s1}" result="n"/>
+<feGaussianBlur in="n" stdDeviation="3" result="nb"/><feDiffuseLighting in="nb" surfaceScale="5" diffuseConstant="1" lighting-color="#fff" result="df"><feDistantLight azimuth="225" elevation="66"/></feDiffuseLighting>
+<feComposite in="SourceGraphic" in2="df" operator="arithmetic" k1="1.08" k2="0" k3="0" k4="0"/></filter>`
+  : B==='s' ? `<filter id="${u}sf" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+<feTurbulence type="fractalNoise" baseFrequency=".012 .02" numOctaves="4" seed="${s1}" result="n"/><feGaussianBlur in="n" stdDeviation="1.5" result="nb"/>
+<feDiffuseLighting in="nb" surfaceScale="3" diffuseConstant="1" lighting-color="#fff" result="df"><feDistantLight azimuth="225" elevation="64"/></feDiffuseLighting>
+<feComposite in="SourceGraphic" in2="df" operator="arithmetic" k1="1.2" k2="0" k3="0" k4="0" result="lit"/>
+<feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="1" seed="${s2}" result="n2"/>
+<feColorMatrix in="n2" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .28 0 0 0 -.17" result="sp"/>
+<feMerge><feMergeNode in="lit"/><feMergeNode in="sp"/></feMerge></filter>`
+  : `<filter id="${u}sf" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+<feTurbulence type="fractalNoise" baseFrequency=".0032 .075" numOctaves="3" seed="${s1}" result="n"/>
+<feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  2.1 0 0 0 -.82" result="ga"/>
+<feFlood flood-color="#140b06" flood-opacity=".8"/><feComposite in2="ga" operator="in" result="dk"/>
+<feTurbulence type="fractalNoise" baseFrequency=".012 .55" numOctaves="2" seed="${s2}" result="n2"/>
+<feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 1.7 0 0 -.72" result="fa"/>
+<feFlood flood-color="#e2b98a" flood-opacity=".3"/><feComposite in2="fa" operator="in" result="lt"/>
+<feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="dk"/><feMergeNode in="lt"/></feMerge></filter>`;
+  const so=light?.34:.52, sc=light?.3:.42;
+  return `<defs>
+<filter id="${u}gb" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="6"/></filter>
+<filter id="${u}b2" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.2"/></filter>
+<filter id="${u}b9" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="11"/></filter>
+<radialGradient id="${u}pg" cx=".36" cy=".3" r=".78"><stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset=".86" stop-color="#000" stop-opacity=".06"/><stop offset="1" stop-color="#000" stop-opacity=".34"/></radialGradient>
+<radialGradient id="${u}in" cx=".5" cy=".5" r=".5"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset=".9" stop-color="#000" stop-opacity=".22"/><stop offset="1" stop-color="#000" stop-opacity=".4"/></radialGradient>
+<linearGradient id="${u}bd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient>
+<radialGradient id="${u}vg" cx=".56" cy=".5" r=".78"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="${light?'.3':'.6'}"/></radialGradient>
+<radialGradient id="${u}wm" cx=".16" cy="0" r="1"><stop offset="0" stop-color="#ffe2b4" stop-opacity="${light?'.2':'.3'}"/><stop offset=".55" stop-color="#ffd9a0" stop-opacity=".06"/><stop offset="1" stop-color="#ffd9a0" stop-opacity="0"/></radialGradient>
+<linearGradient id="${u}mt" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5f646a"/><stop offset=".3" stop-color="#d9dde0"/><stop offset=".55" stop-color="#8f959b"/><stop offset=".8" stop-color="#c3c8cc"/><stop offset="1" stop-color="#565b61"/></linearGradient>
+<linearGradient id="${u}nk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient>
+${surf}
+<filter id="${u}vs" x="-12%" y="-16%" width="130%" height="140%" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="14" result="b1"/><feOffset in="b1" dx="13" dy="19" result="o1"/><feFlood flood-color="#000" flood-opacity="${so}"/><feComposite in2="o1" operator="in" result="s1"/>
+<feGaussianBlur in="SourceAlpha" stdDeviation="3" result="b2"/><feOffset in="b2" dx="4" dy="6" result="o2"/><feFlood flood-color="#000" flood-opacity="${sc}"/><feComposite in2="o2" operator="in" result="s2"/>
+<feGaussianBlur in="SourceAlpha" stdDeviation="2.4" result="ba"/>
+<feDiffuseLighting in="ba" surfaceScale="5" diffuseConstant="1" lighting-color="#fff" result="bd"><feDistantLight azimuth="225" elevation="58"/></feDiffuseLighting>
+<feComposite in="SourceGraphic" in2="bd" operator="arithmetic" k1="1.16" k2="0" k3="0" k4="0" result="lv"/><feComposite in="lv" in2="SourceAlpha" operator="in" result="lv2"/>
+<feSpecularLighting in="ba" surfaceScale="5" specularConstant=".7" specularExponent="22" lighting-color="#fff" result="bs"><feDistantLight azimuth="225" elevation="52"/></feSpecularLighting><feComposite in="bs" in2="SourceAlpha" operator="in" result="bs2"/>
+<feComposite in="lv2" in2="bs2" operator="arithmetic" k1="0" k2="1" k3=".5" k4="0" result="vv"/>
+<feMerge><feMergeNode in="s1"/><feMergeNode in="s2"/><feMergeNode in="vv"/></feMerge></filter>
+<filter id="${u}ps" x="-20%" y="-20%" width="150%" height="150%"><feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/><feOffset in="b" dx="6" dy="9" result="o"/><feFlood flood-color="#000" flood-opacity="${light?'.28':'.45'}"/><feComposite in2="o" operator="in" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<filter id="${u}rl" x="-4%" y="-6%" width="110%" height="116%" color-interpolation-filters="sRGB">
+<feTurbulence type="fractalNoise" baseFrequency=".055" numOctaves="2" seed="4" result="n"/>
+<feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G" result="d"/>
+<feColorMatrix in="d" type="luminanceToAlpha" result="lum"/>
+<feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="2" seed="9" result="n2"/>
+<feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="na"/>
+<feComposite in="lum" in2="na" operator="arithmetic" k1="0" k2="1" k3=".08" k4="0" result="h0"/>
+<feGaussianBlur in="h0" stdDeviation="1.1" result="h"/>
+<feDiffuseLighting in="h" surfaceScale="3.8" diffuseConstant="1.22" lighting-color="#fff6ea" result="df"><feDistantLight azimuth="225" elevation="50"/></feDiffuseLighting>
+<feComposite in="d" in2="df" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" result="sh"/>
+<feSpecularLighting in="h" surfaceScale="3.8" specularConstant=".6" specularExponent="34" lighting-color="#fff" result="sp"><feDistantLight azimuth="225" elevation="46"/></feSpecularLighting>
+<feComposite in="sp" in2="d" operator="in" result="spc"/>
+<feComposite in="sh" in2="spc" operator="arithmetic" k1="0" k2="1" k3=".55" k4="0" result="lit"/>
+<feGaussianBlur in="SourceAlpha" stdDeviation="3.4" result="sb"/><feOffset in="sb" dx="4" dy="6" result="so"/>
+<feFlood flood-color="#000" flood-opacity=".42"/><feComposite in2="so" operator="in" result="shd"/>
+<feMerge><feMergeNode in="shd"/><feMergeNode in="lit"/></feMerge></filter>
+<filter id="${u}gd" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+<feColorMatrix in="SourceGraphic" type="matrix" values="1.6 0 0 0 -.92  0 1.6 0 0 -.92  0 0 1.6 0 -.92  0 0 0 1 0" result="hl"/>
+<feGaussianBlur in="hl" stdDeviation="8" result="bl"/>
+<feComposite in="SourceGraphic" in2="bl" operator="arithmetic" k1="0" k2="1" k3=".22" k4="0" result="bm"/>
+<feComponentTransfer in="bm" result="cv"><feFuncR type="table" tableValues="0 .1 .235 .375 .51 .64 .76 .87 .95"/><feFuncG type="table" tableValues="0 .1 .235 .375 .51 .64 .76 .87 .95"/><feFuncB type="table" tableValues="0 .105 .24 .375 .505 .63 .745 .85 .93"/></feComponentTransfer>
+<feColorMatrix in="cv" type="saturate" values=".94"/></filter>
+<filter id="${u}gr" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="1" seed="2"/><feColorMatrix type="matrix" values="0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  .9 0 0 0 -.3"/></filter>
+</defs>`;
+}
+function pBg(B,q,u){
+  if(B==='m') return `<rect width="800" height="400" fill="#ece8e1" filter="url(#${u}sf)"/>`;
+  if(B==='l') return `<rect width="800" height="400" fill="url(#${u}wv)" filter="url(#${u}sf)"/>`;
+  if(B==='s') return `<rect width="800" height="400" fill="#2b2e32" filter="url(#${u}sf)"/>`;
+  const tones=[['#5c3a25','#4a2d1c','#3a2216'],['#6b4a30','#5a3c26','#48301e'],['#4a2e20','#3c2418','#2e1b12']][Math.floor(q()*3)];
+  let o=`<g filter="url(#${u}sf)"><rect width="800" height="400" fill="${tones[1]}"/>`, y=-30-q()*60;
+  while(y<400){ const hgt=96+q()*34, c=tones[Math.floor(q()*3)]; o+=`<rect x="0" y="${f1(y)}" width="800" height="${f1(hgt)}" fill="${c}"/>`; const jx=120+q()*560; o+=`<rect x="${f1(jx)}" y="${f1(y)}" width="2" height="${f1(hgt)}" fill="#120a06" opacity=".55"/>`; y+=hgt; o+=`<rect x="0" y="${f1(y-1.5)}" width="800" height="2.6" fill="#0d0704" opacity=".8"/><rect x="0" y="${f1(y+1.1)}" width="800" height="1.2" fill="#d8b089" opacity=".16"/>`; }
+  for(let i=0;i<2;i++){ const kx=q()*800, ky=q()*400, kr=5+q()*7; o+=`<ellipse cx="${f1(kx)}" cy="${f1(ky)}" rx="${f1(kr*1.9)}" ry="${f1(kr)}" fill="#1a0e08" opacity=".5"/><ellipse cx="${f1(kx)}" cy="${f1(ky)}" rx="${f1(kr*.8)}" ry="${f1(kr*.45)}" fill="#0c0603" opacity=".7"/>`; }
+  return o+`</g>`;
+}
+function pCutlery(u,kind){
+  const m=`url(#${u}mt)`;
+  if(kind==='spoon') return `<g><ellipse cx="0" cy="-62" rx="15" ry="22" fill="${m}" stroke="#3a3d41" stroke-width=".6"/><ellipse cx="-3" cy="-66" rx="8" ry="13" fill="#fff" opacity=".35"/><ellipse cx="2" cy="-58" rx="10" ry="15" fill="#000" opacity=".1"/><path d="M-3.500 -42 L3.500 -42 L4.500 78 Q0 84 -4.500 78Z" fill="${m}" stroke="#3a3d41" stroke-width=".6"/></g>`;
+  return `<g><path d="M-9 -84 v30 q0 10 6 12 l-1.500 120 q4.500 6 9 0 l-1.500 -120 q6 -2 6 -12 v-30 h-2.600 v26 h-2.600 v-26 h-2.800 v26 h-2.600 v-26 h-2.800 v26 h-2.600 v-26z" fill="${m}" stroke="#3a3d41" stroke-width=".6"/><path d="M-1 -40 l-1 114" stroke="#fff" stroke-width="1.200" opacity=".5"/></g><g transform="translate(24 2)"><path d="M-4 -86 q9 4 9.500 34 q.3 22 -3 28 l1.500 102 q-4 6 -8 0z" fill="${m}" stroke="#3a3d41" stroke-width=".6"/><path d="M-2.500 -80 q6 8 6 30" stroke="#fff" stroke-width="1.300" fill="none" opacity=".6"/></g>`;
+}
+function pProps(g,q,u,r){
+  let o=''; const light=g.light, cat=(r.cat||''), p=(r.profile||{}).p;
+  const lin=[['#cfc5b2','#a99d86'],['#9aa79f','#76857c'],['#b3a184','#8d7b5f'],['#b98f7c','#96705f'],['#75828f','#56626e'],['#8c9a6e','#6c7a52']][Math.floor(q()*6)];
+  const withNap=q()<.72;
+  if(withNap){
+    const ang=-14+q()*22, nx=176+q()*26, ny=300+q()*20, w=124, h=176;
+    let n=`<g transform="translate(${f1(nx)} ${f1(ny)}) rotate(${f1(ang)})"><g filter="url(#${u}ps)"><rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" rx="5" fill="${lin[0]}"/><rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" rx="5" fill="url(#${u}nk)"/>`;
+    for(let i=1;i<3;i++) n+=`<path d="M${f1(-w/2+i*w/3)} ${-h/2} q${f1(3-q()*6)} ${h/2} 0 ${h}" stroke="${lin[1]}" stroke-width="2.200" fill="none" opacity=".7"/><path d="M${f1(-w/2+i*w/3+2.5)} ${-h/2} q${f1(3-q()*6)} ${h/2} 0 ${h}" stroke="#fff" stroke-width="1.200" fill="none" opacity=".35"/>`;
+    n+=`<path d="M${-w/2+10} ${-h/2+14}h${w-20}M${-w/2+10} ${-h/2+20}h${w-20}" stroke="${lin[1]}" stroke-width="1.600" opacity=".8"/></g>`;
+    n+=`<g filter="url(#${u}ps)" transform="translate(${f1(-8+q()*10)} ${f1(-6+q()*10)}) rotate(${f1(-4+q()*8)})">${pCutlery(u,(cat==='Postres'||p==='postre'||(g.code||'').includes('|fl:'))?'spoon':'fork')}</g></g>`;
+    o+=n;
+  }
+  /* cuenco pequeño de sal o aceite, arriba a la izquierda de la copa */
+  if(q()<.5){ const bx=96+q()*30, by=196+q()*26, oil=q()<.5; o+=`<g filter="url(#${u}ps)"><circle cx="${f1(bx)}" cy="${f1(by)}" r="27" fill="${light?'#3b3f44':'#cfc8ba'}"/><circle cx="${f1(bx)}" cy="${f1(by)}" r="21" fill="${oil?'#a88c1e':'#e4e0d6'}"/><circle cx="${f1(bx)}" cy="${f1(by)}" r="27" fill="url(#${u}pg)"/>${oil?`<ellipse cx="${f1(bx-7)}" cy="${f1(by-8)}" rx="7" ry="3.500" fill="#fff" opacity=".55" transform="rotate(-30 ${f1(bx-7)} ${f1(by-8)})"/>`:scat(q,26,17,(x,y,z)=>`<rect x="${f1(x)}" y="${f1(y)}" width="${f1(1.5+z()*2.5)}" height="${f1(1.5+z()*2)}" fill="#fff" stroke="#c9c4ba" stroke-width=".3" transform="rotate(${f1(z()*90)} ${f1(x)} ${f1(y)})"/>`,bx,by)}</g>`; }
+  /* migas, hierbas y granos alrededor del plato */
+  const herb=light?'#4f7a34':'#5f8f3e';
+  o+=`<g filter="url(#${u}ps)">`;
+  for(let i=0;i<3;i++){ if(q()<.6){ const a=q()*Math.PI*2, d=205+q()*40, x=CX+Math.cos(a)*d, y=CY+Math.sin(a)*d*.86; if(y>14&&y<386&&x<790){ const rot=q()*360; let s=`<g transform="translate(${f1(x)} ${f1(y)}) rotate(${f1(rot)})"><path d="M0 0 q14 -5 30 0" stroke="${gsh(herb,-.25)}" stroke-width="1.400" fill="none"/>`; for(let k=0;k<6;k++) s+=`<ellipse cx="${f1(4+k*4.6)}" cy="${k%2?4:-5}" rx="4.200" ry="1.700" fill="${k%3?herb:gsh(herb,.18)}" transform="rotate(${k%2?28:-28} ${f1(4+k*4.6)} ${k%2?4:-5})"/>`; o+=s+`</g>`; } } }
+  o+=scat(q,16,60,(x,y,z)=>{ const a=z()*Math.PI*2, d=196+z()*52, px=CX+Math.cos(a)*d, py=CY+Math.sin(a)*d*.9; if(py<8||py>392||px>794) return ''; const t=z(); return t<.45?`<circle cx="${f1(px)}" cy="${f1(py)}" r="${f1(1.6+z()*1.6)}" fill="${z()<.5?'#1c1512':'#5a2a1a'}"/>`:t<.8?`<rect x="${f1(px)}" y="${f1(py)}" width="${f1(2+z()*3)}" height="${f1(1.6+z()*2.4)}" fill="#fbfaf6" opacity=".92" transform="rotate(${f1(z()*90)} ${f1(px)} ${f1(py)})"/>`:`<ellipse cx="${f1(px)}" cy="${f1(py)}" rx="${f1(2+z()*3)}" ry="${f1(1.4+z()*2)}" fill="#c99a5a" transform="rotate(${f1(z()*180)} ${f1(px)} ${f1(py)})"/>`; });
+  return o+`</g>`;
+}
+function pGlass(col,u,light){
+  const x=222,y=96, _n=parseInt(col.replace('#','').slice(0,2),16), dk=gsh(col,_n>170?-.16:-.42), lt=gsh(col,.3);
+  return `<g><ellipse cx="${x+20}" cy="${y+26}" rx="50" ry="46" fill="#000" opacity="${light?'.2':'.34'}" filter="url(#${u}gb)"/>
+<ellipse cx="${x+26}" cy="${y+30}" rx="22" ry="18" fill="${lt}" opacity="${light?'.5':'.38'}" filter="url(#${u}gb)"/>
+<circle cx="${x+3}" cy="${y+4}" r="21" fill="#fff" opacity=".1" stroke="#fff" stroke-opacity=".3" stroke-width="1.200"/>
+<circle cx="${x}" cy="${y}" r="45" fill="#fff" opacity=".07"/>
+<circle cx="${x}" cy="${y}" r="45" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.600"/>
+<circle cx="${x}" cy="${y}" r="42.500" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="1"/>
+<radialGradient id="${u}wn" cx=".42" cy=".4" r=".62"><stop offset="0" stop-color="${dk}"/><stop offset=".7" stop-color="${col}"/><stop offset="1" stop-color="${lt}"/></radialGradient>
+<circle cx="${x}" cy="${y}" r="32" fill="url(#${u}wn)" opacity=".96"/>
+<circle cx="${x}" cy="${y}" r="32" fill="none" stroke="${lt}" stroke-width="1.400" opacity=".7"/>
+<path d="M${x-24} ${y-12} q4 -10 13 -14 l3 5 q-8 4 -11 11z" fill="#fff" opacity=".55"/><path d="M${x-10} ${y-27} q5 -2 9 -2 l.6 5 q-4 0 -8 1.600z" fill="#fff" opacity=".4"/>
+<path d="M${x-38} ${y-22} A45 45 0 0 1 ${x+6} ${y-44.500}" stroke="#fff" stroke-width="2.600" fill="none" opacity=".8" stroke-linecap="round"/>
+<path d="M${x+30} ${y+33} A45 45 0 0 0 ${x+43} ${y+12}" stroke="#fff" stroke-width="1.600" fill="none" opacity=".35" stroke-linecap="round"/></g>`;
+}
+function pSteam(q,u){ let o=`<g filter="url(#${u}b9)" opacity=".5">`; for(let i=0;i<4;i++){ const x=CX-70+q()*140, y=CY-60+q()*110; o+=`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="${f1(26+q()*26)}" ry="${f1(12+q()*14)}" fill="#fff" opacity="${f1(.1+q()*.1)}" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`; } return o+`</g>`; }
+function photoScene(u,g,seed,r){
+  const q=rng((seed*7+13)>>>0);
+  const v=String(g.v).replace(/<rect[^>]*fill="#000" opacity="\.3\d?" transform="translate\(\d+ \d+\)"\/>/g,'');
+  return `<g filter="url(#${u}gd)">${pBg(g.B,q,u)}<rect width="800" height="400" fill="url(#${u}wm)"/>${pProps(g,q,u,r)}<g filter="url(#${u}vs)">${v}</g><g filter="url(#${u}rl)">${g.f}</g>${g.steam?pSteam(q,u):''}${pGlass(g.col,u,g.light)}</g>`;
+}
 function homeArt(r,a){
   const [P,B,S,M,Gs]=a.code.split('|');
   let seed=0; for(const ch of r.id) seed=seed*31+ch.charCodeAt(0); const rnd=rng(seed);
   const t=gBg(B,rnd);
-  let f=hPlate(P,rnd);
+  const v=hPlate(P,rnd); let f='';
   const [st,sc]=(S||'-').split(':');
   if(st==='fl'&&P==='cz') f+=`<circle cx="${CX}" cy="${CY}" r="142" fill="${sc}"/><circle cx="${CX}" cy="${CY}" r="142" fill="url(#${_u}in)" opacity=".75"/>`+gHi(CX-60,CY-80,50,12,.25)+scat(rnd,14,120,(x,y,q)=>`<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(1+q()*3)}" fill="${gsh(sc,.35)}" opacity=".5"/>`);
   else f+=gSauce(st,sc,rnd,seed%7);
@@ -9638,18 +9786,17 @@ function homeArt(r,a){
   const k=mt==='sp'?1:a.k;
   f+=`<g transform="translate(${CX} ${CY}) scale(${k}) translate(${-CX} ${-CY})">${m}</g>`;
   const top=rankWines(r.profile)[0], col=TYPECOL[top.w.type];
-  f+=`<ellipse cx="232" cy="108" rx="46" ry="44" fill="#000" opacity=".22" filter="url(#${_u}gb)"/><circle cx="222" cy="96" r="44" fill="#fff" opacity=".1" stroke="#fff" stroke-opacity=".6" stroke-width="2"/><circle cx="222" cy="96" r="31" fill="${col}" opacity=".9"/><circle cx="222" cy="96" r="31" fill="url(#${_u}in)" opacity=".5"/><ellipse cx="210" cy="84" rx="10" ry="6" fill="#fff" opacity=".45" transform="rotate(-30 210 84)"/>`;
-  return {t,f,light:B==='m'||B==='l'};
+  return {t,v,f,col,B,code:a.code,steam:!!a.steam,light:B==='m'||B==='l'};
 }
 function dishArt(r){
-  const fn=ART[r.id], GA=(typeof GPRO!=='undefined'&&GPRO[r.id])?GPRO[r.id][3]:''; if(!fn&&!SPEC[r.id]&&!GA) return '';
+  const fn=SPEC[r.id]?null:ART[r.id], GA=(typeof GPRO!=='undefined'&&GPRO[r.id])?GPRO[r.id][3]:''; if(!fn&&!SPEC[r.id]&&!GA) return '';
   let seed=0; for(const c of r.id) seed=seed*31+c.charCodeAt(0);
   const u=_u='u'+(++_uc)+'_';
   let body;
   const HA=(!GA&&!fn&&SPEC[r.id])?autoCode(r):null;
-  if(HA){ const g=homeArt(r,HA); body=`<g>${g.t}<rect width="800" height="400" fill="#000" filter="url(#${u}tb)" opacity="${g.light?'.1':'.55'}"/></g><g filter="url(#${u}rl)">${g.f}</g>`; }
-  else if(GA){ const g=gourmetArt(r,GA); body=`<g>${g.t}<rect width="800" height="400" fill="#000" filter="url(#${u}tb)" opacity="${g.light?'.1':'.55'}"/></g><g filter="url(#${u}rl)">${g.f}</g>`; }
-  else if(fn){ body=`<g filter="url(#${u}rl)">${fn(rng(seed))}</g>`; }
+  if(HA||GA){ _ph=true; let g; try{ g=HA?homeArt(r,HA):gourmetArt(r,GA); } finally { _ph=false; }
+    return `<svg class="hero-img" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-label="Imagen de ${esc(r.name)}">${photoDefs2(u,g.B,g.light,Math.abs(seed)%997)}${photoScene(u,g,Math.abs(seed),r)}<rect width="800" height="400" fill="url(#${u}vg)"/><rect width="800" height="400" filter="url(#${u}gr)" opacity=".08"/></svg>`; }
+  else if(fn){ body=`<g filter="url(#${u}gd)"><g filter="url(#${u}rl)">${fn(rng(seed))}</g></g>`; }
   else { const g=genericArt(r,true); body=`<g>${g.t}<rect width="800" height="400" fill="#000" filter="url(#${u}tb)" opacity=".55"/></g><g filter="url(#${u}rl)">${g.f}</g>`; }
   return `<svg class="hero-img" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-label="Imagen de ${esc(r.name)}">${photoDefs(u)}${body}<rect width="800" height="400" fill="url(#${u}wm)"/><rect width="800" height="400" fill="url(#${u}vg)"/><rect width="800" height="400" filter="url(#${u}gr)" opacity=".09"/></svg>`;
 }
@@ -9822,7 +9969,15 @@ function render(){
   hydrate(); hydrateArt(); if(r==='menus'&&curMenu()) requestAnimationFrame(drawMenu);
 }
 let _artIO=null;
-function fillArt(el){ if(!el.isConnected) return; const r=S.recipes.find(x=>x.id===el.dataset.rid); if(r) el.outerHTML=dishArt(r); }
+const _artURL=new Map();
+function artURL(r){ const k=r.id+'|'+r.name+'|'+r.cat+'|'+JSON.stringify(r.profile||{})+'|'+(r.tags||[]).join(',');
+  let u=_artURL.get(k); if(u) return u;
+  const svg=dishArt(r); if(!svg) return '';
+  try{ u=URL.createObjectURL(new Blob([svg.replace('<svg class="hero-img"','<svg')],{type:'image/svg+xml'})); }catch(_){ return ''; }
+  _artURL.set(k,u);
+  if(_artURL.size>700){ let n=0; for(const [kk,vv] of _artURL){ if(n++>=200) break; try{ URL.revokeObjectURL(vv); }catch(_){ } _artURL.delete(kk); } }
+  return u; }
+function fillArt(el){ if(!el.isConnected) return; const r=S.recipes.find(x=>x.id===el.dataset.rid); if(!r) return; const u=artURL(r); if(u) el.outerHTML=`<img class="hero-img" alt="" decoding="async" src="${u}">`; else el.outerHTML=dishArt(r); }
 function hydrateArt(){ const els=document.querySelectorAll('.lazyart'); if(!els.length) return; if(typeof IntersectionObserver==='undefined'){ els.forEach(fillArt); return; } if(!_artIO) _artIO=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ _artIO.unobserve(e.target); fillArt(e.target); } }),{rootMargin:'600px 0px'}); els.forEach(el=>_artIO.observe(el)); }
 
 /* ============ EVENTOS GASTRONÓMICOS ============ */
