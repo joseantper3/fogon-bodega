@@ -7582,7 +7582,8 @@ function spainMigrate(st){ if((st.spainV||0)>=2) return; st.recipes.forEach(r=>{
 function spainNav(base){
   const sp=base.filter(isSpain);
   if(!UI.ccaa){
-    const cards=CCAA.map(([k,n,prov])=>{ const c=sp.filter(r=>r.region===k).length; const withRec=prov.filter(p=>sp.some(r=>r.region===k&&recProv(r)===p)).length;
+    const cntC=k=>sp.filter(r=>r.region===k).length;
+    const cards=CCAA.slice().sort((x,y)=>cntC(y[0])-cntC(x[0])||x[1].localeCompare(y[1],'es')).map(([k,n,prov])=>{ const c=cntC(k); const withRec=prov.filter(p=>sp.some(r=>r.region===k&&recProv(r)===p)).length;
       return `<div class="card ccaa ${c?'':'zero'}" data-act="ccaa" data-v="${esc(k)}"><div class="row between" style="align-items:flex-start;flex-wrap:nowrap"><h3>${esc(n)}</h3><b class="cnt">${c}</b></div>
         <div class="tiny muted">${prov.length>1?`${prov.length} provincias · ${withRec} con recetas`:'Uniprovincial'}</div>
         <div class="tiny pv">${prov.map(p=>esc(p)).join(' · ')}</div></div>`; }).join('');
