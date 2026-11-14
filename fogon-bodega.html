@@ -9518,7 +9518,301 @@ function hPlate(k,rnd){
   if(k==='rk') return vesselArt('ramekin');
   return gPlate(k,rnd);
 }
+/* ---------- Comida con más realismo: formas inspiradas en el plato real ---------- */
+function rMain(t,c,c2,rnd){
+  const noC2=c2==='-'; if(noC2) c2='';
+  c=c||'#c89050'; c2=c2||gsh(c,-.3);
+  const u=`url(#${_u}m1)`, u2=`url(#${_u}m2)`;
+  let o='<defs>'+gGrad('m1',c)+gGrad('m2',c2)+'</defs>';
+  const poly=(x,y,rx,ry,n,j,rot)=>{ let d=''; for(let i=0;i<n;i++){ const a=i/n*Math.PI*2, k=1-j/2+rnd()*j; d+=(i?'L':'M')+f1(x+Math.cos(a)*rx*k)+' '+f1(y+Math.sin(a)*ry*k); } return `<path d="${d}Z" stroke-linejoin="round" transform="rotate(${f1(rot||0)} ${f1(x)} ${f1(y)})"`; };
+  const dust=(n,R,col,op=.9,cx=CX,cy=CY)=>scat(rnd,n,R,(x,y,q)=>`<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(.7+q()*1.3)}" fill="${col}" opacity="${op}"/>`,cx,cy);
+  switch(t){
+   case 'stew': {
+     o+=scat(rnd,16,112,(x,y,q)=>{ const r=3+q()*6; return `<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(r)}" fill="#ffd9a0" opacity=".16"/><circle cx="${f1(x-r*.3)}" cy="${f1(y-r*.3)}" r="${f1(r*.3)}" fill="#fff" opacity=".35"/>`; });
+     o+=scat(rnd,6,96,(x,y,q)=>{ const r=9+q()*4; return `<ellipse cx="${f1(x+2)}" cy="${f1(y+3)}" rx="${f1(r)}" ry="${f1(r*.85)}" fill="#000" opacity=".2"/><ellipse cx="${f1(x)}" cy="${f1(y)}" rx="${f1(r)}" ry="${f1(r*.85)}" fill="#e8873a" stroke="#b85a1c" stroke-width="1"/><ellipse cx="${f1(x)}" cy="${f1(y)}" rx="${f1(r*.5)}" ry="${f1(r*.4)}" fill="#f2a55a" opacity=".8"/>`; });
+     o+=scat(rnd,6,100,(x,y,q)=>{ const r=11+q()*6; return `<ellipse cx="${f1(x+2)}" cy="${f1(y+3)}" rx="${f1(r)}" ry="${f1(r*.8)}" fill="#000" opacity=".2"/>`+poly(x,y,r,r*.82,7,.3,q()*180)+` fill="${u2}" stroke="${gsh(c2,-.3)}" stroke-width="1"/>`+gHi(x-r*.3,y-r*.3,r*.3,r*.13,.4); });
+     o+=scat(rnd,9,84,(x,y,q)=>{ const r=24+q()*12, rot=q()*180; let s=`<ellipse cx="${f1(x+3)}" cy="${f1(y+5)}" rx="${f1(r)}" ry="${f1(r*.78)}" fill="#000" opacity=".28"/>`+poly(x,y,r,r*.78,9,.34,rot)+` fill="${u}" stroke="${gsh(c,-.4)}" stroke-width="1.4"/>`; for(let k=0;k<3;k++){ const yy=y-r*.3+k*r*.3; s+=`<path d="M${f1(x-r*.55)} ${f1(yy)} q${f1(r*.5)} ${f1(-3+q()*6)} ${f1(r*1.1)} 0" stroke="${gsh(c,-.32)}" stroke-width="1.2" fill="none" opacity=".55" transform="rotate(${f1(rot)} ${f1(x)} ${f1(y)})"/>`; } return s+`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="${f1(r*.7)}" ry="${f1(r*.5)}" fill="${gsh(c,.3)}" opacity=".28" transform="rotate(${f1(rot)} ${f1(x)} ${f1(y)})"/>`+gHi(x-r*.3,y-r*.36,r*.4,r*.15,.6); });
+     o+=scat(rnd,10,100,(x,y,q)=>`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="5" ry="2.200" fill="#4f8a35" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`);
+     break; }
+   case 'pas': {
+     o+=gSoft(CX,CY,82,66,.3);
+     for(let i=0;i<64;i++){ const a0=rnd()*6.283, R=18+rnd()*62, sw=a0+1.6+rnd()*2.2, x0=CX+Math.cos(a0)*R, y0=CY+Math.sin(a0)*R*.82, x1=CX+Math.cos(sw)*R*(.8+rnd()*.3), y1=CY+Math.sin(sw)*R*.82*(.8+rnd()*.3), col=[c,gsh(c,.16),gsh(c,-.1),gsh(c,.08)][i%4], d=`M${f1(x0)} ${f1(y0)} A${f1(R)} ${f1(R*.82)} 0 0 1 ${f1(x1)} ${f1(y1)}`;
+       o+=`<path d="${d}" stroke="${gsh(c,-.42)}" stroke-width="6.400" fill="none" stroke-linecap="round" opacity=".5" transform="translate(1.200 1.800)"/><path d="${d}" stroke="${col}" stroke-width="4.600" fill="none" stroke-linecap="round"/><path d="${d}" stroke="#fff" stroke-width="1" fill="none" stroke-linecap="round" opacity=".28" transform="translate(-.8 -1)"/>`; }
+     o+=scat(rnd,11,58,(x,y,q)=>poly(x,y,5+q()*5,4+q()*4,6,.4,q()*180)+` fill="${c2}" stroke="${gsh(c2,-.3)}" stroke-width=".8"/>`);
+     o+=scat(rnd,9,54,(x,y,q)=>`<path d="M${f1(x)} ${f1(y)} l${f1(5+q()*6)} ${f1(-2+q()*4)} l${f1(-2+q()*3)} ${f1(3+q()*3)}z" fill="#fbf3d8" stroke="#e2d2a0" stroke-width=".5"/>`);
+     o+=dust(26,64,'#1c1512',.8);
+     break; }
+   case 'brv': case 'chk': {
+     o+=scat(rnd,14,74,(x,y,q)=>{ const rx=16+q()*10, ry=11+q()*7, rot=q()*180; let s=`<ellipse cx="${f1(x+3)}" cy="${f1(y+5)}" rx="${f1(rx)}" ry="${f1(ry)}" fill="#000" opacity=".26" transform="rotate(${f1(rot)} ${f1(x)} ${f1(y)})"/>`+poly(x,y,rx,ry,10,.3,rot)+` fill="${u}" stroke="${gsh(c,-.34)}" stroke-width="1.300"/>`; for(let k=0;k<7;k++){ const a=q()*6.283, d=q()*rx*.7; s+=`<circle cx="${f1(x+Math.cos(a)*d)}" cy="${f1(y+Math.sin(a)*d*.6)}" r="${f1(.8+q()*1.5)}" fill="${k%2?gsh(c,.3):gsh(c,-.28)}" opacity=".8"/>`; } return s+gHi(x-rx*.25,y-ry*.35,rx*.34,ry*.16,.42,rot-20); });
+     if(t==='brv'){ o+=scat(rnd,7,56,(x,y,q)=>poly(x,y,12+q()*10,8+q()*7,9,.4,q()*180)+` fill="${c2}" stroke="${gsh(c2,-.25)}" stroke-width=".8" opacity=".95"/>`+gHi(x-4,y-4,5,2,.5))+scat(rnd,5,50,(x,y,q)=>poly(x,y,7+q()*5,5+q()*4,8,.4,q()*180)+` fill="#fbf6e6" stroke="#e0d6b8" stroke-width=".6"/>`)+scat(rnd,12,70,(x,y,q)=>`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="4" ry="1.800" fill="#4f8a35" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`); }
+     o+=dust(14,86,'#fff',.7);
+     break; }
+   case 'emp': {
+     [[-52,-22,-18],[34,-34,24],[-4,40,-6]].forEach(([dx,dy,rot])=>{ const x=CX+dx,y=CY+dy,R=52; let s=`<g transform="rotate(${rot} ${x} ${y})"><path d="M${x-R} ${y+6} A${R} ${R} 0 0 1 ${x+R} ${y+6} Z" fill="#000" opacity=".28" transform="translate(4 7)"/><path d="M${x-R} ${y} A${R} ${R} 0 0 1 ${x+R} ${y} Q${x} ${y+12} ${x-R} ${y} Z" fill="${u}" stroke="${gsh(c,-.36)}" stroke-width="1.400"/>`;
+       for(let k=0;k<11;k++){ const a=Math.PI+(k+.5)/11*Math.PI, px=x+Math.cos(a)*(R-5), py=y+Math.sin(a)*(R-5); s+=`<ellipse cx="${f1(px)}" cy="${f1(py)}" rx="6.500" ry="3.600" fill="${gsh(c,-.12)}" stroke="${gsh(c,-.38)}" stroke-width=".9" transform="rotate(${f1(a*180/Math.PI+90)} ${f1(px)} ${f1(py)})"/>`; }
+       s+=`<ellipse cx="${x-6}" cy="${y-22}" rx="26" ry="9" fill="${gsh(c,-.2)}" opacity=".5"/>`+gHi(x-14,y-28,18,5,.5,-10)+`</g>`; o+=s; });
+     o+=dust(20,90,gsh(c,.35),.7);
+     break; }
+   case 'pie': {
+     const w=176,h=118,x=CX-w/2,y=CY-h/2;
+     o+=`<rect x="${x+4}" y="${y+8}" width="${w}" height="${h}" rx="20" fill="#000" opacity=".3"/><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="20" fill="${u}" stroke="${gsh(c,-.4)}" stroke-width="1.600"/><rect x="${x+9}" y="${y+9}" width="${w-18}" height="${h-18}" rx="13" fill="none" stroke="${gsh(c,-.3)}" stroke-width="5" stroke-dasharray="7 5" opacity=".7"/>`;
+     [[-40,-10,-30],[0,6,10],[40,-8,34]].forEach(([dx,dy,r])=>{ o+=`<path d="M${CX+dx-16} ${CY+dy} q16 -11 32 0 q-16 11 -32 0z" fill="${gsh(c,-.45)}" opacity=".8" transform="rotate(${r} ${CX+dx} ${CY+dy})"/>`; });
+     o+=`<path d="M${x+w-52} ${y+h} L${x+w} ${y+h-44} L${x+w} ${y+h-20} Q${x+w} ${y+h} ${x+w-20} ${y+h}Z" fill="${u2}" stroke="${gsh(c2,-.35)}" stroke-width="1.200"/>`+scat(rnd,7,14,(px,py,q)=>`<circle cx="${f1(px)}" cy="${f1(py)}" r="${f1(1.5+q()*2)}" fill="${gsh(c2,.3)}"/>`,x+w-20,y+h-16);
+     o+=scat(rnd,9,70,(px,py,q)=>`<ellipse cx="${f1(px)}" cy="${f1(py)}" rx="${f1(6+q()*8)}" ry="${f1(3+q()*4)}" fill="${gsh(c,-.25)}" opacity=".35" transform="rotate(${f1(q()*180)} ${f1(px)} ${f1(py)})"/>`)+gHi(CX-40,CY-34,40,7,.4,-6);
+     break; }
+   case 'foc': case 'coca': {
+     const w=186,h=104,x=CX-w/2,y=CY-h/2, dg=t==='foc'?c:'#e3bd80';
+     o+=`<rect x="${x+4}" y="${y+7}" width="${w}" height="${h}" rx="26" fill="#000" opacity="..28"/>`.replace('..','.')+`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="26" fill="${gsh(dg,-.18)}" stroke="${gsh(dg,-.4)}" stroke-width="2"/><rect x="${x+8}" y="${y+7}" width="${w-16}" height="${h-14}" rx="20" fill="${dg}"/><rect x="${x+8}" y="${y+7}" width="${w-16}" height="${h-14}" rx="20" fill="url(#${_u}pg)" opacity=".6"/>`;
+     if(t==='foc'){ o+=scat(rnd,16,74,(px,py,q)=>{ const yy=CY+(py-CY)*.5; return `<ellipse cx="${f1(px)}" cy="${f1(yy)}" rx="7" ry="5.500" fill="${gsh(c,-.3)}" opacity=".55"/><ellipse cx="${f1(px-1.5)}" cy="${f1(yy-1.5)}" rx="4" ry="3" fill="${gsh(c,-.42)}" opacity=".4"/>`; })+scat(rnd,22,76,(px,py,q)=>{ const yy=CY+(py-CY)*.5; return `<path d="M${f1(px-7)} ${f1(yy)} q7 -3 14 0" stroke="${c2}" stroke-width="2.400" fill="none" stroke-linecap="round" transform="rotate(${f1(q()*180)} ${f1(px)} ${f1(yy)})"/>`; })+scat(rnd,40,78,(px,py,q)=>`<rect x="${f1(px)}" y="${f1(CY+(py-CY)*.5)}" width="2.400" height="2.400" fill="#fff" opacity=".9" transform="rotate(${f1(q()*90)} ${f1(px)} ${f1(CY+(py-CY)*.5)})"/>`); }
+     else { o+=scat(rnd,16,70,(px,py,q,i)=>{ const yy=CY+(py-CY)*.5, cc=i%2?c2:c, L=30+q()*18; return `<rect x="${f1(px-L/2+1.5)}" y="${f1(yy-3)}" width="${f1(L)}" height="9" rx="4.500" fill="#000" opacity=".2" transform="rotate(${f1(q()*180)} ${f1(px)} ${f1(yy)})"/><rect x="${f1(px-L/2)}" y="${f1(yy-4.5)}" width="${f1(L)}" height="9" rx="4.500" fill="${cc}" stroke="${gsh(cc,-.3)}" stroke-width=".8" transform="rotate(${f1(q()*180)} ${f1(px)} ${f1(yy)})"/>`; })+scat(rnd,10,70,(px,py,q)=>{ const yy=CY+(py-CY)*.5; return `<circle cx="${f1(px)}" cy="${f1(yy)}" r="${f1(2.5+q()*2.5)}" fill="${gsh(c2,.25)}"/>`; }); }
+     o+=gHi(CX-50,CY-34,34,5,.35,-4);
+     break; }
+   case 'snd': {
+     o+=`<g transform="rotate(-12 ${CX} ${CY})"><ellipse cx="${CX+4}" cy="${CY+12}" rx="92" ry="38" fill="#000" opacity=".3"/><ellipse cx="${CX}" cy="${CY+10}" rx="90" ry="32" fill="#c98f4a" stroke="#8f5f28" stroke-width="1.500"/>`;
+     let d=`M${CX-84} ${CY+6}`; for(let i=0;i<=12;i++) d+=` L${f1(CX-84+i*14)} ${f1(CY+10+(i%2?9:3)+rnd()*4)}`; o+=`<path d="${d} L${CX+84} ${CY-2} L${CX-84} ${CY-2}Z" fill="${u2}" stroke="${gsh(c2,-.35)}" stroke-width="1"/>`;
+     o+=scat(rnd,8,60,(px,py,q)=>`<ellipse cx="${f1(px)}" cy="${f1(CY+12+q()*6)}" rx="${f1(6+q()*6)}" ry="3" fill="${q()<.5?'#6f9a3a':'#d8452e'}" opacity=".9"/>`);
+     o+=`<ellipse cx="${CX}" cy="${CY-6}" rx="92" ry="30" fill="#d9a55c" stroke="#96642a" stroke-width="1.500"/><ellipse cx="${CX}" cy="${CY-6}" rx="92" ry="30" fill="url(#${_u}pg)"/>`;
+     for(let i=0;i<4;i++) o+=`<path d="M${CX-58+i*38} ${CY-22} q14 14 6 30" stroke="#f0d6a0" stroke-width="4" fill="none" stroke-linecap="round" opacity=".85"/><path d="M${CX-56+i*38} ${CY-21} q14 14 6 30" stroke="#8f5f28" stroke-width="1" fill="none" opacity=".5"/>`;
+     o+=dust(30,70,'#fff6e0',.7,CX,CY-6)+`</g>`;
+     break; }
+   case 'mig': {
+     o+=gSoft(CX,CY,90,70,.25);
+     o+=poly(CX,CY,86,74,16,.22,0)+` fill="${gsh(c,-.22)}" stroke="${gsh(c,-.4)}" stroke-width="1"/>`+scat(rnd,330,84,(x,y,q)=>{ const r=4+q()*6, col=[c,gsh(c,.2),gsh(c,-.18),gsh(c,.1)][Math.floor(q()*4)]; return poly(x,y,r,r*.8,6,.5,q()*180)+` fill="${col}" stroke="${gsh(c,-.35)}" stroke-width=".5"/>`; });
+     o+=scat(rnd,13,74,(x,y,q)=>{ const r=6+q()*3; return `<ellipse cx="${f1(x+1.5)}" cy="${f1(y+2.5)}" rx="${f1(r)}" ry="${f1(r*.8)}" fill="#000" opacity=".25"/><ellipse cx="${f1(x)}" cy="${f1(y)}" rx="${f1(r)}" ry="${f1(r*.8)}" fill="${u2}" stroke="${gsh(c2,-.35)}" stroke-width=".8"/>`+gHi(x-2,y-2,2.5,1.2,.5); });
+     o+=scat(rnd,7,70,(x,y,q)=>`<path d="M${f1(x-9)} ${f1(y)} q9 -7 18 0 q-9 6 -18 0z" fill="#5f8f3a" stroke="#3f6a24" stroke-width=".7" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`);
+     break; }
+   case 'tart': {
+     const R=88, a0=-34, a1=6, cr='#c98a3e';
+     o+=gSoft(CX,CY,R,R*.92,.3)+`<circle cx="${CX}" cy="${CY}" r="${R}" fill="${cr}" stroke="#8f5a22" stroke-width="1.500"/>`;
+     for(let i=0;i<34;i++){ const a=i/34*6.283; o+=`<circle cx="${f1(CX+Math.cos(a)*(R-5))}" cy="${f1(CY+Math.sin(a)*(R-5))}" r="5.200" fill="${gsh(cr,.14)}" stroke="#8f5a22" stroke-width=".6"/>`; }
+     o+=`<circle cx="${CX}" cy="${CY}" r="${R-11}" fill="${u}"/><circle cx="${CX}" cy="${CY}" r="${R-14}" fill="none" stroke="${c2}" stroke-width="9" opacity=".3" filter="url(#${_u}gb)"/>`+scat(rnd,9,R-26,(x,y,q)=>`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="${f1(10+q()*14)}" ry="${f1(7+q()*9)}" fill="${c2}" opacity="${f1(.1+q()*.12)}" filter="url(#${_u}gb)" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`)+scat(rnd,40,R-18,(x,y,q)=>`<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(.6+q()*1.1)}" fill="${c2}" opacity=".35"/>`);
+     o+=`<path d="${wedge(CX,CY,R+3,a0,a1)}" fill="#f7f4ee"/><path d="${wedge(CX,CY,R+3,a0,a1)}" fill="#000" opacity=".08"/>`;
+     const p=a=>[CX+Math.cos(a*Math.PI/180)*(R-2), CY+Math.sin(a*Math.PI/180)*(R-2)]; const [xa,ya]=p(a0),[xb,yb]=p(a1);
+     o+=`<path d="M${CX} ${CY} L${f1(xa)} ${f1(ya)}" stroke="${gsh(c,.25)}" stroke-width="9" stroke-linecap="round"/><path d="M${CX} ${CY} L${f1(xb)} ${f1(yb)}" stroke="${gsh(c,-.12)}" stroke-width="9" stroke-linecap="round"/>`;
+     o+=`<g transform="translate(34 -8)"><path d="${wedge(CX,CY,R,a0+3,a1-3)}" fill="#000" opacity=".25" transform="translate(4 6)"/><path d="${wedge(CX,CY,R,a0+3,a1-3)}" fill="${cr}"/><path d="${wedge(CX,CY,R-11,a0+3,a1-3)}" fill="${u}"/><path d="M${CX} ${CY} L${f1(CX+Math.cos((a1-3)*Math.PI/180)*R)} ${f1(CY+Math.sin((a1-3)*Math.PI/180)*R)}" stroke="${gsh(c,.3)}" stroke-width="7" stroke-linecap="round"/></g>`+gHi(CX-36,CY-44,38,9,.32);
+     break; }
+   case 'cks': {
+     [[-58,-30],[0,-46],[56,-24],[-34,22],[30,26],[-70,46],[74,40]].forEach(([dx,dy],i)=>{ const x=CX+dx+rnd()*8-4, y=CY+dy+rnd()*8-4, r=22+rnd()*4;
+       o+=`<ellipse cx="${f1(x+3)}" cy="${f1(y+5)}" rx="${f1(r)}" ry="${f1(r*.94)}" fill="#000" opacity=".28"/>`+poly(x,y,r,r*.95,18,.07,0)+` fill="${u}" stroke="${gsh(c,-.32)}" stroke-width="1.300"/><circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(r*.78)}" fill="none" stroke="${gsh(c,-.2)}" stroke-width="1" opacity=".45"/>`;
+       for(let k=0;k<4;k++){ const a=rnd()*6.283; o+=`<path d="M${f1(x+Math.cos(a)*4)} ${f1(y+Math.sin(a)*4)} l${f1(Math.cos(a)*r*.5)} ${f1(Math.sin(a)*r*.5)}" stroke="${gsh(c,-.3)}" stroke-width="1" opacity=".5"/>`; }
+       if(i%3===0) o+=`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="7.500" ry="4.500" fill="${u2}" stroke="${gsh(c2,-.3)}" stroke-width=".7" transform="rotate(${f1(rnd()*180)} ${f1(x)} ${f1(y)})"/>`;
+       o+=gHi(x-r*.3,y-r*.38,r*.3,r*.12,.4); });
+     o+=dust(60,96,'#fff',.8);
+     break; }
+   case 'rosq': {
+     [[-46,-28],[44,-34],[-18,34],[62,30]].forEach(([dx,dy],i)=>{ const x=CX+dx, y=CY+dy, r=24;
+       o+=`<circle cx="${x+3}" cy="${y+6}" r="${r}" fill="none" stroke="#000" stroke-width="22" opacity=".25"/><circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${gsh(c,-.36)}" stroke-width="24"/><circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${c}" stroke-width="21"/><circle cx="${x-2}" cy="${y-3}" r="${r}" fill="none" stroke="${gsh(c,.22)}" stroke-width="11" opacity=".7"/>`;
+       if(i%2===0) o+=`<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="#fbf6ea" stroke-width="14" opacity=".94"/><circle cx="${x-1}" cy="${y-2}" r="${r}" fill="none" stroke="#fff" stroke-width="5" opacity=".6"/>`;
+       o+=scat(rnd,22,r+9,(px,py,q)=>{ const d=Math.hypot(px-x,py-y); return d<r-9||d>r+9?'':`<rect x="${f1(px)}" y="${f1(py)}" width="1.800" height="1.800" fill="#fff" opacity=".9" transform="rotate(${f1(q()*90)} ${f1(px)} ${f1(py)})"/>`; },x,y)+`<path d="M${x-r-6} ${y-10} A${r+8} ${r+8} 0 0 1 ${x-4} ${y-r-8}" stroke="#fff" stroke-width="2.400" fill="none" opacity=".4" stroke-linecap="round"/>`; });
+     break; }
+   case 'frit': {
+     [[-54,-26,-20],[20,-40,30],[62,10,-40],[-20,24,12],[-70,36,50],[36,48,-8]].forEach(([dx,dy,rot])=>{ const x=CX+dx,y=CY+dy; let s=`<g transform="rotate(${rot} ${x} ${y})"><path d="M${x-30} ${y+4} q10 -22 30 -12 q22 -14 32 6 q-8 22 -30 12 q-22 12 -32 -6z" fill="#000" opacity=".26" transform="translate(3 5)"/><path d="M${x-30} ${y} q10 -22 30 -12 q22 -14 32 6 q-8 22 -30 12 q-22 12 -32 -6z" fill="${u}" stroke="${gsh(c,-.36)}" stroke-width="1.300"/><path d="M${x-18} ${y-4} q18 -8 36 4" stroke="${gsh(c,-.3)}" stroke-width="1.400" fill="none" opacity=".6"/>`;
+       for(let k=0;k<5;k++) s+=`<circle cx="${f1(x-18+rnd()*40)}" cy="${f1(y-8+rnd()*16)}" r="${f1(1.6+rnd()*2.4)}" fill="${gsh(c,.3)}" stroke="${gsh(c,-.2)}" stroke-width=".4"/>`;
+       o+=s+gHi(x-8,y-9,13,3.5,.45,-8)+`</g>`; });
+     o+=`<path d="M${CX-86} ${CY-14} q40 30 84 -6 q34 -26 70 14" stroke="${c2}" stroke-width="4.500" fill="none" stroke-linecap="round" opacity=".7"/><path d="M${CX-70} ${CY+40} q50 -30 96 4" stroke="${c2}" stroke-width="3.500" fill="none" stroke-linecap="round" opacity=".6"/>`+dust(46,92,'#fff',.85);
+     break; }
+   case 'bun': {
+     [[-44,-22,19],[0,-38,17],[42,-20,20],[-24,16,21],[24,20,19],[-62,34,16],[62,36,17],[0,48,16]].forEach(([dx,dy,r])=>{ const x=CX+dx+rnd()*6-3,y=CY+dy+rnd()*6-3;
+       o+=`<ellipse cx="${f1(x+3)}" cy="${f1(y+6)}" rx="${r}" ry="${f1(r*.9)}" fill="#000" opacity=".3"/>`+poly(x,y,r,r*.96,14,.1,0)+` fill="${u}" stroke="${gsh(c,-.36)}" stroke-width="1.200"/><path d="M${f1(x-r*.7)} ${f1(y+r*.5)} A${r} ${r} 0 0 0 ${f1(x+r*.7)} ${f1(y+r*.5)}" stroke="${gsh(c,-.3)}" stroke-width="3" fill="none" opacity=".35"/>`;
+       for(let k=0;k<4;k++) o+=`<circle cx="${f1(x-r*.5+rnd()*r)}" cy="${f1(y-r*.5+rnd()*r)}" r="${f1(1+rnd()*1.8)}" fill="${gsh(c,-.25)}" opacity=".5"/>`;
+       o+=gHi(x-r*.32,y-r*.4,r*.34,r*.15,.5); });
+     o+=`<path d="M${CX-70} ${CY-30} q30 26 62 2 q30 -22 66 8 q-30 30 -62 44" stroke="${c2}" stroke-width="4" fill="none" stroke-linecap="round" opacity=".7"/>`+dust(70,90,'#fff',.85);
+     break; }
+   case 'loaf': {
+     [[-46,10,-24],[-4,0,-14],[40,-8,-4]].forEach(([dx,dy,rot])=>{ const x=CX+dx,y=CY+dy,w=64,h=92;
+       o+=`<g transform="rotate(${rot} ${x} ${y})"><rect x="${x-w/2+4}" y="${y-h/2+7}" width="${w}" height="${h}" rx="12" fill="#000" opacity=".28"/><rect x="${x-w/2}" y="${y-h/2}" width="${w}" height="${h}" rx="12" fill="${gsh(c,-.3)}"/><rect x="${x-w/2+4}" y="${y-h/2+5}" width="${w-8}" height="${h-9}" rx="9" fill="${u}"/>`+scat(rnd,26,34,(px,py,q)=>`<ellipse cx="${f1(px)}" cy="${f1(y+(py-y)*1.25)}" rx="${f1(.8+q()*2.2)}" ry="${f1(.7+q()*1.4)}" fill="${gsh(c,-.3)}" opacity=".45"/>`,x,y)+gHi(x-10,y-28,16,4,.35,-6)+`</g>`; });
+     o+=scat(rnd,24,96,(x,y,q)=>poly(x,y,1.5+q()*2.5,1.5+q()*2,5,.5,0)+` fill="${gsh(c,.15)}"/>`);
+     break; }
+   case 'roll': {
+     o+=`<g transform="rotate(-14 ${CX} ${CY})"><rect x="${CX-86}" y="${CY-24}" width="172" height="58" rx="29" fill="#000" opacity=".28"/><rect x="${CX-88}" y="${CY-30}" width="176" height="58" rx="29" fill="${u}" stroke="${gsh(c,-.36)}" stroke-width="1.400"/>`;
+     for(let i=0;i<7;i++) o+=`<path d="M${CX-66+i*22} ${CY-28} q12 26 0 54" stroke="${gsh(c,-.28)}" stroke-width="1.600" fill="none" opacity=".5"/>`;
+     o+=`<ellipse cx="${CX+72}" cy="${CY-1}" rx="17" ry="27" fill="${gsh(c,.25)}" stroke="${gsh(c,-.3)}" stroke-width="1.200"/><path d="M${CX+72} ${CY-1} m-10 0 a10 16 0 1 1 10 16 a6 10 0 1 1 -6 -10" stroke="${c2}" stroke-width="3" fill="none"/>`+gHi(CX-24,CY-20,56,5,.42,0)+`</g>`+dust(80,92,'#fff',.85);
+     break; }
+   case 'crm0': case 'crm': {
+     o+=`<path d="M${CX-70} ${CY-10} q40 -40 80 -10 q30 22 60 0" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round" opacity=".22"/>`;
+     o+=scat(rnd,150,56,(x,y,q)=>`<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(.6+q()*1.2)}" fill="${c2}" opacity="${f1(.5+q()*.4)}"/>`,CX-18,CY-10);
+     if(t==='crm') o+=`<circle cx="${CX+42}" cy="${CY+34}" r="34" fill="#000" opacity=".22"/><circle cx="${CX+40}" cy="${CY+30}" r="34" fill="#dcae6a" stroke="#a87a3c" stroke-width="1.400"/><circle cx="${CX+40}" cy="${CY+30}" r="28" fill="none" stroke="#a87a3c" stroke-width="1.200" stroke-dasharray="2 4" opacity=".8"/>`+scat(rnd,10,18,(x,y,q)=>`<circle cx="${f1(x)}" cy="${f1(y)}" r="1.100" fill="#a87a3c" opacity=".7"/>`,CX+40,CY+30)+gHi(CX+30,CY+16,12,4,.4);
+     o+=gHi(CX-50,CY-52,40,9,.3);
+     break; }
+   case 'cup': {
+     const dark=/^#[0-7]/.test(c);
+     o+=`<ellipse cx="${CX+12}" cy="${CY+18}" rx="84" ry="80" fill="#000" opacity=".3" filter="url(#${_u}gb)"/><circle cx="${CX}" cy="${CY}" r="84" fill="#e9eef0" opacity=".55"/><circle cx="${CX}" cy="${CY}" r="84" fill="none" stroke="#fff" stroke-width="3.500" opacity=".9"/><circle cx="${CX}" cy="${CY}" r="78" fill="none" stroke="#7a8a92" stroke-width="1.200" opacity=".5"/><circle cx="${CX}" cy="${CY}" r="72" fill="${c}"/><circle cx="${CX}" cy="${CY}" r="69" fill="none" stroke="${gsh(c,-.35)}" stroke-width="6" opacity=".35"/><ellipse cx="${CX-10}" cy="${CY-12}" rx="52" ry="46" fill="${gsh(c,.18)}" opacity=".45" filter="url(#${_u}gb)"/>`;
+     if(dark){ o+=scat(rnd,9,46,(x,y,q)=>`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="6.500" ry="4.600" fill="#2a160c" stroke="#120804" stroke-width=".6" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/><path d="M${f1(x-4)} ${f1(y)} q4 -2 8 0" stroke="#7a4a2a" stroke-width=".9" fill="none"/>`)+`<path d="M${CX-40} ${CY+22} q18 -22 44 -10 q14 8 8 20 q-26 -14 -52 -10z" fill="#f2d230" stroke="#c8a010" stroke-width="1"/><rect x="${CX-6}" y="${CY-52}" width="78" height="10" rx="4" fill="#9a5a2a" stroke="#5a2e12" stroke-width=".9" transform="rotate(24 ${CX} ${CY})"/>`; }
+     else { o+=scat(rnd,3,34,(x,y,q)=>`<rect x="${f1(x-16)}" y="${f1(y-16)}" width="32" height="32" rx="8" fill="#fff" opacity=".32" stroke="#fff" stroke-opacity=".75" stroke-width="1.600" transform="rotate(${f1(q()*90)} ${f1(x)} ${f1(y)})"/>`)+scat(rnd,70,62,(x,y,q)=>`<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(.6+q()*1.1)}" fill="${c2}" opacity=".55"/>`);
+       o+=`<g transform="rotate(-32 ${CX} ${CY})"><rect x="${CX+20}" y="${CY-5}" width="118" height="10" rx="5" fill="#000" opacity=".2" transform="translate(3 5)"/><rect x="${CX+20}" y="${CY-5}" width="118" height="10" rx="5" fill="#f6f2ea" stroke="#b8b0a0" stroke-width=".8"/>`; for(let i=0;i<8;i++) o+=`<rect x="${CX+28+i*14}" y="${CY-5}" width="6" height="10" fill="#c8483a" opacity=".85"/>`; o+=`</g>`; }
+     o+=`<path d="M${CX-66} ${CY-42} A78 78 0 0 1 ${CX+4} ${CY-78}" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/>`;
+     break; }
+   case 'bar': {
+     if(noC2){ [[-36,-30,-10],[34,-26,14],[-30,34,8],[38,36,-12]].forEach(([dx,dy,rot])=>{ const x=CX+dx,y=CY+dy,w=58,h=52;
+         o+=`<g transform="rotate(${rot} ${x} ${y})"><rect x="${x-w/2+3}" y="${y-h/2+7}" width="${w}" height="${h}" rx="6" fill="#000" opacity=".3"/><rect x="${x-w/2}" y="${y-h/2+5}" width="${w}" height="${h}" rx="6" fill="${gsh(c,-.3)}"/><rect x="${x-w/2}" y="${y-h/2}" width="${w}" height="${h}" rx="6" fill="${u}" stroke="${gsh(c,-.32)}" stroke-width="1"/>`+scat(rnd,34,26,(px,py,q)=>`<circle cx="${f1(px)}" cy="${f1(py)}" r="${f1(.7+q()*1.2)}" fill="${q()<.5?'#8a4a1a':'#fff'}" opacity=".75"/>`,x,y)+gHi(x-10,y-14,16,4,.4,0)+`</g>`; });
+       o+=dust(40,94,'#fff',.8); break; }
+     [[-10,26,-8],[-30,-8,18],[26,-26,-22],[44,22,40]].forEach(([dx,dy,rot])=>{ const x=CX+dx,y=CY+dy,w=96,h=32;
+       o+=`<g transform="rotate(${rot} ${x} ${y})"><rect x="${x-w/2+3}" y="${y-h/2+6}" width="${w}" height="${h}" rx="4" fill="#000" opacity=".3"/><rect x="${x-w/2}" y="${y-h/2+5}" width="${w}" height="${h}" rx="4" fill="${gsh(c,-.3)}"/><rect x="${x-w/2}" y="${y-h/2}" width="${w}" height="${h}" rx="4" fill="${u}" stroke="${gsh(c,-.32)}" stroke-width="1"/>`+scat(rnd,9,40,(px,py,q)=>`<ellipse cx="${f1(px)}" cy="${f1(y+(py-y)*.3)}" rx="6" ry="3.600" fill="${u2}" stroke="${gsh(c2,-.3)}" stroke-width=".6" transform="rotate(${f1(q()*180)} ${f1(px)} ${f1(y+(py-y)*.3)})"/>`,x,y)+gHi(x-20,y-9,22,3,.4,0)+`</g>`; });
+     o+=scat(rnd,16,94,(x,y,q)=>poly(x,y,2+q()*3,1.5+q()*2.5,5,.5,0)+` fill="${gsh(c,.1)}"/>`);
+     break; }
+   case 'chs': {
+     const mb='#a8502a';
+     o+=`<path d="M${CX-76} ${CY+16} L${CX+34} ${CY-50} Q${CX+62} ${CY-18} ${CX+50} ${CY+34} Z" fill="#000" opacity=".28" transform="translate(4 7)"/><path d="M${CX-76} ${CY+16} L${CX+34} ${CY-50} Q${CX+62} ${CY-18} ${CX+50} ${CY+34} Z" fill="${u}" stroke="${gsh(c,-.3)}" stroke-width="1.200"/><path d="M${CX+34} ${CY-50} Q${CX+62} ${CY-18} ${CX+50} ${CY+34}" stroke="${gsh(c,-.45)}" stroke-width="7" fill="none" stroke-linecap="round"/>`+scat(rnd,9,30,(x,y,q)=>`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="${f1(1.5+q()*3)}" ry="${f1(1+q()*2)}" fill="${gsh(c,-.25)}" opacity=".5"/>`,CX+6,CY)+gHi(CX-10,CY-12,26,5,.4,-30);
+     [[-58,48,-12],[-30,56,-4],[-2,60,6]].forEach(([dx,dy,r])=>{ o+=`<path d="M${CX+dx-22} ${CY+dy+8} L${CX+dx+22} ${CY+dy-10} L${CX+dx+24} ${CY+dy+10}Z" fill="#000" opacity=".22" transform="translate(2 4) rotate(${r} ${CX+dx} ${CY+dy})"/><path d="M${CX+dx-22} ${CY+dy+8} L${CX+dx+22} ${CY+dy-10} L${CX+dx+24} ${CY+dy+10}Z" fill="${gsh(c,.12)}" stroke="${gsh(c,-.3)}" stroke-width="1" transform="rotate(${r} ${CX+dx} ${CY+dy})"/>`; });
+     [[58,-46],[76,-24],[60,-20]].forEach(([dx,dy])=>{ o+=`<rect x="${CX+dx-11}" y="${CY+dy-9}" width="22" height="18" rx="3" fill="#000" opacity=".25" transform="translate(2 4)"/><rect x="${CX+dx-11}" y="${CY+dy-9}" width="22" height="18" rx="3" fill="${c2&&c2!==gsh(c,-.3)?c2:mb}" stroke="#6a2a14" stroke-width=".8"/>`+gHi(CX+dx-3,CY+dy-4,6,2,.45); });
+     o+=scat(rnd,5,26,(x,y,q)=>poly(x,y,7+q()*3,5+q()*3,8,.4,q()*180)+` fill="#b98a55" stroke="#7a5630" stroke-width=".8"/>`,CX+70,CY+40);
+     break; }
+   case 'tlt': {
+     const cr='#c98a3e';
+     [[-52,-28],[12,-44],[62,0],[-12,30],[-72,34],[44,48]].forEach(([dx,dy])=>{ const x=CX+dx+rnd()*6-3, y=CY+dy+rnd()*6-3, r=25;
+       o+=`<ellipse cx="${f1(x+3)}" cy="${f1(y+5)}" rx="${r}" ry="${r}" fill="#000" opacity=".28"/><circle cx="${f1(x)}" cy="${f1(y)}" r="${r}" fill="${cr}" stroke="#8f5a22" stroke-width="1"/>`;
+       for(let i=0;i<14;i++){ const a=i/14*6.283; o+=`<ellipse cx="${f1(x+Math.cos(a)*(r-3))}" cy="${f1(y+Math.sin(a)*(r-3))}" rx="5" ry="3" fill="${gsh(cr,.2)}" stroke="#8f5a22" stroke-width=".5" transform="rotate(${f1(a*180/Math.PI+90)} ${f1(x+Math.cos(a)*(r-3))} ${f1(y+Math.sin(a)*(r-3))})"/>`; }
+       o+=`<circle cx="${f1(x)}" cy="${f1(y)}" r="${r-7}" fill="${u}"/>`+scat(rnd,6,r-11,(px,py,q)=>poly(px,py,2.5+q()*4,2+q()*3,6,.5,q()*180)+` fill="${c2}" opacity="${f1(.45+q()*.4)}"/>`,x,y)+gHi(x-6,y-8,7,2.6,.5); });
+     o+=dust(26,94,'#fff',.7);
+     break; }
+   case 'can': {
+     [[-34,-34,-18],[30,-6,12],[-30,28,-8],[40,46,22]].forEach(([dx,dy,rot])=>{ const x=CX+dx,y=CY+dy,w=104,h=30;
+       let s=`<g transform="rotate(${rot} ${x} ${y})"><rect x="${x-w/2+3}" y="${y-h/2+6}" width="${w}" height="${h}" rx="15" fill="#000" opacity=".28"/><rect x="${x-w/2}" y="${y-h/2}" width="${w}" height="${h}" rx="15" fill="${u}" stroke="${gsh(c,-.36)}" stroke-width="1.300"/>`;
+       for(let i=0;i<6;i++) s+=`<path d="M${x-w/2+16+i*14} ${y-h/2+2} q7 ${h/2} 0 ${h-4}" stroke="${gsh(c,-.26)}" stroke-width="1.200" fill="none" opacity=".5"/>`;
+       s+=`<ellipse cx="${x+w/2-5}" cy="${y}" rx="6" ry="${h/2-4}" fill="${u2}" stroke="${gsh(c2,-.25)}" stroke-width=".8"/><ellipse cx="${x-w/2+5}" cy="${y}" rx="6" ry="${h/2-4}" fill="${u2}" stroke="${gsh(c2,-.25)}" stroke-width=".8"/>`;
+       o+=s+gHi(x-10,y-8,34,3,.45,0)+`</g>`; });
+     o+=dust(70,98,'#fff',.85);
+     break; }
+   case 'crp': {
+     [[-150,0],[-112,-14],[-74,6]].forEach(([a0,off],i)=>{ const x=CX+off, y=CY+58, R=128;
+       o+=`<path d="${wedge(x,y,R,a0,a0+62)}" fill="#000" opacity=".22" transform="translate(4 6)"/><path d="${wedge(x,y,R,a0,a0+62)}" fill="${u}" stroke="${gsh(c,-.4)}" stroke-width="1.600" stroke-linejoin="round"/><path d="${wedge(x,y,R-7,a0+3,a0+59)}" fill="none" stroke="${gsh(c,.25)}" stroke-width="1" opacity=".6"/>`;
+       const am=(a0+31)*Math.PI/180; o+=scat(rnd,16,34,(px,py,q)=>poly(px,py,3+q()*7,2+q()*5,7,.5,q()*180)+` fill="${c2}" opacity="${f1(.25+q()*.35)}"/>`,x+Math.cos(am)*76,y+Math.sin(am)*76); });
+     o+=`<path d="M${CX-78} ${CY-30} q44 26 80 -8 q30 -24 66 6" stroke="${c2}" stroke-width="4" fill="none" stroke-linecap="round" opacity=".55"/>`+dust(60,92,'#fff',.85);
+     break; }
+   case 'ens': {
+     let d=''; const N=150; for(let i=0;i<=N;i++){ const t=i/N, a=t*3.25*6.283, R=7+t*80; d+=(i?'L':'M')+f1(CX+Math.cos(a)*R)+' '+f1(CY+Math.sin(a)*R*.96); }
+     o+=`<path d="${d}" stroke="#000" stroke-width="27" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".26" transform="translate(4 7)"/><path d="${d}" stroke="${gsh(c,-.38)}" stroke-width="27" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" stroke="${c}" stroke-width="23" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" stroke="${gsh(c,.24)}" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".75" transform="translate(-2 -3)"/>`;
+     o+=scat(rnd,520,96,(x,y,q)=>`<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(.6+q()*1.5)}" fill="#fff" opacity="${f1(.5+q()*.45)}"/>`);
+     break; }
+   case 'ros1': {
+     const R=64;
+     o+=`<circle cx="${CX+4}" cy="${CY+8}" r="${R}" fill="none" stroke="#000" stroke-width="48" opacity=".26"/><circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${gsh(c,-.38)}" stroke-width="50"/><circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${c}" stroke-width="46"/><circle cx="${CX-3}" cy="${CY-4}" r="${R}" fill="none" stroke="${gsh(c,.2)}" stroke-width="22" opacity=".7"/>`;
+     for(let i=0;i<10;i++){ const a=i/10*6.283+rnd()*.25, x=CX+Math.cos(a)*R, y=CY+Math.sin(a)*R, col=['#c8382e','#3f8a3a','#e8962e','#c8382e','#e8c030'][i%5];
+       o+=`<rect x="${f1(x-11)}" y="${f1(y-5.5)}" width="22" height="11" rx="5" fill="${col}" stroke="${gsh(col,-.3)}" stroke-width=".8" transform="rotate(${f1(a*180/Math.PI+90+rnd()*30-15)} ${f1(x)} ${f1(y)})"/>`+gHi(x-3,y-2,5,1.6,.55); }
+     o+=scat(rnd,150,R+22,(x,y,q)=>{ const dd=Math.hypot(x-CX,y-CY); return dd<R-20||dd>R+20?'':`<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(1+q()*1.6)}" fill="#fff" opacity=".92"/>`; });
+     o+=scat(rnd,26,R+18,(x,y,q)=>{ const dd=Math.hypot(x-CX,y-CY); return dd<R-18||dd>R+18?'':`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="5.500" ry="2.600" fill="#f2e2c0" stroke="#c8a878" stroke-width=".5" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`; });
+     break; }
+   case 'corn': {
+     [[-8,-46,-10],[6,2,6],[-10,50,-4]].forEach(([dx,dy,rot])=>{ const x=CX+dx,y=CY+dy,w=176,h=40;
+       let s=`<g transform="rotate(${rot} ${x} ${y})"><rect x="${x-w/2+4}" y="${y-h/2+7}" width="${w}" height="${h}" rx="20" fill="#000" opacity=".3"/><rect x="${x-w/2}" y="${y-h/2}" width="${w}" height="${h}" rx="20" fill="${gsh(c,-.25)}"/>`;
+       for(let row=0;row<4;row++) for(let i=0;i<17;i++){ const kx=x-w/2+12+i*9.5+(row%2?4.5:0), ky=y-h/2+6.5+row*9; if(kx>x+w/2-10) continue; const burnt=rnd()<.16; s+=`<ellipse cx="${f1(kx)}" cy="${f1(ky)}" rx="4.600" ry="4.300" fill="${burnt?gsh(c,-.5):rnd()<.5?c:gsh(c,.14)}"/>`; }
+       s+=`<rect x="${x-w/2}" y="${y-h/2}" width="${w}" height="${h}" rx="20" fill="url(#${_u}pg)" opacity=".8"/><path d="M${x-w/2+14} ${y-4} q22 -12 44 0 t44 0 t44 0" stroke="#fbf6ea" stroke-width="7" fill="none" stroke-linecap="round" opacity=".92"/>`;
+       s+=scat(rnd,26,70,(px,py,q)=>`<circle cx="${f1(px)}" cy="${f1(y+(py-y)*.2)}" r="${f1(.9+q()*1.3)}" fill="#c8301e"/>`,x,y)+scat(rnd,18,70,(px,py,q)=>`<rect x="${f1(px)}" y="${f1(y+(py-y)*.22)}" width="3.500" height="2.600" fill="#fffdf4" transform="rotate(${f1(q()*90)} ${f1(px)} ${f1(y+(py-y)*.22)})"/>`,x,y);
+       o+=s+`<rect x="${x+w/2-4}" y="${y-4}" width="34" height="8" rx="3" fill="#c9a26a" stroke="#8a6a3a" stroke-width=".8"/></g>`; });
+     break; }
+   case 'whl': {
+     const R=84, rd=gsh(c,-.32);
+     o+=gSoft(CX,CY,R,R*.94,.32)+`<circle cx="${CX}" cy="${CY}" r="${R}" fill="${rd}" stroke="${gsh(rd,-.3)}" stroke-width="1.500"/><circle cx="${CX}" cy="${CY}" r="${R-4}" fill="none" stroke="${gsh(rd,.25)}" stroke-width="2" opacity=".5"/><circle cx="${CX}" cy="${CY}" r="${R-13}" fill="${u}"/><circle cx="${CX}" cy="${CY}" r="${R-13}" fill="url(#${_u}in)" opacity=".35"/>`;
+     for(let i=0;i<5;i++){ const a=rnd()*6.283, r1=20+rnd()*36; o+=`<path d="M${f1(CX+Math.cos(a)*r1)} ${f1(CY+Math.sin(a)*r1)} q${f1(-20+rnd()*40)} ${f1(-20+rnd()*40)} ${f1(-34+rnd()*68)} ${f1(-10+rnd()*20)}" stroke="#fff" stroke-width="${f1(5+rnd()*5)}" fill="none" stroke-linecap="round" opacity=".3"/>`; }
+     o+=gHi(CX-22,CY-28,26,9,.5)+`<g transform="rotate(28 ${CX+10} ${CY+6})"><ellipse cx="${CX+10}" cy="${CY+6}" rx="17" ry="11" fill="${gsh(c,-.14)}"/><rect x="${CX+22}" y="${CY+2}" width="88" height="7" rx="3.500" fill="#cfd3d6" stroke="#8a9095" stroke-width=".8"/><ellipse cx="${CX+10}" cy="${CY+6}" rx="15" ry="9.500" fill="#dfe3e6" stroke="#8a9095" stroke-width=".8"/><ellipse cx="${CX+8}" cy="${CY+5}" rx="11" ry="6.500" fill="${u}"/></g>`;
+     [[-118,-40,62],[-128,-8,70],[-112,24,80]].forEach(([dx,dy,rot])=>{ o+=`<rect x="${CX+dx-36}" y="${CY+dy-5}" width="72" height="10" rx="5" fill="#d9aa62" stroke="#96642a" stroke-width=".9" transform="rotate(${rot} ${CX+dx} ${CY+dy})"/>`; });
+     break; }
+   case 'mer': {
+     o+=gSoft(CX,CY,90,82,.3)+poly(CX,CY,92,86,22,.16,0)+` fill="#fbf7ee" stroke="#d8cdb8" stroke-width="1.400"/>`+poly(CX,CY,76,70,18,.14,20)+` fill="#fffdf8" stroke="#e6dcc8" stroke-width="1"/>`;
+     for(let i=0;i<9;i++){ const a=i/9*6.283; o+=`<path d="M${f1(CX+Math.cos(a)*62)} ${f1(CY+Math.sin(a)*58)} q${f1(Math.cos(a+1)*14)} ${f1(Math.sin(a+1)*14)} ${f1(Math.cos(a)*22)} ${f1(Math.sin(a)*20)}" stroke="#e2d6c0" stroke-width="2" fill="none" opacity=".7"/>`; }
+     o+=poly(CX,CY,54,50,14,.2,0)+` fill="#fffef9" stroke="#efe6d6" stroke-width="1"/>`+gHi(CX-22,CY-22,24,8,.6);
+     o+=scat(rnd,13,44,(x,y,q)=>{ const r=7+q()*4, col=q()<.6?c:c2; return `<circle cx="${f1(x+1.5)}" cy="${f1(y+2.5)}" r="${f1(r)}" fill="#000" opacity=".2"/><circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(r)}" fill="${col}" stroke="${gsh(col,-.35)}" stroke-width=".8"/>`+gHi(x-r*.3,y-r*.35,r*.3,r*.14,.6); });
+     o+=scat(rnd,5,46,(x,y,q)=>`<path d="M${f1(x-8)} ${f1(y)} q8 -7 16 0 q-8 6 -16 0z" fill="#4f8a35" stroke="#2f6a20" stroke-width=".6" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`);
+     break; }
+   case 'sup0': case 'sup': {
+     o+=scat(rnd,16,88,(x,y,q)=>{ const r=2+q()*4.5; return `<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(r)}" fill="#f2d868" opacity=".5"/><circle cx="${f1(x-r*.3)}" cy="${f1(y-r*.3)}" r="${f1(r*.3)}" fill="#fff" opacity=".6"/>`; });
+     if(t==='sup') o+=scat(rnd,9,58,(x,y,q)=>{ const a=q()*90, z=11+q()*5; return `<rect x="${f1(x-z/2+2)}" y="${f1(y-z/2+3)}" width="${f1(z)}" height="${f1(z)}" rx="2.500" fill="#000" opacity=".25" transform="rotate(${f1(a)} ${f1(x)} ${f1(y)})"/><rect x="${f1(x-z/2)}" y="${f1(y-z/2)}" width="${f1(z)}" height="${f1(z)}" rx="2.500" fill="${u}" stroke="${gsh(c,-.35)}" stroke-width=".9" transform="rotate(${f1(a)} ${f1(x)} ${f1(y)})"/>`+gHi(x-2,y-3,3.5,1.4,.45); });
+     o+=scat(rnd,22,86,(x,y,q)=>`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="4.200" ry="1.700" fill="#4f8a35" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`);
+     break; }
+   case 'rev': {
+     o+=gSoft(CX,CY,86,68,.28);
+     o+=scat(rnd,52,72,(x,y,q)=>{ const r=11+q()*10, col=['#f2cf4a','#f6dc6a','#eec23a','#f8e48a','#f4d458'][Math.floor(q()*5)]; return `<ellipse cx="${f1(x+2)}" cy="${f1(y+3)}" rx="${f1(r)}" ry="${f1(r*.75)}" fill="#8a5a10" opacity=".22"/>`+poly(x,y,r,r*.76,9,.36,q()*180)+` fill="${col}" stroke="#c8982a" stroke-width=".7"/>`+gHi(x-r*.25,y-r*.3,r*.36,r*.14,.5); });
+     o+=scat(rnd,13,64,(x,y,q)=>{ const L=18+q()*12, a=q()*180; return `<rect x="${f1(x-L/2)}" y="${f1(y-3.5)}" width="${f1(L)}" height="7" rx="3.500" fill="${u}" stroke="${gsh(c,-.35)}" stroke-width=".8" transform="rotate(${f1(a)} ${f1(x)} ${f1(y)})"/>`; });
+     o+=scat(rnd,9,62,(x,y,q)=>poly(x,y,6+q()*5,4+q()*4,7,.4,q()*180)+` fill="${u2}" stroke="${gsh(c2,-.3)}" stroke-width=".7"/>`);
+     o+=scat(rnd,14,74,(x,y,q)=>`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="4" ry="1.700" fill="#4f8a35" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`);
+     break; }
+   case 'pad': {
+     o+=scat(rnd,17,80,(x,y,q)=>{ const rot=q()*360, z=.85+q()*.4; return `<g transform="translate(${f1(x)} ${f1(y)}) rotate(${f1(rot)}) scale(${f1(z)})"><path d="M-18 0 q4 -12 20 -9 q18 3 22 9 q-6 8 -24 9 q-14 0 -18 -9z" fill="#000" opacity=".25" transform="translate(2 4)"/><path d="M-18 0 q4 -12 20 -9 q18 3 22 9 q-6 8 -24 9 q-14 0 -18 -9z" fill="${u}" stroke="${gsh(c,-.42)}" stroke-width="1"/><path d="M-12 -1 q14 -5 30 1" stroke="${gsh(c,-.3)}" stroke-width="1" fill="none" opacity=".6"/><ellipse cx="${f1(-4+q()*14)}" cy="${f1(-3+q()*6)}" rx="${f1(3+q()*3)}" ry="2.200" fill="#3a2a12" opacity=".5"/><path d="M-18 0 q-6 -1 -10 -5" stroke="#7a9a3a" stroke-width="2.800" fill="none" stroke-linecap="round"/><ellipse cx="-2" cy="-4" rx="9" ry="2" fill="#fff" opacity=".4"/></g>`; });
+     o+=scat(rnd,60,92,(x,y,q)=>`<rect x="${f1(x)}" y="${f1(y)}" width="${f1(1.6+q()*1.6)}" height="${f1(1.6+q()*1.6)}" fill="#fff" opacity=".95" transform="rotate(${f1(q()*90)} ${f1(x)} ${f1(y)})"/>`);
+     break; }
+   case 'strp': {
+     o+=`<ellipse cx="${CX}" cy="${CY+6}" rx="96" ry="70" fill="${gsh(c,-.1)}" opacity=".22"/>`;
+     for(let i=0;i<15;i++){ const x=CX-70+rnd()*140, y=CY-56+i*8+rnd()*6, rot=-28+rnd()*56, L=70+rnd()*40, col=i%3===2?gsh(c,-.16):i%3===1?gsh(c,.1):c, d=`M${f1(-L/2)} 0 q${f1(L/4)} ${f1(-9+rnd()*18)} ${f1(L/2)} 0 t${f1(L/2)} 0`;
+       o+=`<g transform="translate(${f1(x)} ${f1(y)}) rotate(${f1(rot)})"><path d="${d}" stroke="#000" stroke-width="15" fill="none" stroke-linecap="round" opacity=".2" transform="translate(2 4)"/><path d="${d}" stroke="${gsh(col,-.35)}" stroke-width="15" fill="none" stroke-linecap="round"/><path d="${d}" stroke="${col}" stroke-width="12.500" fill="none" stroke-linecap="round"/><path d="${d}" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" opacity=".35" transform="translate(0 -3)"/></g>`; }
+     o+=scat(rnd,9,70,(x,y,q)=>`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="6" ry="3.600" fill="#f4ecd0" stroke="#c8b888" stroke-width=".7" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`)+scat(rnd,12,84,(x,y,q)=>{ const r=2+q()*4; return `<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(r)}" fill="#e8c84a" opacity=".45"/>`; });
+     break; }
+   case 'alc': {
+     [[-52,-34,-20],[8,-44,14],[60,-10,60],[-66,26,-70],[-8,22,170],[48,44,120]].forEach(([dx,dy,rot])=>{ const tp=(s2,f,st)=>`<path d="M0 ${-32*s2} C${26*s2} ${-14*s2} ${22*s2} ${24*s2} 0 ${30*s2} C${-22*s2} ${24*s2} ${-26*s2} ${-14*s2} 0 ${-32*s2}Z" fill="${f}" stroke="${st}" stroke-width="1"/>`;
+       o+=`<g transform="translate(${CX+dx} ${CY+dy}) rotate(${rot})"><g transform="translate(3 5)" opacity=".28">${tp(1,'#000','none')}</g>${tp(1,u,gsh(c,-.42))}${tp(.76,gsh(c,.18),gsh(c,-.3))}${tp(.52,gsh(c,.34),gsh(c,-.2))}<ellipse cx="0" cy="8" rx="8" ry="11" fill="#eee0a8" stroke="#b8a868" stroke-width=".8"/><path d="M-14 -8 q14 -14 28 0" stroke="${gsh(c,-.45)}" stroke-width="3" fill="none" opacity=".35"/><ellipse cx="-8" cy="-10" rx="7" ry="2.400" fill="#fff" opacity=".4" transform="rotate(-40 -8 -10)"/></g>`; });
+     o+=scat(rnd,12,82,(x,y,q)=>poly(x,y,5+q()*5,3+q()*4,6,.4,q()*180)+` fill="${u2}" stroke="${gsh(c2,-.3)}" stroke-width=".7"/>`)+scat(rnd,10,84,(x,y,q)=>`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="4" ry="1.700" fill="#4f8a35" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`);
+     break; }
+   case 'seta': {
+     o+=scat(rnd,11,74,(x,y,q)=>{ const rot=q()*360, z=.95+q()*.5; return `<g transform="translate(${f1(x)} ${f1(y)}) rotate(${f1(rot)}) scale(${f1(z)})"><path d="M-21 0 A21 18 0 0 1 21 0 Q12 5 7 5 L8 22 Q0 26 -8 22 L-7 5 Q-12 5 -21 0Z" fill="#000" opacity=".26" transform="translate(2 4)"/><path d="M-7 2 L-8 22 Q0 26 8 22 L7 2Z" fill="#efe2be" stroke="#b89a68" stroke-width=".9"/><path d="M-3 6 L-3 21 M2 6 L2 21" stroke="#c8b080" stroke-width=".7" opacity=".6"/><path d="M-21 0 A21 18 0 0 1 21 0 Q0 9 -21 0Z" fill="${u}" stroke="${gsh(c,-.4)}" stroke-width="1"/><path d="M-17 1 Q0 7 17 1" stroke="#f2e6c6" stroke-width="2.200" fill="none" opacity=".8"/><ellipse cx="-6" cy="-10" rx="8" ry="2.400" fill="#fff" opacity=".4" transform="rotate(-14 -6 -10)"/><ellipse cx="6" cy="-5" rx="6" ry="3" fill="${gsh(c,-.4)}" opacity=".3"/></g>`; });
+     o+=scat(rnd,9,78,(x,y,q)=>poly(x,y,5+q()*5,3+q()*4,6,.4,q()*180)+` fill="${u2}" stroke="${gsh(c2,-.3)}" stroke-width=".7"/>`)+scat(rnd,8,80,(x,y,q)=>`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="5" ry="3" fill="#f4ecd0" stroke="#c8b888" stroke-width=".6" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`)+scat(rnd,18,86,(x,y,q)=>`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="4" ry="1.700" fill="#4f8a35" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`);
+     break; }
+   case 'flt': {
+     for(let row=0;row<3;row++) for(let i=0;i<4;i++){ const x=CX-66+i*44+(row%2?-16:6)+rnd()*8, y=CY-42+row*40+rnd()*8, rot=-24+rnd()*48, rx=36+rnd()*8, ry=19+rnd()*5;
+       o+=`<ellipse cx="${f1(x+3)}" cy="${f1(y+5)}" rx="${f1(rx)}" ry="${f1(ry)}" fill="#000" opacity=".24" transform="rotate(${f1(rot)} ${f1(x)} ${f1(y)})"/>`+poly(x,y,rx,ry,13,.26,rot)+` fill="${u}" stroke="${gsh(c,-.36)}" stroke-width="1"/><g transform="rotate(${f1(rot)} ${f1(x)} ${f1(y)})"><path d="M${f1(x-rx*.82)} ${f1(y+ry*.42)} q${f1(rx*.8)} ${f1(ry*.62)} ${f1(rx*1.62)} ${f1(-ry*.1)}" stroke="#f8eadc" stroke-width="5.500" fill="none" stroke-linecap="round" opacity=".92"/><path d="M${f1(x-rx*.6)} ${f1(y-ry*.2)} q${f1(rx*.5)} ${f1(-6+rnd()*12)} ${f1(rx*1.1)} 0" stroke="#f6dcd0" stroke-width="1.400" fill="none" opacity=".5"/><path d="M${f1(x-rx*.5)} ${f1(y+ry*.1)} q${f1(rx*.4)} ${f1(-5+rnd()*10)} ${f1(rx*.9)} 2" stroke="#f6dcd0" stroke-width="1" fill="none" opacity=".4"/><ellipse cx="${f1(x-rx*.2)}" cy="${f1(y-ry*.45)}" rx="${f1(rx*.42)}" ry="2.400" fill="#fff" opacity=".32"/></g>`; }
+     break; }
+   case 'prn': {
+     const one=(x,y,sc,rot)=>{ let s=`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${sc})"><path d="M-27 -13 A30 30 0 1 1 28 11" stroke="#000" stroke-width="22" fill="none" opacity=".2" stroke-linecap="round" transform="translate(3 6)"/>`;
+       const ae=(205+8*24)*Math.PI/180, tx=Math.cos(ae)*30, ty=Math.sin(ae)*30; [-28,0,28].forEach(d=>{ s+=`<ellipse cx="${f1(tx+9)}" cy="${f1(ty+4)}" rx="10" ry="4.200" fill="${gsh(c,.12)}" stroke="${c2}" stroke-width=".8" transform="rotate(${f1(397+90+d-70)} ${f1(tx)} ${f1(ty)})"/>`; });
+       for(let j=7;j>=0;j--){ const a=(205+j*24)*Math.PI/180, px=Math.cos(a)*30, py=Math.sin(a)*30; s+=`<ellipse cx="${f1(px)}" cy="${f1(py)}" rx="${f1(8.5-j*.25)}" ry="${f1(13-j*.9)}" fill="${u}" stroke="${c2}" stroke-width=".9" transform="rotate(${f1(205+j*24)} ${f1(px)} ${f1(py)})"/><path d="M${f1(Math.cos(a)*20)} ${f1(Math.sin(a)*20)} l${f1(Math.cos(a)*-7)} ${f1(Math.sin(a)*-7)}" stroke="${c2}" stroke-width="1.100" opacity=".8"/>`; }
+       const ah=182*Math.PI/180, hx=Math.cos(ah)*31, hy=Math.sin(ah)*31;
+       s+=`<path d="M${f1(hx)} ${f1(hy+14)} q-34 26 -70 8" stroke="${c2}" stroke-width="1" fill="none" opacity=".85"/><path d="M${f1(hx+4)} ${f1(hy+14)} q-10 40 -44 46" stroke="${c2}" stroke-width="1" fill="none" opacity=".85"/><ellipse cx="${f1(hx)}" cy="${f1(hy+4)}" rx="12" ry="17" fill="${gsh(c,-.06)}" stroke="${c2}" stroke-width="1"/><path d="M${f1(hx-3)} ${f1(hy+18)} l-3 14 l8 -12z" fill="${c2}"/><circle cx="${f1(hx-6)}" cy="${f1(hy+12)}" r="2.300" fill="#1a1210"/><circle cx="${f1(hx+6)}" cy="${f1(hy+13)}" r="2.300" fill="#1a1210"/><path d="M-31 -12 A33 33 0 0 1 12 -31" stroke="#fff" stroke-width="3" fill="none" opacity=".4" stroke-linecap="round"/></g>`; return s; };
+     [[-54,-30,-30,.86],[14,-42,40,.8],[62,10,110,.86],[-14,32,200,.82],[-72,40,290,.78]].forEach(([dx,dy,rot,sc])=>{ o+=one(CX+dx,CY+dy,sc,rot); });
+     o+=scat(rnd,26,88,(x,y,q)=>`<rect x="${f1(x)}" y="${f1(y)}" width="2" height="2" fill="#fff" opacity=".9" transform="rotate(${f1(q()*90)} ${f1(x)} ${f1(y)})"/>`)+scat(rnd,10,84,(x,y,q)=>`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="4" ry="1.700" fill="#4f8a35" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`);
+     break; }
+   case 'bird': {
+     o+=poly(CX,CY+8,98,70,14,.2,0)+` fill="${gsh(c,-.2)}" opacity=".22"/>`;
+     const skin=(x,y,rx,ry)=>scat(rnd,4,rx*.6,(px,py,q)=>`<ellipse cx="${f1(px)}" cy="${f1(py)}" rx="${f1(5+q()*8)}" ry="${f1(4+q()*5)}" fill="${c2}" opacity=".3" filter="url(#${_u}gb)"/>`,x,y)+`<path d="M${f1(x-rx*.5)} ${f1(y+ry*.2)} q${f1(rx*.5)} ${f1(-ry*.5)} ${f1(rx)} 0" stroke="${gsh(c,-.3)}" stroke-width="1.200" fill="none" opacity=".5"/>`+gHi(x-rx*.3,y-ry*.4,rx*.42,ry*.2,.6);
+     [[-42,-26,-24],[34,34,152]].forEach(([dx,dy,rot])=>{ const x=CX+dx,y=CY+dy; o+=`<g transform="rotate(${rot} ${x} ${y})"><path d="M${x-36} ${y} C${x-36} ${y-30} ${x+10} ${y-25} ${x+32} ${y-6} L${x+32} ${y+6} C${x+10} ${y+25} ${x-36} ${y+30} ${x-36} ${y}Z" fill="#000" opacity=".28" transform="translate(3 6)"/><rect x="${x+26}" y="${y-4.5}" width="36" height="9" rx="4" fill="#efe6d2" stroke="#b8a888" stroke-width=".9"/><circle cx="${x+62}" cy="${y-5}" r="5.500" fill="#efe6d2" stroke="#b8a888" stroke-width=".9"/><circle cx="${x+62}" cy="${y+5}" r="5.500" fill="#efe6d2" stroke="#b8a888" stroke-width=".9"/><path d="M${x-36} ${y} C${x-36} ${y-30} ${x+10} ${y-25} ${x+32} ${y-6} L${x+32} ${y+6} C${x+10} ${y+25} ${x-36} ${y+30} ${x-36} ${y}Z" fill="${u}" stroke="${gsh(c,-.42)}" stroke-width="1.300"/>`+skin(x-8,y,30,22)+`</g>`; });
+     [[40,-32,34,25],[-40,36,32,24]].forEach(([dx,dy,rx,ry])=>{ const x=CX+dx,y=CY+dy; o+=`<ellipse cx="${x+3}" cy="${y+6}" rx="${rx}" ry="${ry}" fill="#000" opacity=".28"/>`+poly(x,y,rx,ry,11,.2,rnd()*60)+` fill="${u}" stroke="${gsh(c,-.42)}" stroke-width="1.300"/>`+skin(x,y,rx,ry); });
+     o+=scat(rnd,7,80,(x,y,q)=>`<path d="M${f1(x-9)} ${f1(y)} l18 0 M${f1(x-5)} ${f1(y)} l-3 -4 M${f1(x)} ${f1(y)} l-3 4 M${f1(x+5)} ${f1(y)} l-3 -4" stroke="#4a7a30" stroke-width="1.300" fill="none" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`);
+     break; }
+   case 'lay': {
+     const w=150,h=108,x=CX-w/2,y=CY-h/2-4;
+     o+=poly(CX,CY+8,104,76,14,.22,0)+` fill="${c2}" stroke="${gsh(c2,-.25)}" stroke-width="1" opacity=".92"/>`+gHi(CX-60,CY+52,22,5,.3,0);
+     o+=`<rect x="${x+4}" y="${y+9}" width="${w}" height="${h+12}" rx="10" fill="#000" opacity=".3"/>`;
+     for(let i=0;i<5;i++) o+=`<rect x="${x+1}" y="${y+h-8+i*4.5}" width="${w-2}" height="5" rx="2" fill="${i%2?c2:'#edd9a0'}" stroke="${gsh(i%2?c2:'#edd9a0',-.3)}" stroke-width=".5"/>`;
+     o+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="#f2dc98" stroke="#b8862e" stroke-width="1.300"/>`+scat(rnd,9,60,(px,py,q)=>`<ellipse cx="${f1(px)}" cy="${f1(y+h/2+(py-CY)*.6)}" rx="${f1(10+q()*14)}" ry="${f1(7+q()*8)}" fill="#b8702a" opacity="${f1(.3+q()*.3)}" filter="url(#${_u}gb)"/>`)+scat(rnd,14,62,(px,py,q)=>{ const r=3+q()*4, yy=y+h/2+(py-CY)*.6; return `<circle cx="${f1(px)}" cy="${f1(yy)}" r="${f1(r)}" fill="#f8ecc0" stroke="#a8702a" stroke-width=".9" opacity=".9"/><circle cx="${f1(px-r*.3)}" cy="${f1(yy-r*.3)}" r="${f1(r*.3)}" fill="#fff" opacity=".7"/>`; });
+     o+=scat(rnd,5,56,(px,py,q)=>poly(px,y+h/2+(py-CY)*.55,7+q()*6,5+q()*4,8,.4,q()*180)+` fill="${u}" opacity=".9"/>`)+gHi(CX-36,y+16,36,6,.4,0)+scat(rnd,12,64,(px,py,q)=>`<ellipse cx="${f1(px)}" cy="${f1(y+h/2+(py-CY)*.6)}" rx="4" ry="1.700" fill="#4f8a35" transform="rotate(${f1(q()*180)} ${f1(px)} ${f1(y+h/2+(py-CY)*.6)})"/>`);
+     break; }
+   case 'tort': {
+     const R=92, a0=-30, a1=12, pl=c2||'#f6e2a0';
+     o+=gSoft(CX,CY,R,R*.94,.32)+`<circle cx="${CX}" cy="${CY+3}" r="${R}" fill="${gsh(c,-.32)}"/><circle cx="${CX}" cy="${CY}" r="${R-2}" fill="${u}" stroke="${gsh(c,-.3)}" stroke-width="1"/><circle cx="${CX}" cy="${CY}" r="${R-10}" fill="none" stroke="#a8641a" stroke-width="10" opacity=".28" filter="url(#${_u}gb)"/>`;
+     o+=scat(rnd,10,R-24,(x,y,q)=>`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="${f1(12+q()*16)}" ry="${f1(8+q()*10)}" fill="#a8641a" opacity="${f1(.16+q()*.2)}" filter="url(#${_u}gb)" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`)+scat(rnd,36,R-12,(x,y,q)=>`<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(.7+q()*1.3)}" fill="#8a4a12" opacity=".3"/>`);
+     o+=`<path d="${wedge(CX,CY,R+4,a0,a1)}" fill="#f7f4ee"/><path d="${wedge(CX,CY,R+4,a0,a1)}" fill="#000" opacity=".07"/>`;
+     const cut=(ox,oy,a)=>{ const ex=ox+Math.cos(a*Math.PI/180)*(R-3), ey=oy+Math.sin(a*Math.PI/180)*(R-3); let s=`<path d="M${f1(ox)} ${f1(oy)} L${f1(ex)} ${f1(ey)}" stroke="${gsh(c,-.3)}" stroke-width="15" stroke-linecap="round"/><path d="M${f1(ox)} ${f1(oy)} L${f1(ex)} ${f1(ey)}" stroke="${pl}" stroke-width="11.500" stroke-linecap="round"/>`; for(let i=1;i<6;i++){ const t=i/6; s+=`<ellipse cx="${f1(ox+(ex-ox)*t)}" cy="${f1(oy+(ey-oy)*t)}" rx="6" ry="2" fill="${gsh(pl,-.2)}" opacity=".7" transform="rotate(${a+(i%2?18:-14)} ${f1(ox+(ex-ox)*t)} ${f1(oy+(ey-oy)*t)})"/>`; } return s; };
+     o+=cut(CX,CY,a0)+cut(CX,CY,a1);
+     o+=`<g transform="translate(40 -10)"><path d="${wedge(CX,CY,R,a0+3,a1-3)}" fill="#000" opacity=".25" transform="translate(4 7)"/><path d="${wedge(CX,CY,R,a0+3,a1-3)}" fill="${u}" stroke="${gsh(c,-.3)}" stroke-width="1"/>${cut(CX,CY,a1-3)}</g>`+gHi(CX-38,CY-46,40,10,.34);
+     break; }
+   case 'oct': {
+     o+=scat(rnd,5,60,(x,y,q)=>{ const r=24+q()*6; return `<ellipse cx="${f1(x+3)}" cy="${f1(y+5)}" rx="${f1(r)}" ry="${f1(r*.92)}" fill="#000" opacity=".22"/><ellipse cx="${f1(x)}" cy="${f1(y)}" rx="${f1(r)}" ry="${f1(r*.92)}" fill="#f0dc92" stroke="#c8a850" stroke-width="1"/>`+gHi(x-r*.3,y-r*.35,r*.3,r*.12,.4); });
+     o+=scat(rnd,19,84,(x,y,q)=>{ const r=12+q()*8; let s=`<circle cx="${f1(x+2)}" cy="${f1(y+4)}" r="${f1(r)}" fill="#000" opacity=".25"/><circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(r)}" fill="#f8efe8" stroke="${c}" stroke-width="${f1(r*.3)}"/><circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(r*.45)}" fill="none" stroke="#e6d2cc" stroke-width="1"/>`; for(let k=0;k<3;k++){ const a=q()*6.283; s+=`<circle cx="${f1(x+Math.cos(a)*r)}" cy="${f1(y+Math.sin(a)*r)}" r="2.200" fill="#f4dcd8" stroke="${gsh(c,-.2)}" stroke-width=".7"/>`; } return s+gHi(x-r*.25,y-r*.3,r*.3,r*.13,.5); });
+     o+=scat(rnd,200,92,(x,y,q)=>`<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(.6+q()*1.2)}" fill="#c8301a" opacity="${f1(.5+q()*.4)}"/>`)+`<path d="M${CX-80} ${CY-10} q40 -40 84 -6 q36 28 74 -10" stroke="#e8c84a" stroke-width="5" fill="none" stroke-linecap="round" opacity=".45"/>`+scat(rnd,30,90,(x,y,q)=>`<rect x="${f1(x)}" y="${f1(y)}" width="2.200" height="2.200" fill="#fff" opacity=".9" transform="rotate(${f1(q()*90)} ${f1(x)} ${f1(y)})"/>`);
+     break; }
+   case 'sard': case 'fish': {
+     const L=120, W=40, bk=c2||gsh(c,-.35);
+     o+=`<defs><linearGradient id="${_u}fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${bk}"/><stop offset=".42" stop-color="${c}"/><stop offset="1" stop-color="#f4eee0"/></linearGradient></defs>`;
+     const body=`M${-L} 0 C${-L+36} ${-W*1.15} ${L-60} ${-W*1.05} ${L-22} -6 L${L+26} -34 C${L+14} -10 ${L+14} 10 ${L+26} 34 L${L-22} 6 C${L-60} ${W*1.05} ${-L+36} ${W*1.15} ${-L} 0Z`;
+     const one=(x,y,sc,rot,big,fl)=>{ let s=`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${fl?-sc:sc} ${sc})"><path d="${body}" fill="#000" opacity=".28" transform="translate(4 8)"/><path d="M-30 ${-W*.96} l34 -17 l32 15z" fill="${gsh(bk,-.1)}" stroke="${gsh(bk,-.3)}" stroke-width=".8"/><path d="M0 ${W*.96} l20 14 l18 -15z" fill="${gsh(c,-.15)}" stroke="${gsh(bk,-.2)}" stroke-width=".8"/><path d="${body}" fill="url(#${_u}fg)" stroke="${gsh(bk,-.3)}" stroke-width="1.300"/>`;
+       for(let i=0;i<5;i++) s+=`<path d="M${L-20} 0 L${L+22} ${-26+i*13}" stroke="${gsh(bk,-.3)}" stroke-width="1" opacity=".5"/>`;
+       for(let gx=-L+62;gx<L-34;gx+=13) for(let gy=-W*.62;gy<W*.6;gy+=11){ if((gx/L)*(gx/L)+(gy/W)*(gy/W)>.8) continue; s+=`<path d="M${f1(gx)} ${f1(gy)} q5 5 0 10" stroke="${gsh(bk,-.2)}" stroke-width=".8" fill="none" opacity=".32"/>`; }
+       s+=scat(rnd,5,60,(px,py,q)=>`<ellipse cx="${f1(px)}" cy="${f1(py*.4)}" rx="${f1(12+q()*14)}" ry="${f1(6+q()*6)}" fill="#a8641a" opacity="${f1(.2+q()*.2)}" filter="url(#${_u}gb)"/>`,10,0);
+       if(big) [-34,2,38].forEach(dx=>{ s+=`<path d="M${dx-6} ${-W*.62} q10 ${W*.6} 2 ${W*1.2}" stroke="${gsh(bk,-.4)}" stroke-width="6" fill="none" stroke-linecap="round" opacity=".55"/><path d="M${dx-6} ${-W*.62} q10 ${W*.6} 2 ${W*1.2}" stroke="#f6efe2" stroke-width="3" fill="none" stroke-linecap="round" opacity=".85"/>`; });
+       s+=`<path d="M${-L+52} -5 Q0 -12 ${L-26} 0" stroke="#fff" stroke-width="1.500" fill="none" opacity=".35"/><path d="M${-L+48} ${-W*.66} q-9 ${W*.66} 0 ${W*1.3}" stroke="${gsh(bk,-.4)}" stroke-width="2.600" fill="none" opacity=".7"/><ellipse cx="${-L+72}" cy="9" rx="16" ry="7" fill="${gsh(c,-.22)}" stroke="${gsh(bk,-.2)}" stroke-width=".7" opacity=".85" transform="rotate(24 ${-L+72} 9)"/><circle cx="${-L+24}" cy="-7" r="6.500" fill="#f4efe4" stroke="${gsh(bk,-.3)}" stroke-width=".8"/><circle cx="${-L+24}" cy="-7" r="3.600" fill="#16130f"/><circle cx="${-L+22.500}" cy="-8.500" r="1.300" fill="#fff"/><path d="M${-L+2} 4 q8 4 14 1" stroke="${gsh(bk,-.4)}" stroke-width="1.200" fill="none"/><ellipse cx="-16" cy="${-W*.5}" rx="62" ry="5.500" fill="#fff" opacity=".34"/></g>`; return s; };
+     if(t==='fish') o+=one(CX-8,CY,1,-8,true);
+     else [[-6,-54,-6,.6],[8,-18,4,.62],[-10,18,-3,.6],[6,54,5,.62]].forEach(([dx,dy,rot,sc],i)=>{ o+=one(CX+dx,CY+dy,sc,rot,false,i%2===1); });
+     o+=scat(rnd,34,96,(x,y,q)=>`<rect x="${f1(x)}" y="${f1(y)}" width="2.200" height="2.200" fill="#fff" opacity=".9" transform="rotate(${f1(q()*90)} ${f1(x)} ${f1(y)})"/>`)+scat(rnd,9,92,(x,y,q)=>`<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="4.200" ry="1.700" fill="#4f8a35" transform="rotate(${f1(q()*180)} ${f1(x)} ${f1(y)})"/>`);
+     break; }
+   default: return null;
+  }
+  return o;
+}
+
+const RDEF={tart:['#e9c46a','#b8742a',1.25],cks:['#d9a760','#6a3e1c',1.2],rosq:['#cf9a50','',1.25],frit:['#d49a45','#b8741a',1.2],bun:['#d8a04a','#b8741a',1.2],loaf:['#ecc87c','',1.25],roll:['#dcae62','#f4e6c0',1.2],crm:['#f2d88a','#8a4a1a',1],crm0:['#f2d88a','#8a4a1a',1],cup:['#f1ead8','#b89a6a',1.05],bar:['#e2b872','#b98a55',1.2],chs:['#f0dca0','#a8502a',1.25],emp:['#d59a4a','',1.2],pie:['#d59a4a','#9a4a2a',1.2],coca:['#c8502e','#3a4a2a',1.2],foc:['#e2b45a','#4a6a2a',1.2],brv:['#e2b458','#c8401e',1.2],snd:['#d9a55c','#c8804a',1.15],mig:['#d8b070','#a83a22',1.15],tlt:['#f0cc5a','#6a3410',1.25],can:['#d8a352','#f6ecd2',1.2],crp:['#ecc880','#a8662a',1.2],ens:['#d9a552','',1.2],ros1:['#d39a4c','',1.25],corn:['#f0c63a','',1.1],whl:['#f3e3b0','',1.2],mer:['#c8283a','#3a3a7a',1.25],sard:['#b4bcc0','#56687a',1.1],fish:['#b4b8b2','#6a7468',1.1],pad:['#5a9a3a','',1.2],seta:['#a8703a','#e8d0a0',1.2],chk:['#d8a04a','',1.2],stew:['#8a4a2a','#5a2a16',1]};
+const RTYPE={r11:'tart|#efd27a|#a8601e',r107:'tart|#eccb6e|#b06a22',r127:'tlt',r170:'frit|#d8a24c|#c8861e',r171:'tart|#e2b262|#f1dfb4',r172:'bar|#d9a044|#8a9a3a',r192:'roll|#e6c078|#f6ecc8',r193:'tart|#c97a26|#8a4a12',r236:'cks|#deb468|#8a5a2a',r257:'crm|#f0d894|#8a4a1a',r259:'can|#cf9442|#fbf6ea',r260:'tart|#f4e6b4|#e6c880',r265:'tart|#e8c684|#fff6e0',r290:'crm0|#e2a542|#8a4212',r298:'bun|#e0b058|#a8601a',r304:'mer',r306:'tlt|#f2de9a|#b8742a',r307:'bar|#e6c070|-',r309:'chs|#f6efd8|#a8502a',r314:'whl|#f5e7b6',r315:'tart|#dfb260|#c8382e',r341:'tart|#d8a650|#8a5a22',r357:'tart|#fbf4e2|#c8904a',r363:'tart|#d8342e|#f6ecc8',r377:'bun|#d8a650|#3a2012',r378:'bar|#4a2a18|#c8a070',r389:'loaf|#eec878',r393:'pie|#d59a4a|#f2e6c8',r402:'cks|#f2e6cc|#c8a070',r409:'loaf|#f0d07c',r428:'roll|#d8a04a|#f4e2a8',r429:'bar|#e8cc90|-',r440:'chs|#eeeadc|#9ab04a',r441:'tart|#e6bc60|#c8862a',r448:'chs|#eec058|#c8382e',r451:'mnd|#d8743a',r453:'crm0|#e8c070|#b8843a',r455:'emp|#d8a652',r461:'can|#dba850|#f2d68a',r462:'cks|#e2b868|#9a6a30',r463:'chs|#ece6d0|#b98a55',r472:'cks|#b8742a|#f2e6c8',r480:'tart|#e8c060|#b8742a',r486:'can|#e2b25e|#f6e8b8',r494:'can|#d8a04a|#f6e6a8',r509:'cks|#f0dcb0|#c8a070',r512:'frit|#b8741e|#e0a030',r513:'cks|#ecd8a8|#b89060',r517:'bun|#5a2e16|#f0dcb0',r530:'bar|#ecc878|-',r543:'tart|#f2e2a8|#5a8a3a',r559:'can|#e6c078|#fbf6ea',r566:'bun|#dba850|#c8861e',r568:'crm0|#ecd28a|#8a4a1a',r571:'bun|#e2b860|#b8741a',r573:'chs|#f0d890|#6a7a2a',r576:'bar|#f0dca0|-',r586:'ros1|#d8a04a',r592:'frit|#dcaa50|#c8861e',r593:'bar|#e6be70|-',r594:'chs|#f2e2ac|#b98a55',r600:'bun|#f2c230|#e0a020',r619:'tart|#f2d230|#f6e480',r620:'tart|#f0d488|#7a1420',r622:'cks|#ecc674|#b8843a',r630:'tart|#f0cc5c|#c88a2a',r640:'bun|#f6ecd2|#e8b830',r641:'tlt|#eccc78|#8a4a1a',r650:'can|#e6be6c|#f6e8b0',r660:'qn|#fbf8f0|||||drz:#d8a030',r670:'coca|#e8c070|#c8382e',r671:'can|#d8a04a|#f6e6a0',r672:'ros1|#d8a04a',r680:'cup|#f1ead8|#c8b48a',r681:'mnd|#d8842a',r683:'cup|#3a2414|#c88a3a',r690:'sp|#e8a040|flan',r691:'cup|#7a4a1e|#c88a3a',r706:'bar|#f0e6d0|#c8382e',r905:'crm0|#c88a3a|#fbf6ea',r925:'corn',r977:'bun|#e6c070|#b8843a',r981:'crm|#fbf6ea|#8a4a1a',r982:'crm0|#5a2a2e|#c8a070',r987:'bar|#f0cc74|-',r990:'coca|#e0b05a|#a8703a',r1001:'can|#d8a24c|#c8861e',r1007:'ros1|#e2b458',r1010:'cks|#eec878|#c8904a',r1017:'frit|#e2b660|#c8861e',r1025:'loaf|#e8922a',r1031:'frit|#dcaa50|#c8861e',r1036:'coca|#d8a04a|#8a5a2a',r1037:'cks|#e0b468|#f2e6c8',r1039:'frit|#e2b660|#d8a030',r1045:'non|||1|cz|fl:#b8742a|lem',r1052:'loaf|#f2d484',
+r68:'frit|#c8882a|#d8a030',r534:'frit|#c8882a|#d8a030',r111:'can|#d8a04a|#e8b0a0',r128:'crp',r258:'crp|#e8c070|#a8662a',r238:'crp|#eab860|#d8762a',r194:'cks|#ecd8a8|#c8a070',r222:'mnd|#d8703a',r235:'emp|#f0e2c0',r256:'rosq|#cf9a50',r337:'rosq|#e8dcc8',r491:'rosq|#d8a858',r580:'rosq|#e2b860',r699:'rosq|#d8a858',r942:'rosq|#c88a3a',r266:'loaf|#f0d890',r274:'ens',r297:'can|#d8a24c|#b98a55',r347:'bar|#f0cc60|-',r397:'sp|#c8873a|croq',r427:'bar|#b8741e|#f0dcb0',r439:'can|#f6ecd8|#e8c880',r445:'brl|#e8c070|#a8601a|1.3',r446:'emp|#e2b868',r471:'bun|#f0dcb0|#d8a850',r479:'cks|#e6c080|#b8843a',r529:'bun|#e0a040|#d88a20',r601:'bar|#eec868|-',r642:'tart|#c8a070|#6a4a2a',r662:'loaf|#e2b870',r673:'bun|#dba850|#c8861e',r682:'emp|#e6c078',r697:'bar|#e8c070|-',r930:'bun|#d8a04a|#c8861e',r946:'can|#d8a24c|#c8a050',r949:'emp|#d8a04a',r958:'cks|#f2e6c8|#c88a3a',r970:'bun|#e2b860||1|b|fl:#fbf6ea',r995:'bar|#dcb47a|#f0e0b8',r1038:'rosq|#f6eedc',r1046:'rosq|#f6eedc',r997:'stk|#d8a858|#c88a30|1.05',
+r140:'brv|#e2b458|#c8401e',r902:'brv|#ecd88a|#f0c030',r384:'bun|#d8843a|#c8641a',r207:'mig|#d8b070|#5a8a3a|1|cz',r278:'can|#b8742a|#8ab04a',r115:'brl|#e0a050|#a8601a|1.3',r147:'emp',r17:'chk|#e0b050||1.2|||lem',r109:'chk|#d8a04a||1.2|||lem',r214:'chk|#e2b458||1.2|||lem',r285:'sard|#e0b25a|#b8842e||||lem',r523:'sard|#e0b25a|#b8842e||||lem',r390:'sard|#e8907a|#c85a40||||lem',r968:'sard|#d8a850|#a8782a',r344:'sard|#e0b25a|#b8842e||||lem',r196:'sard',r506:'sard',r521:'sard||||||lem',r628:'sard||||||lem',r934:'sard',r986:'sard',r388:'stew|#f2e8d6|#e8873a|1|cz|fl:#c8582a',r437:'stew|#f2e8d6|#e8873a|1|cz|fl:#c8582a',r1023:'crp|#ecc850|#a8662a',r547:'fish|#dca8a0|#a85a56|1.1|||lem',r583:'fish|#dca8a0|#a85a56|1.1|||lem',r178:'fish|#dca8a0|#a85a56|1.1|||lem',r203:'fish|#b8a682|#6a6048',r401:'fish|#b8a682|#6a6048',r424:'fish|#b8a682|#6a6048',r591:'fish|#b8a682|#6a6048',r701:'fish|#b8a682|#6a6048',r1034:'fish|#b8a682|#6a6048',r169:'chk|#c98a3a',r299:'stew|#c8843a|#a8402a|1|b|fl:#8a5a2a',r371:'snd',r504:'tart|#d9a650|#8a4a1a',r132:'frit|#dba850|#e8a070',r311:'bun|#8a6a4a|#5a4030',r323:'bun|#c8a888|#8a6a50',r213:'chk|#ecd08a',r373:'can|#7aa03a|#f2e6c8',r924:'brv|#e2b050|#6a9a3a',r558:'pad',r694:'seta|#d8823a|#e8d0a0',r960:'emp|#d8a04a',r444:'emp|#e0b868',r1005:'pie',r349:'pie|#d59a4a|#b8402a',r302:'snd',r345:'snd|#d9a55c|#8a4a2a',r632:'snd',r408:'sp|#c8873a|toast',r443:'sp|#c8873a|toast',r422:'mig',r465:'mig',r497:'mig',r572:'coca|#c8402e|#4a2a3a',r612:'foc|#e2b45a|#4a6a2a',
+r282:'roll|#d8a24c|#e8d090',r579:'chs|#f2e2a4|#a8502a',r582:'chs|#eed894|#a8502a',r584:'chs|#ecd088|#a8502a',r938:'bar|#e2b050|#f6e6a8',r86:'crm|#f2d88a|#8a4a1a',r498:'crm0|#fbf8f0|#c8962a'};
 function hMain(t,c,c2,rnd){
+  { const R=rMain(t,c,c2,rnd); if(R!=null) return R; }
   c=c||'#c89050'; c2=c2||gsh(c,-.3);
   const u=`url(#${_u}m1)`;
   let o='<defs>'+gGrad('m1',c)+gGrad('m2',c2)+'</defs>';
@@ -9565,6 +9859,7 @@ function autoCode(r){
   let P=V; if(P==='h'&&(h===2||h===5)&&!dessert) P='k';
   let B=(P==='cz'||P==='pa'||P==='bd')?'d':P==='s'?'s':dessert?['m','l','m','d','l','m','d'][h]:['d','d','l','d','m','d','l'][h];
   let M='', S='-', G=[], k=1.3, steam=false;
+  let nG=false; const rt=(t,a,b)=>{ const d=RDEF[t]||[]; M=t+':'+(a||d[0]||c1)+':'+(b||d[1]||''); k=d[2]||1.2; S='-'; nG=true; };
   const sauce=base||'';
   const isSoup=RX(nm,/sopa|crema\b|crema de|gazpacho|salmorejo|caldo|consom|pur[eé]|velout|ajoblanco|porrusalda|minestrone|harira|ramen|ph[oó]\b|bisque|\bdal\b|vichyssoise|zurrukutuna|sopas|cocido madrile|escudella|pote|gazpachuelo|porra/);
   const isStew=RX(nm,/guiso|estofad|caldereta|cocido|fabada|lentejas|garbanzos|alubias|jud[ií]as|callos|carrillera|rabo|rag[uú]|goulash|gulash|curry|taj[ií]n|chili|marmitako|suquet|zarzuela|en salsa|cazuela|caldoso|pepitoria|fricand|chanfaina|menestra|pisto|ratatouille|olla|potaje|guisad|encebollad|ajillo|al ajo|cordero en|chilindr|sanfaina|blanquette|bourguignon|stroganoff|moussaka|mole|dahl|feijoada|tikka|korma|massaman|cachopo/)||P==='cz';
@@ -9579,22 +9874,35 @@ function autoCode(r){
     else if(RX(nm,/churro|porras/)) { M='stk:#d8a050:#c88a30'; G.push('pw:#f6f0e8'); k=1.05; }
     else if(RX(nm,/arroz con leche|arroz con/)) { M='ris:#f6efe0:#c8a070'; G.push('pw:#8a4a1a'); k=1.25; }
     else if(RX(nm,/mousse|panna|yogur|cuajada|reques|mascarpone|crema de/)) { M='qn:'+c1; k=1.4; }
-    else if(RX(nm,/tarta|pastel|bizcocho|cake|brazo|quesada|cheesecake|sacher|tatin|pie|biscuit|coca|bundt|brownie|tarte|clafout/)) { M='cak:'+c1+':'+c2; S=sauce?'sw:'+sauce:'-'; k=1.3; }
-    else if(RX(nm,/torrija|filloa|crep|tortita|frixuelo|leche frita|buñuelo|churro|pesti|rosquill|galleta|polvor|mantecad|perrunil|carqui|magdalena|sobao|ensaimada|carbayon|bollo|corruc|teja|almendrado|turr[oó]n|mazap|piñonate|pastissets|casadielles|borrachuel|roscos|huesos|mantecado/)) { M='chk:'+c1+':'+c2; G.push('pw:#f6f0e8'); k=1.2; }
-    else if(RX(nm,/pera|manzana|melocot|naranja|fresa|higo|membrillo|fruta|macedonia|compota|bor?racho/)) { M='sph:'+c1; S=sauce?'pl:'+sauce:'-'; k=1.25; }
-    else { M='cak:'+c1+':'+c2; k=1.3; }
+    else if(RX(nm,/horchata|cremaet|licor\b|batido|chocolate a la taza|sangr[ií]a|limonada|zurracapote|mistela|resol[ií]/)) rt('cup');
+    else if(RX(nm,/rosc[oó]n|tortell|mona de|bollo maim/)) rt('ros1');
+    else if(RX(nm,/rosquill|roscos?\b|donut|melindre|picarones/)) rt('rosq');
+    else if(RX(nm,/bu[ñn]uelo|bunyol|trufa|bomb[oó]n|panellet|yemas|mazap|profiterol|lionesa|loukoum|empi[ñn]onad/)) rt('bun');
+    else if(RX(nm,/pesti|hojuela|flores|floreta|orell|orejas|chebakia|paparajote/)) rt('frit');
+    else if(RX(nm,/filloa|crep|crêpe|frixuelo|tortita|pancake/)) rt('crp');
+    else if(RX(nm,/ensaimada/)) rt('ens');
+    else if(RX(nm,/brazo|strudel|trenza|rollo de/)) rt('roll');
+    else if(RX(nm,/cannoli|canutillo|xuixo|farton|casadiell|huesillo|corbata|bartolillo|fardelejo|travesseiro|ca[ñn]as/)) rt('can');
+    else if(RX(nm,/past[eé]is|pastel de nata|queijada|tartaleta|suspiros de/)) rt('tlt');
+    else if(RX(nm,/galleta|polvor|mantecad[oa]|perrunil|almendrado|teja|amarguillo|alfajor|madeleine|magdalena|cookie|ghriba|soplillo|pantortilla/)) rt('cks');
+    else if(RX(nm,/turr[oó]n|brownie|leche frita|baklava|guirlache|sobao|coca de llanda|miguelito|bica\b|borracho|alaj[uú]/)) rt('bar');
+    else if(RX(nm,/coca\b/)) rt('coca','#e8c070','#c8382e');
+    else if(RX(nm,/bizcocho|carquinyoli|pan de|pa de|plum|torrija/)) rt('loaf');
+    else if(RX(nm,/pera|manzana|melocot|naranja|fresa|higo|membrillo|fruta|macedonia|compota/)&&!RX(nm,/tarta|pastel|cake|tarte|tatin|pie\b/)) { M='sph:'+c1; S=sauce?'pl:'+sauce:'-'; k=1.25; }
+    else rt('tart');
   }
   else if(isRice&&P==='pa'){ M='pae:'+(base||c1)+':'+c2; k=1; steam=true; if(shp.has('shrimp')) G.push('prn0'); }
   else if(isRice){ M='ris:'+(base&&base!=='#fff'?base:c1)+':'+c2; steam=!cold; if(P==='h'||P==='k') k=1.28; }
   else if(RX(nm,/lasa[ñn]a|canel[oó]n|cannelloni|moussaka|milhojas|pastel de|musaka/)){ M='lay:'+c1+':'+c2; S=sauce?'pl:'+sauce:'-'; k=1.35; }
   else if(isPasta){ M='pas:'+(RX(nm,/negr|tinta/)?'#2a2420':c1==='#fff'?'#f0d890':c1)+':'+c2; steam=!cold; k=1.35; }
-  else if(isSoup){ if(P!=='b'&&P!=='cz') P='b'; S='fl:'+(sauce||c1); M='non'; k=1; steam=!cold; }
+  else if(isSoup){ if(P!=='b'&&P!=='cz') P='b'; S='fl:'+(sauce||c1); M=RX(nm,/sopa|crema|pur[eé]|velout|vichyss|gazpacho|salmorejo|ajoblanco|porra|bisque/)?'sup:#d9a85a':'sup0'; k=1; steam=!cold; }
   else if(isStew&&P!=='cz'&&RX(nm,/potaje|caldereta|suquet|marmitako|zarzuela|cocido|fabada|lentejas|garbanzos|alubias|estofad|guiso|goulash|gulash|curry|chili|ragú|rag[uú]|callos|olla|puchero|taj[ií]n|stroganoff|bourguignon|mole|feijoada|dahl|korma|tikka|massaman/)){ if(P!=='b') P='b'; S='fl:'+(sauce||gsh(c1,-.25)); M=(shp.has('bean')||RX(nm,/fabada|alubias|jud[ií]as|garbanzo|lentejas|potaje|cocido/))?'bns:'+(col('bean')||c1)+':'+c2:'stew:'+c1+':'+c2; k=1; }
   else if(isStew&&P==='cz'&&RX(nm,/potaje|caldereta|suquet|marmitako|zarzuela|cocido|fabada|lentejas|garbanzos|alubias|estofad|guiso|callos|olla|puchero|rag[uú]/)){ S='fl:'+(sauce||gsh(c1,-.25)); M=(shp.has('bean')||RX(nm,/fabada|alubias|jud[ií]as|garbanzo|lentejas|potaje|cocido/))?'bns:'+(col('bean')||c1)+':'+c2:'stew:'+c1+':'+c2; k=1; }
   else if(RX(nm,/huevos rotos|huevos estrellados|huevos con patatas|huevos a la flamenca|huevos fritos con/)){ M='hrt:#e8c060:'+(c2||'#c8404a'); k=1.15; }
   else if(RX(nm,/ceviche|poke|tiradito|salpic[oó]n|pipirrana|tartar/)&&!RX(nm,/carpaccio/)){ if(RX(nm,/ceviche|poke|tiradito/)){ P='b'; S='fl:'+(sauce||'#f2eee0'); k=1; } M='dic:'+c1+':'+c2; }
   else if(RX(nm,/carpaccio/)){ M='flt:'+c1+':'+c2; k=1.25; }
   else if(RX(nm,/tortilla|frittata|truita|omelet|tortill[oó]n/)&&!RX(nm,/tortilla de camar|tortitas/)){ M='tort:'+(col('egg')?'#e8b84a':'#e8b84a')+':#f6e2a0'; k=1.2; }
+  else if(RX(nm,/revuelto/)){ M='rev:'+c1+':'+c2; k=1.2; }
   else if(RX(nm,/huevo|huevos|revuelto|shakshuka|frito/)&&shp.has('egg')){ M='egg:#f2a417:#f6f2e8'; S=sauce?'pl:'+sauce:'-'; k=1.35; }
   else if(RX(nm,/mejill[oó]n|moules|mejillones/)){ M='mus:'+(col('mussel')||'#f0913a'); S=sauce?'fl:'+sauce:'-'; k=1; }
   else if(RX(nm,/calamar|chipir[oó]n|choco|rabas|sepia|aros de/)&&(shp.has('ring')||RX(nm,/frit|romana|rabas/))){ M='rng:'+(col('ring')||'#e8c070'); k=1.15; }
@@ -9608,7 +9916,7 @@ function autoCode(r){
   else if(RX(nm,/croqueta|bu[ñn]uelo|falafel|alb[oó]ndiga|empanadilla|rebozad|frit[oa]s|churro|pesti[ñn]o|rosquill|fritura|pescaíto|tempura|nugget|torrezno|patatas bravas|bravas|chips/)){ M=(RX(nm,/alb[oó]ndiga|falafel/)?'sph:':'chk:')+c1+':'+c2; S=sauce&&RX(nm,/alb[oó]ndiga|bravas/)?'pl:'+sauce:'-'; k=1.2; }
   else if(RX(nm,/jam[oó]n|chorizo|salchich|lomo embuchado|cecina|morcilla|embutido|fuet|lacón|lacon|mojama|anchoas|tabla/)&&(P==='bd'||P==='s')){ M='flt:'+c1+':'+c2; k=1.25; }
   else if(p==='queso'||RX(nm,/queso|quesos/)&&!dessert){ M='cak:#f0dca0:#c8a050'; k=1.2; }
-  else if(RX(nm,/pan\b|pan de|empanada|coca\b|pizza|focaccia|hornazo|bollo|tosta|montadito|bocadillo|pita|naan|bao|torta de|tortas|pretzel|bagel|flamenquín|sándwich|sandwich|burger|hamburgues/)){ M=RX(nm,/pizza/)?'sp:'+c1+':pizza':'bre:'+(c1&&!/^#f/i.test(c1)?'#c8883a':'#c8883a')+':#e8d0a0'; k=1.15; }
+  else if(RX(nm,/pan\b|pan de|empanada|coca\b|pizza|focaccia|hornazo|bollo|tosta|montadito|bocadillo|pita|naan|bao|torta de|tortas|pretzel|bagel|flamenquín|sándwich|sandwich|burger|hamburgues/)){ if(RX(nm,/pizza/)) M='sp:'+c1+':pizza'; else if(RX(nm,/empanadilla|empanadas|panades|cocarroi|samosa|pierogi/)) rt('emp'); else if(RX(nm,/empanada|hornazo/)) rt('pie'); else if(RX(nm,/focaccia/)) rt('foc'); else if(RX(nm,/coca\b/)) rt('coca'); else if(RX(nm,/bocadillo|montadito|s[áa]ndwich|burger|hamburgues|bifana|pepito|bocata/)) rt('snd'); else { M='bre:#c8883a:#e8d0a0'; } if(!nG) k=1.15; }
   else if(isStew){ if(P!=='cz'&&P!=='b') P=P==='h'||P==='k'?'b':P; S='fl:'+(sauce||gsh(c1,-.25)); M=(shp.has('bean')||RX(nm,/fabada|alubias|jud[ií]as|garbanzo|lentejas|potaje|cocido/))?'bns:'+(col('bean')||c1)+':'+c2:'stew:'+c1+':'+c2; k=1; steam=!cold; }
   else if(['vacuno','cerdo','cordero','caza'].includes(p)){
     if(RX(nm,/costill|codillo|paletilla|pierna|jarrete|lechazo|cochinillo|cordero asado|ossobuco|osobuco|chuleta de cordero|chuletillas|ribs/)) { M='leg:'+(/^#[c-f][0-9a-f]/i.test(c1)&&!/^#c[0-7]/i.test(c1)?'#b8703a':c1)+':#efe2c8'; S=sauce?'pl:'+sauce:'-'; k=1.25; }
@@ -9616,22 +9924,31 @@ function autoCode(r){
     else { M='slc:'+(RX(nm,/chulet|solomillo|entrecot|lomo alto|tataki|carpaccio|steak|presa|secreto|pluma|magret|roast/)?'#c0605a':c1)+':'+gsh(c1,-.35); S=sauce?'sw:'+sauce:'-'; k=1.3; }
     G.push('flk');
   }
-  else if(p==='ave'){ M='bird:'+(c1&&!/^#f/i.test(c1)?c1:'#d8a050')+':#a8601a'; S=sauce?'pl:'+sauce:'-'; k=1.25; }
+  else if(p==='ave'){ if(RX(nm,/magret|pechuga|tataki/)){ M='slc:#b8504a:#7a3a2a'; S=sauce?'sw:'+sauce:'-'; k=1.3; } else { M='bird:#cf9440:#8a4a14'; S=sauce?'pl:'+sauce:'-'; k=1.2; } }
   else if(p==='huevo'&&shp.has('egg')){ M='egg:#f2a417:#f6f2e8'; S=sauce?'pl:'+sauce:'-'; k=1.35; }
   else if(p==='marisco'){ M='prn:#e8806a:#c84a2a'; S=sauce?'pl:'+sauce:'-'; k=1.35; }
   else if(p==='vegetal'||cat==='Entrantes'){
     if(RX(nm,/esp[aá]rrag|puerro|cal[çc]ot|jud[ií]as verdes|bastones|tirabeque|ajetes/)) { M='stk:'+c1+':'+c2; k=1.15; }
-    else if(RX(nm,/pimient|tomate/)) { M='tom:'+(c1||'#d04030')+':'+c2; k=1.3; }
+    else if(RX(nm,/padr[oó]n|gernika|piparra/)) { M='pad:#5a9a3a:'; k=1.2; nG=true; }
+    else if(RX(nm,/pimient|fritada|asadillo|zorongollo|taktouka/)) { M='strp:'+(c1||'#c8382a')+':'+c2; k=1.2; }
+    else if(RX(nm,/tomate/)) { M='tom:'+(c1||'#d04030')+':'+c2; k=1.3; }
+    else if(RX(nm,/alcachof/)) { M='alc:#a9a45c:'+c2; k=1.2; }
+    else if(RX(nm,/setas|champi|hongos|boletus|n[ií]scalo|rovell|gurumelo|tentullo/)) { M='seta:'+(c1&&!/^#[ef]/i.test(c1)?c1:'#a8703a')+':'+c2; k=1.2; }
     else if(RX(nm,/alcachof|coliflor|br[oó]coli|berenjen|calabac|calabaza|cebolla|setas|champi|hongos|boletus/)) { M='veg:'+c1+':'+c2; k=1.25; }
     else if(RX(nm,/patata|papas|patatas/)) { M='chk:#e8c070:#c88a30'; S=sauce?'pl:'+sauce:'-'; k=1.2; }
     else { M='sal:'+c1+':'+c2; k=1.15; }
   }
   else { M=sauce?'stew:'+c1+':'+c2:'med:'+c1+':'+c2; S=sauce?(P==='b'||P==='cz'?'fl:':'pl:')+sauce:'-'; }
+  const ov=RTYPE[r.id];
+  if(ov){ const [ot,oc,oc2,ok,oP,oS,oG]=ov.split('|'), d=RDEF[ot]||[]; nG=true; G=oG?oG.split(';'):[]; S=oS||'-';
+    if(ot==='sp'){ M='sp:'+oc+':'+oc2; }
+    else { const cc=oc||d[0]||c1; M=ot+':'+cc+':'+(oc2||d[1]||''); k=+ok||d[2]||1.2; if(oP){ P=oP; } if(ot==='crm'||ot==='crm0'){ if(P!=='rk'&&P!=='b') P='b'; S='fl:'+cc; k=1; } if(P==='cz'||P==='pa'||P==='bd') B='d'; }
+    steam=false; }
   // guarnición a partir de los ingredientes del dibujo original
   const gmap={leaf:x=>'hb:'+x[1],dot:x=>'prl:'+x[1],dice:x=>'brn:'+x[1],lemon:()=>'lem',mush:x=>'ch:'+x[1],slice:x=>'pce:'+x[1],strand:x=>'zst:'+x[1],bean:x=>'bean:'+x[1],grain:x=>'sd:'+x[1],ring:x=>'ons:'+x[1],chunk:x=>'pce:'+x[1],crack:x=>'cr:'+x[1],stick:x=>'pce:'+x[1]};
   const mainT=M.split(':')[0];
-  it.slice(1).concat(it.slice(0,1)).forEach(x=>{ if(G.length>=3) return; if(mainT==='bns'&&x[0]==='bean') return; if(mainT==='sal'&&x[0]==='leaf') return; const f=gmap[x[0]]; if(f){ const g=f(x); if(!G.some(y=>y.split(':')[0]===g.split(':')[0])) G.push(g); } });
-  if((sp.it||[]).some(x=>x[0]==='drizzle')&&G.length<4) G.push('drz:'+((sp.it.find(x=>x[0]==='drizzle')||[])[1]||'#c8a030'));
+  it.slice(1).concat(it.slice(0,1)).forEach(x=>{ if(nG||G.length>=3) return; if(mainT==='bns'&&x[0]==='bean') return; if(mainT==='sal'&&x[0]==='leaf') return; const f=gmap[x[0]]; if(f){ const g=f(x); if(!G.some(y=>y.split(':')[0]===g.split(':')[0])) G.push(g); } });
+  if(!nG&&(sp.it||[]).some(x=>x[0]==='drizzle')&&G.length<4) G.push('drz:'+((sp.it.find(x=>x[0]==='drizzle')||[])[1]||'#c8a030'));
   if(G.indexOf('prn0')>=0){ G.splice(G.indexOf('prn0'),1); }
   return {code:[P,B,S,M,G.join(';')].join('|'),k,steam};
 }
@@ -9781,7 +10098,7 @@ function homeArt(r,a){
   if(st==='fl'&&P==='cz') f+=`<circle cx="${CX}" cy="${CY}" r="142" fill="${sc}"/><circle cx="${CX}" cy="${CY}" r="142" fill="url(#${_u}in)" opacity=".75"/>`+gHi(CX-60,CY-80,50,12,.25)+scat(rnd,14,120,(x,y,q)=>`<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(1+q()*3)}" fill="${gsh(sc,.35)}" opacity=".5"/>`);
   else f+=gSauce(st,sc,rnd,seed%7);
   const [mt,mc,mc2]=(M||'').split(':');
-  let m=mt==='sp'?special(mc2,mc,rnd):hMain(mt,mc,mc2,rnd);
+  let m=mt==='sp'?(mc2==='fish'?hMain('fish','#b4b8b2','#6a7468',rnd):special(mc2,mc,rnd)):hMain(mt,mc,mc2,rnd);
   (Gs||'').split(';').filter(Boolean).forEach(g=>{ const [gt,gc]=g.split(':'); m+=hGarn(gt,gc,rnd); });
   const k=mt==='sp'?1:a.k;
   f+=`<g transform="translate(${CX} ${CY}) scale(${k}) translate(${-CX} ${-CY})">${m}</g>`;
@@ -11831,7 +12148,7 @@ function viewRecipe(id){
   return `<button class="btn ghost" data-go="recetas">Recetario</button>
   <div class="detail-hero mt ${hasHero(r)?'ph':''}" style="${heroBg(r.cat)}">${heroMedia(r,false)}${!cover(r)&&(ART[r.id]||SPEC[r.id]||GPRO[r.id])?'<span class="artbadge">Ilustración</span>':''}<div><div class="tiny" style="letter-spacing:1.4px;text-transform:uppercase;font-weight:700;opacity:.85">${esc(r.cat)}${placeLabel(r)?' · '+esc(placeLabel(r)):''}</div><h1>${esc(r.name)}</h1>
     <div class="meta" style="color:#f3e3d6;margin-top:8px"><span>⏱ ${hmin(r.active)} activos${r.rest?' + '+hmin(r.rest)+' de reposo/cocción':''}</span><span>Dificultad: ${esc(r.diff)}</span></div></div>
-    <div class="row"><button class="btn" data-act="poster" data-id="${id}">Ficha para imprimir</button><button class="btn" data-act="pstTec" data-id="${id}">Ficha técnica</button><button class="btn" data-act="heroPhoto" data-id="${id}">${cover(r)?'Cambiar foto del plato':'Añadir foto del plato'}</button><button class="btn" data-act="fav" data-id="${id}">${r.fav?'Favorita ✓':'Favorita'}</button><button class="btn pri" data-act="cook" data-id="${id}">Modo cocina</button>${vidBtn(r)}${fotoBtn(r)}</div></div>
+    <div class="row"><button class="btn" data-act="poster" data-id="${id}">Ficha para imprimir</button><button class="btn" data-act="pstTec" data-id="${id}">Ficha técnica</button><button class="btn" data-act="heroPhoto" data-id="${id}">${cover(r)?'Cambiar foto del plato':'Añadir foto del plato'}</button><button class="btn" data-act="fotoPrompt" data-id="${id}">Prompt para foto</button><button class="btn" data-act="fav" data-id="${id}">${r.fav?'Favorita ✓':'Favorita'}</button><button class="btn pri" data-act="cook" data-id="${id}">Modo cocina</button>${vidBtn(r)}${fotoBtn(r)}</div></div>
   ${r.hist?`<div class="card mt histcard"><div class="row" style="gap:14px;align-items:flex-start;flex-wrap:nowrap"><span class="histico">📜</span><div><h3>Historia - Curiosidades</h3><p>${esc(r.hist)}</p></div></div></div>`:''}
   ${GOURMET[id]?gProCard(id):''}
   <div class="grid g2 mt">
@@ -13077,6 +13394,100 @@ function drawCook(){
 document.addEventListener('keydown',e=>{ if(!COOK) { if(e.key==='Escape') closeModal(); return; } if(e.key==='ArrowRight'&&COOK.i<recipe(COOK.id).steps.length-1){COOK.ings=false;COOK.i++;drawCook();} if(e.key==='ArrowLeft'&&COOK.i>0){COOK.i--;drawCook();} if(e.key==='Escape') closeCook(); });
 function closeCook(){ COOK=null; $('#cook').hidden=true; $('#cook').innerHTML=''; try{wakeLock&&wakeLock.release();}catch(e){} wakeLock=null; }
 
+/* ---------- Prompt para foto profesional del plato ---------- */
+const FPS={
+ barro:{n:'Rústico de barro',w:'plato de cuchara caliente: pide barro, madera y vapor',
+  es:{rec:'cazuela de barro vidriado',sup:'una mesa de madera vieja y oscura',ang:'a 45°',opt:'objetivo de 50 mm a f/2.8, fondo suavemente desenfocado',luz:'Luz cálida lateral, con el fondo en penumbra',det:'cuchara de madera, paño de lino crudo arrugado en una esquina y pan de pueblo partido; vapor tenue, brillo del caldo y alguna gota en el borde de la cazuela',tex:'caldo ligado y brillante, ingredientes enteros y tiernos'},
+  en:{rec:'a glazed terracotta cazuela',sup:'an old dark wooden table',ang:'45-degree angle',opt:'50mm lens at f/2.8, softly blurred background',luz:'Warm side light, background falling into shadow',det:'wooden spoon, crumpled raw linen cloth in one corner, torn country bread; faint steam, glossy broth, a drop on the rim',tex:'glossy thickened broth, whole tender ingredients'}},
+ arroz:{n:'Mesa mediterránea al aire libre',w:'el arroz se luce desde arriba, con luz de mediodía',cen:1,
+  es:{rec:'paellera de hierro con asas',sup:'una mesa de madera clara con sombra moteada de parra',ang:'cenital (90°)',opt:'objetivo de 35 mm a f/8, todo nítido',luz:'Luz natural de mediodía filtrada, sombras suaves',det:'cuchara de madera a un lado; granos sueltos y brillantes, capa fina de arroz y algún grano tostado pegado al borde',tex:'grano suelto y brillante en capa fina, con el punto tostado en el borde'},
+  en:{rec:'an iron paella pan with handles',sup:'a light wooden table with dappled vine-leaf shade',ang:'overhead 90-degree angle',opt:'35mm lens at f/8, everything in focus',luz:'Filtered natural midday light, soft shadows',det:'wooden spoon to one side; loose glossy grains in a thin layer, a few toasted grains stuck to the rim',tex:'loose glossy grains in a thin layer, toasted at the edge'}},
+ mar:{n:'Luminoso y fresco',w:'pescado y marisco piden luz clara y sensación de frescura',
+  es:{rec:'fuente blanca de loza',sup:'mármol blanco',ang:'a 45°',opt:'objetivo de 50 mm a f/3.5, fondo suavemente desenfocado',luz:'Luz clara de ventana con toques fríos',det:'sal en escamas; humedad y brillo natural, piel tersa y gotas de agua',tex:'carne jugosa y nacarada, piel tersa y brillante'},
+  en:{rec:'a white ceramic platter',sup:'white marble',ang:'45-degree angle',opt:'50mm lens at f/3.5, softly blurred background',luz:'Bright window light with cool tones',det:'flaky sea salt; natural moisture and sheen, taut skin, water droplets',tex:'juicy pearly flesh, taut glossy skin'}},
+ carne:{n:'Oscuro dramático (low key)',w:'la carne gana con luz lateral dura que marca costra y jugos',
+  es:{rec:'plato de cerámica oscura',sup:'pizarra oscura, fondo casi negro',ang:'a 30–45°',opt:'objetivo de 85 mm a f/2.8, fondo desenfocado',luz:'Luz lateral dura y estrecha que esculpe el plato',det:'cuchillo de carne apoyado al lado y sal gruesa; costra tostada, jugos brillantes e interior rosado en el corte si procede',tex:'costra tostada y jugos brillantes'},
+  en:{rec:'a dark ceramic plate',sup:'dark slate, near-black background',ang:'30 to 45-degree angle',opt:'85mm lens at f/2.8, blurred background',luz:'Hard narrow side light sculpting the dish',det:'steak knife resting beside it, coarse salt; seared crust, glossy juices, pink interior on the cut where it applies',tex:'seared crust and glossy juices'}},
+ barra:{n:'Barra andaluza',w:'es una tapa o ración: barra de bar y luz cálida de tarde',
+  es:{rec:'plato de loza blanca de tapa',sup:'una barra de bar de mármol, con azulejo desenfocado al fondo',ang:'a 30–45°',opt:'objetivo de 50 mm a f/2.2, bokeh cálido',luz:'Luz cálida de tarde, lateral, que marca el crujiente',det:'servilleta de papel; superficie dorada y crujiente, algo de aceite en el plato',tex:'dorado y crujiente por fuera, jugoso por dentro'},
+  en:{rec:'a small white tapas plate',sup:'a marble bar counter with blurred tiles behind',ang:'30 to 45-degree angle',opt:'50mm lens at f/2.2, warm bokeh',luz:'Warm late-afternoon side light emphasising crispness',det:'paper napkin; golden crisp surface, a little oil on the plate',tex:'golden and crisp outside, juicy inside'}},
+ tabla:{n:'Tabla de madera',w:'embutidos y quesos se presentan en tabla, con luz suave',cen:1,
+  es:{rec:'tabla de madera de olivo',sup:'una mesa de madera',ang:'cenital (90°)',opt:'objetivo de 35 mm a f/8, todo nítido',luz:'Luz cálida lateral suave',det:'cuchillo apoyado al lado y unos picos de pan; cortes irregulares, vetas de grasa translúcidas o corteza natural',tex:'cortes finos e irregulares con su brillo natural'},
+  en:{rec:'an olive-wood board',sup:'a wooden table',ang:'overhead 90-degree angle',opt:'35mm lens at f/8, everything in focus',luz:'Soft warm side light',det:'knife resting beside it, a few breadsticks; irregular cuts, translucent fat marbling or natural rind',tex:'thin irregular cuts with natural sheen'}},
+ frio:{n:'Fresco de verano',w:'sopa fría: luz luminosa y sensación de frescor',
+  es:{rec:'cuenco de cerámica blanca',sup:'piedra clara',ang:'a 45°',opt:'objetivo de 50 mm a f/3.2, fondo suavemente desenfocado',luz:'Luz luminosa con sombra corta',det:'hilo de aceite de oliva por encima; textura cremosa, gotas de aceite verde y ligera condensación en el cuenco',tex:'textura cremosa y lisa, bien fría'},
+  en:{rec:'a white ceramic bowl',sup:'pale stone',ang:'45-degree angle',opt:'50mm lens at f/3.2, softly blurred background',luz:'Bright light with short shadows',det:'a thread of olive oil on top; creamy texture, green oil drops, light condensation on the bowl',tex:'smooth creamy texture, well chilled'}},
+ huerta:{n:'Natural de huerta',w:'verdura y ensalada: cenital y luz de ventana difusa',cen:1,
+  es:{rec:'fuente amplia de cerámica',sup:'lino claro',ang:'cenital (90°)',opt:'objetivo de 35 mm a f/5.6',luz:'Luz de ventana difusa',det:'aliño brillante, verduras de corte irregular y hojas tersas',tex:'verduras tersas con el aliño brillante'},
+  en:{rec:'a wide ceramic platter',sup:'pale linen',ang:'overhead 90-degree angle',opt:'35mm lens at f/5.6',luz:'Diffused window light',det:'glossy dressing, irregularly cut vegetables, crisp leaves',tex:'crisp vegetables with glossy dressing'}},
+ casa:{n:'Cocina de casa',w:'plato casero: encimera de madera y luz cálida de mañana',
+  es:{rec:'plato de loza',sup:'una encimera de madera',ang:'a 30–45°',opt:'objetivo de 50 mm a f/2.8, fondo suavemente desenfocado',luz:'Luz cálida de mañana',det:'bordes dorados, interior jugoso y brillo natural',tex:'jugoso, con los bordes dorados'},
+  en:{rec:'an earthenware plate',sup:'a wooden worktop',ang:'30 to 45-degree angle',opt:'50mm lens at f/2.8, softly blurred background',luz:'Warm morning light',det:'golden edges, juicy interior, natural sheen',tex:'juicy with golden edges'}},
+ obrador:{n:'Obrador',w:'masa horneada: cenital y luz rasante que marca la corteza',cen:1,
+  es:{rec:'papel de horno arrugado',sup:'una mesa de madera enharinada',ang:'cenital (90°)',opt:'objetivo de 35 mm a f/8, todo nítido',luz:'Luz cálida lateral rasante',det:'harina espolvoreada, bordes tostados e irregulares y aceite brillando',tex:'corteza tostada e irregular'},
+  en:{rec:'crumpled baking paper',sup:'a floured wooden table',ang:'overhead 90-degree angle',opt:'35mm lens at f/8, everything in focus',luz:'Warm raking side light',det:'dusted flour, toasted irregular edges, glistening oil',tex:'toasted irregular crust'}},
+ frontal:{n:'Frontal de capas',w:'tiene capas o altura: se enseña de frente',
+  es:{rec:'plato llano',sup:'madera, con fondo liso desenfocado',ang:'frontal (0–15°)',opt:'objetivo de 85 mm a f/4',luz:'Contraluz suave con relleno delantero',det:'capas visibles, relleno que asoma y migas en la base',tex:'capas bien definidas'},
+  en:{rec:'a flat plate',sup:'wood, plain blurred background',ang:'straight-on 0 to 15-degree angle',opt:'85mm lens at f/4',luz:'Soft backlight with front fill',det:'visible layers, filling peeking out, crumbs at the base',tex:'clearly defined layers'}},
+ cuchara:{n:'Dulce casero',w:'postre de cuchara: luz luminosa y cálida',
+  es:{rec:'cuenco o cazuelita de barro',sup:'lino color crema',ang:'a 45°',opt:'objetivo de 50 mm a f/2.8, fondo suavemente desenfocado',luz:'Luz luminosa y cálida',det:'cucharilla antigua al lado; superficie cremosa y brillante',tex:'textura cremosa y brillante'},
+  en:{rec:'a small bowl or terracotta ramekin',sup:'cream linen',ang:'45-degree angle',opt:'50mm lens at f/2.8, softly blurred background',luz:'Bright warm light',det:'vintage teaspoon beside it; creamy glossy surface',tex:'creamy glossy texture'}},
+ merienda:{n:'Mesa de merienda',w:'repostería: tonos crema y luz de ventana',
+  es:{rec:'plato de loza',sup:'un mantel de lino claro',ang:'a 45°',opt:'objetivo de 50 mm a f/3.2, fondo suavemente desenfocado',luz:'Luz de ventana lateral, tonos crema',det:'taza de café al fondo; bordes dorados, miga o hojaldre visibles y migas sueltas',tex:'dorado, con la textura de la masa a la vista'},
+  en:{rec:'an earthenware plate',sup:'a pale linen tablecloth',ang:'45-degree angle',opt:'50mm lens at f/3.2, softly blurred background',luz:'Side window light, cream tones',det:'coffee cup in the background; golden edges, visible crumb or flaky layers, loose crumbs',tex:'golden, with the dough texture visible'}},
+ bodega:{n:'Bodega',w:'es una bebida: contraluz para el brillo del líquido',
+  es:{rec:'vaso o copa de cristal',sup:'madera oscura',ang:'frontal (0–15°)',opt:'objetivo de 85 mm a f/2.8',luz:'Contraluz que hace brillar el líquido',det:'reflejos en el cristal y condensación si va frío',tex:'líquido brillante a contraluz'},
+  en:{rec:'a glass',sup:'dark wood',ang:'straight-on 0 to 15-degree angle',opt:'85mm lens at f/2.8',luz:'Backlight making the liquid glow',det:'reflections on the glass, condensation if served cold',tex:'liquid glowing against the light'}}
+};
+function fpStyle(r){
+  const nm=(r.name+' '+(r.tags||[]).join(' ')).toLowerCase(), p=(r.profile||{}).p||'', cat=r.cat||'', des=p==='postre'||cat==='Postres';
+  let t='', P=''; const gour=typeof GPRO!=='undefined'&&!!GPRO[r.id];
+  try{ if(SPEC[r.id]&&!gour){ const a=autoCode(r), m=a.code.split('|'), mm=m[3].split(':'); t=mm[0]==='sp'?'sp:'+mm[2]:mm[0]; P=m[0]; } }catch(e){}
+  const is=(...a)=>a.includes(t), meat=['vacuno','cerdo','cordero','caza','ave'].includes(p);
+  if(t==='cup') return 'bodega';
+  if(/gazpacho|salmorejo|ajoblanco|porra antequerana|vichyssoise/.test(nm)&&!/manchego|viudo/.test(nm)) return 'frio';
+  if(des){ if(is('crm','crm0','brl','sp:flan','qn','scp','ris','sp:tiramisu')||/natillas|arroz con leche|flan|mousse|cuajada|helad|sorbete|yogur/.test(nm)) return 'cuchara'; if(t==='tart'||/tarta|cheesecake|milhojas/.test(nm)) return 'frontal'; return 'merienda'; }
+  if(is('pae','ris')||/arroz|paella|fideu[aà]|risotto|arr[oò]s/.test(nm)) return 'arroz';
+  if(is('flt','chs','whl','sp:cheese','sp:bluecheese')||p==='queso') return 'tabla';
+  if(t==='snd'||/hamburgues|burger|bocadillo|s[áa]ndwich|montadito/.test(nm)) return 'frontal';
+  if(is('emp','pie','coca','foc','bre','sp:toast','sp:pizza','sp:quiche')) return 'obrador';
+  if(is('chk','brv','rng','sp:croq','can','frit','mnd')||/croqueta|rebozad|tempura|fritura|bravas|flamenqu[ií]n/.test(nm)) return 'barra';
+  if(is('egg','hrt','tort','rev','lay','pas')||p==='huevo'||cat==='Huevos') return 'casa';
+  if(is('sup','sup0','bns')||(t==='stew'&&(P==='cz'||P==='b'))||/potaje|cocido|caldo\b|sopa|lentejas|fabada|puchero/.test(nm)) return 'barro';
+  if(is('fish','sard','sp:fish','fil','prn','shl','mus','oct','dic','sp:scallops','sp:sardines')||p==='pescado'||p==='marisco') return meat?'carne':'mar';
+  if(is('slc','leg','med','bird','sp:piglet','sp:fillet')||meat) return 'carne';
+  if(t==='stew') return 'barro';
+  if(is('sal','veg','alc','seta','pad','strp','tom','stk','sp:pepper')||p==='vegetal') return 'huerta';
+  return cat==='Entrantes'?'barra':cat==='Carnes'?'carne':cat==='Pescados y mariscos'?'mar':'casa';
+}
+function fotoPrompt(r){
+  const k=fpStyle(r), st=FPS[k], gour=typeof GPRO!=='undefined'&&!!GPRO[r.id];
+  const skip=/^(sal\b|agua|pimienta|az[uú]car|harina|aceite|vinagre|caldo|levadura|bicarbonato|maicena|mantequilla|leche\b|vino|brandy|co[ñn]ac|nuez moscada|laurel|or[eé]gano|comino|clavo|hielo|fondo)/i;
+  const ings=(r.ings||[]).map(x=>String((x&&(x.n||x[2]))||'').replace(/\s*\(.*?\)/g,'').trim().toLowerCase()).filter(x=>x&&!skip.test(x)).filter((x,i,a)=>a.indexOf(x)===i).slice(0,7);
+  const li=ings.join(', ');
+  let wt=''; try{ wt=k==='bodega'?'':rankWines(r.profile)[0].w.type; }catch(e){}
+  const GL={tinto:['una copa amplia de vino tinto','a wide red wine glass'],blanco:['una copa tulipán de vino blanco','a tulip white wine glass'],rosado:['una copa tulipán de vino rosado','a tulip rosé wine glass'],generoso:['un catavino de vino fino','a small sherry copita of fino'],espumoso:['una copa flauta de espumoso','a flute of sparkling wine'],dulce:['una copita de vino dulce','a small glass of sweet wine']}[wt];
+  const gEs=GL?(st.cen?`, y ${GL[0]} en un lado del encuadre`:`, y ${GL[0]} al fondo, desenfocada`):'';
+  const gEn=GL?(st.cen?`, and ${GL[1]} at one side of the frame`:`, and ${GL[1]} blurred in the background`):'';
+  const recEs=gour?'plato llano de cerámica de restaurante, con emplatado de alta cocina y porciones precisas':st.es.rec;
+  const recEn=gour?'a restaurant ceramic plate with precise fine-dining plating':st.en.rec;
+  const name=r.name.replace(/\s+/g,' ').trim();
+  const es=`Fotografía gastronómica profesional, editorial, de ${name}${li?': '+li:''}; ${st.es.tex}. Servido en ${recEs} sobre ${st.es.sup}. Toma ${st.es.ang} con ${st.es.opt}. ${st.es.luz}. Detalles: ${st.es.det}${gEs}. Solo los ingredientes de la receta, sin guarniciones añadidas. Formato horizontal apaisado (aprox. 3:2), con el plato centrado y espacio a ambos lados. Sin texto, logotipos, personas ni manos; aspecto de foto real, no ilustración ni render 3D.`;
+  const en=`Professional editorial food photograph of the traditional dish "${name}"${li?', made with (ingredient names in Spanish): '+li:''}; ${st.en.tex}. Served in ${recEn} on ${st.en.sup}. Camera angle: ${st.en.ang}; ${st.en.opt}. ${st.en.luz}. Details: ${st.en.det}${gEn}. Only the listed ingredients, no extra garnishes. Wide landscape 16:9 composition, dish centered with breathing room on both sides. No text, no logos, no people, no hands. Photorealistic, natural colors, not an illustration or 3D render.`;
+  const mj=`editorial food photography, ${name}${li?', '+li:''}, ${st.en.tex}, in ${recEn} on ${st.en.sup}, ${st.en.ang}, ${st.en.opt}, ${st.en.luz.toLowerCase()}, ${st.en.det.replace(/;/g,',')}${gEn}, photorealistic, natural colors --ar 2:1 --style raw --s 100 --no text, logo, people, hands, watermark, illustration`;
+  return {k,st,es,en,mj,name};
+}
+let FP=null;
+function openFotoPrompt(id){
+  const r=S.recipes.find(x=>x.id===id); if(!r) return; FP=fotoPrompt(r);
+  const blk=(t,sub,i,txt)=>`<div style="margin-top:14px"><div class="row" style="justify-content:space-between;align-items:center;gap:8px"><b>${t} <span class="small muted" style="font-weight:400">${sub}</span></b><button class="btn sm" data-act="fpCopy" data-v="${i}">Copiar</button></div><textarea readonly style="min-height:128px;margin-top:6px;font-size:13px;line-height:1.45" onfocus="this.select()">${esc(txt)}</textarea></div>`;
+  openModal(`<div class="mhead"><h2>Foto profesional del plato</h2><button class="x" data-act="close">×</button></div>
+<p style="margin:0 0 4px"><b>${esc(FP.name)}</b> · Estilo: ${esc(FP.st.n)} <span class="muted">— ${esc(FP.st.w)}.</span></p>
+<p class="small muted" style="margin:0">La app no genera la fotografía: copia el texto en tu generador de imágenes y sube aquí el resultado.</p>
+${blk('ChatGPT','(español)',0,FP.es)}${blk('Gemini u otro generador','(inglés)',1,FP.en)}${blk('Midjourney','(inglés)',2,FP.mj)}
+<p class="small muted" style="margin:14px 0 0"><b>Para la app:</b> guarda la imagen como «${esc(FP.name)}.jpg», recórtala a 2:1 si sale más alta y súbela con «Añadir foto del plato». Si no convence, pide en el generador otro ángulo, una luz más clara o más oscura, u otro recipiente.</p>`);
+}
+
 /* ---------- Copiar al portapapeles con alternativa ---------- */
 function copyText(txt,title){
   const fallback=()=>openModal(`<div class="mhead"><h2>${esc(title)}</h2><button class="x" data-act="close">×</button></div><p class="small muted">Selecciona y copia el texto.</p><textarea style="min-height:300px" onfocus="this.select()">${esc(txt)}</textarea>`);
@@ -13111,6 +13522,8 @@ document.addEventListener('click',e=>{
       copyText(L.join('\n'),'Escandallo'); break; }
     case 'addPhotos': pickMedia(id,null,'img'); break;
     case 'heroPhoto': pickMedia(id,null,'img'); PEND.front=true; $('#mfile').multiple=false; break;
+    case 'fotoPrompt': openFotoPrompt(id); break;
+    case 'fpCopy': if(FP) copyText([FP.es,FP.en,FP.mj][+v]||'','Prompt para foto'); break;
     case 'addVideo': pickMedia(id,null,'video'); break;
     case 'addStepMedia': pickMedia(id,+v,'any'); break;
     case 'mview': lightbox(id,v); break;
