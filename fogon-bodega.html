@@ -619,6 +619,15 @@ input[type=text],input[type=number],input[type=search],select,textarea{border-ra
 .ctile.on .ci{color:#fff}
 @media (max-width:600px){.ctiles.cats{grid-template-columns:repeat(4,minmax(0,1fr))}.ctile .ci svg{width:29px;height:29px}}
 @media (max-width:380px){.ctiles,.ctiles.cats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.tec.open{grid-column:1/-1;border-color:rgba(123,30,43,.35)}.tec-h{scroll-margin-top:16px}
+.tec-i{font-size:26px;line-height:1;width:44px;height:44px;border-radius:12px;background:var(--gold-soft);display:grid;place-items:center;flex:none}
+.tec-tg{width:30px;height:30px;border-radius:50%;background:var(--wine-soft);color:var(--wine);display:grid;place-items:center;font-weight:800;font-size:18px;flex:none}
+.tec-b{margin-top:6px;border-top:1px solid var(--line);padding-top:4px}
+.tec-b h4{margin:16px 0 6px;font-size:12.5px;letter-spacing:.06em;color:var(--wine)}
+.tec-p td{padding:6px 8px}.tec-p td:first-child{color:var(--muted);width:46%}
+.tec-s,.tec-e{margin:4px 0;padding-left:20px}.tec-s li,.tec-e li{margin:5px 0;font-size:14px;line-height:1.5}
+.tec-e li::marker{color:var(--warn)}.tec-seg{margin-top:12px;font-size:14px}
+@media (max-width:600px){.tec-p td:first-child{width:auto}}
 </style>
 </head>
 <body>
@@ -11171,6 +11180,292 @@ const G_TEC=[
  ['Cocción a presión','Acorta tiempos de cocción de legumbres, arroces y caldos gracias a la presión y a temperaturas de hasta 120 °C.','Olla a presión de acero inoxidable.','Respeta tiempos y válvulas de seguridad.'],
  ['Emulsiones y aires','Emulsiones estables con lecitina o gomas, y aires con burbujas grandes que aportan ligereza y aroma.','Batidora de inmersión, lecitina de soja, goma xantana.','Se sirven al momento.'],
 ];
+/* ---------- Técnicas desarrolladas (Gourmet › Técnicas) ---------- */
+const G_FAMS=[['temp','Temperatura controlada','🌡️'],['fuego','Fuego, brasa y fritura','🔥'],['salsa','Salsas y emulsiones','🥄'],['textura','Texturas de vanguardia','🧪'],['conserva','Curar, fermentar y madurar','🫙'],['masa','Masas y pastelería','🥐']];
+const G_TECX=[
+ {n:'Cocina a baja temperatura',f:'temp',i:'🌡️',k:/baja temperatura|vac[ií]o|sous|sellado inverso|cocci[oó]n exacta|baño mar[ií]a de precisi/,
+  d:'Cocción entre 50 y 85 °C, normalmente en bolsa al vacío y en un baño de agua a temperatura fija. El alimento nunca supera la temperatura del baño, así que el punto es exacto de borde a borde.',
+  c:'Las proteínas cambian a temperaturas concretas: la miosina del pescado y la carne cuaja hacia 50 °C, la actina a partir de 66 °C (aquí la carne se seca) y el colágeno se convierte en gelatina por encima de 60-70 °C con tiempo. Elegir temperatura es elegir textura; el tiempo, sobre todo, ablanda.',
+  p:[['Pescado nacarado','45-52 °C · 15-30 min'],['Vacuno al punto','54-56 °C · 1-3 h'],['Cerdo ibérico rosado','58-62 °C · 1-3 h'],['Ave jugosa','62-65 °C · 1-2 h'],['Cortes duros (carrillera, costilla)','62-74 °C · 24-48 h'],['Huevo «a 63-65 °C»','63-65 °C · 45-60 min'],['Verduras','83-85 °C · 30-90 min']],
+  s:['Sala y aromatiza con moderación: en bolsa los sabores se concentran.','Envasa al vacío sin arrugas; si no tienes envasadora, usa bolsa con cierre sumergiéndola para expulsar el aire.','Precalienta el baño y verifica la temperatura con un termómetro independiente.','Cuece el tiempo que pide el grosor de la pieza, no su peso.','Seca la superficie y sella en sartén humeante 30-60 s por cara para crear costra.','Si no se sirve al momento, abate en agua con hielo y guarda a 0-3 °C.'],
+  e:['Pieza que flota: zonas sin cocinar. Pon peso.','Sellar la pieza mojada: no hay costra y el interior se pasa.','Usar ajo crudo en bolsas largas: sabor fuerte y riesgo microbiológico.','Dejar la bolsa a temperatura ambiente después de cocinar.'],
+  seg:'Entre 5 y 55 °C las bacterias se multiplican: no cocines largo por debajo de 55 °C. El pescado que vaya a quedar poco hecho debe estar congelado antes (anisakis). Embarazadas y personas inmunodeprimidas deben evitar puntos muy bajos.',
+  eq:'Circulador de inmersión, envasadora al vacío, bolsas aptas para cocción, termómetro sonda, abatidor o agua con hielo.',x:'La popularizó en España el Celler de Can Roca (Joan Roca y Salvador Brugués, «La cocina al vacío», 2003).'},
+ {n:'Confitado a baja temperatura',f:'temp',i:'🫒',k:/confitad|confit/,
+  d:'Cocción lenta sumergida en grasa (aceite, grasa de pato o mantequilla) por debajo del punto de fritura. No dora: cuece con suavidad y conserva jugos.',
+  c:'La grasa transmite el calor más despacio que el agua y no disuelve sabores hidrosolubles, por eso el producto conserva su gusto. En carnes a 85-90 °C funde el colágeno; en pescados a 45-65 °C deja la carne nacarada.',
+  p:[['Bacalao, merluza','50-60 °C · 15-25 min'],['Langostinos','55 °C · 6-10 min'],['Muslo de pato','85-90 °C · 3-4 h'],['Patata','90-95 °C · 30-45 min'],['Ajos y tomates','90-100 °C · 45-90 min']],
+  s:['Sala con antelación (en carnes, 12-24 h).','Cubre por completo con grasa y controla la temperatura con termómetro.','Mantén la temperatura constante: un difusor o el horno ayudan.','Escurre y, si buscas costra, dora la piel al final a fuego vivo.'],
+  e:['Grasa demasiado caliente: el producto se fríe y se seca.','No cubrir del todo: cocción irregular.','Reutilizar grasa sin colar ni guardar en frío.'],
+  seg:'Los confitados en aceite de ajos o hierbas crudos deben guardarse en nevera y consumirse pronto (riesgo de botulismo).',
+  eq:'Termómetro sonda, cazuela de fondo grueso u horno, circulador para pescados, grasa de calidad.',x:'El confit de pato nació como método de conservación en el suroeste de Francia.'},
+ {n:'Cocción a presión',f:'temp',i:'⏲️',k:/presi[oó]n/,
+  d:'Cocción en olla cerrada donde la presión eleva el punto de ebullición del agua hasta unos 120 °C. Reduce tiempos a un tercio.',
+  c:'A más presión, el agua hierve a más temperatura. Esos 15-20 °C extra aceleran la gelatinización de almidones y la disolución del colágeno, y extraen más sabor en caldos.',
+  p:[['Garbanzos remojados','15-20 min'],['Alubias remojadas','12-18 min'],['Caldo de huesos','45-60 min'],['Carrillera o rabo','35-45 min'],['Arroz meloso','6-8 min']],
+  s:['No llenes la olla más de dos tercios (la mitad con legumbres).','Cierra, lleva a presión a fuego vivo y baja al mínimo cuando silbe o suba la válvula.','Cuenta el tiempo desde que alcanza la presión.','Despresuriza de forma natural en carnes y legumbres; rápida solo en verduras.'],
+  e:['Abrir antes de que baje la presión.','Llenar demasiado: la espuma tapona la válvula.','Pasarse de tiempo: legumbres deshechas, carnes fibrosas.'],
+  seg:'Revisa juntas y válvulas antes de cada uso. Nunca fuerces la tapa.',
+  eq:'Olla a presión de acero inoxidable con válvula de seguridad.',x:''},
+ {n:'Cocción al vapor',f:'temp',i:'♨️',k:/vapor|flan salado|royal/,
+  d:'Cocción con el vapor de agua hirviendo, sin contacto con el líquido. Suave, rápida y respetuosa con el color y los nutrientes.',
+  c:'El vapor condensa sobre el alimento y le cede mucha energía, pero la superficie nunca supera los 100 °C. Ideal para pescados delicados, flanes y masas que no deben dorarse.',
+  p:[['Pescado entero (800 g)','10-12 min'],['Lomos de pescado','5-8 min'],['Flan salado o chawanmushi','12-18 min a fuego muy suave'],['Verdura verde','3-6 min'],['Horno de vapor para royal','85 °C']],
+  s:['Lleva el agua a hervor antes de poner el alimento.','Coloca el producto sin amontonar para que el vapor circule.','Tapa bien; en flanes, deja la tapa ligeramente entreabierta.','Retira en cuanto esté: el calor residual sigue cocinando.'],
+  e:['Vapor fuerte en flanes: salen con agujeros.','Que el agua toque el alimento.','Quedarse sin agua en la vaporera.'],
+  seg:'Abre la tapa siempre hacia el lado contrario a ti: las quemaduras de vapor son graves.',
+  eq:'Vaporera, cesta de bambú, horno de vapor o mixto.',x:'Es la técnica reina para el pescado en la cocina cantonesa.'},
+ {n:'Braseado lento',f:'temp',i:'🍲',k:/brasead|estofad|pochado largo|guiso/,
+  d:'Cocción larga, tapada y con poco líquido, primero dorando la pieza y después a fuego suave u horno. Convierte cortes duros en tiernos y melosos.',
+  c:'El colágeno del tejido conjuntivo se transforma en gelatina a partir de 70 °C con tiempo. Esa gelatina da jugosidad y una salsa que nape sin harina.',
+  p:[['Horno','140-160 °C'],['Rabo de toro, carrillera','3-4 h'],['Ossobuco','2 h'],['Líquido','hasta media altura de la pieza']],
+  s:['Seca y dora bien la carne por todas sus caras (reacción de Maillard).','Sofríe la verdura en la misma cazuela y desglasa con vino.','Añade fondo hasta media altura, tapa y cuece a fuego muy suave u horno.','Deja enfriar en su jugo; al día siguiente desgrasa y reduce la salsa.','Para porciones limpias, prensa la carne en frío y corta.'],
+  e:['Cubrir del todo con líquido: queda hervido, no braseado.','Hervir fuerte: fibras secas.','Salar al final sin probar la salsa reducida.'],
+  seg:'',eq:'Cazuela de hierro fundido con tapa, horno.',x:'Prensar y enfriar permite porciones limpias.'},
+ {n:'Cocción en costra',f:'temp',i:'🧂',k:/costra/,
+  d:'El producto se cubre con sal, masa o frutos secos que lo aíslan del calor directo y retienen sus jugos y aromas.',
+  c:'La costra actúa como un horno dentro del horno: el interior se cuece en su propio vapor de forma uniforme. La costra de sal apenas sala si la piel está intacta.',
+  p:[['Pescado a la sal','20 min por kg a 200 °C'],['Punto del pescado','52-55 °C en el lomo'],['Remolacha o patata en costra','1-1,5 h a 180 °C'],['Proporción de la costra','2 kg de sal gruesa + 2 claras por kg de pescado']],
+  s:['Mezcla la sal gruesa con un poco de clara o agua para que se compacte.','Haz una cama de sal, coloca el producto (pescado sin escamar ni abrir) y cúbrelo por completo.','Hornea y controla con sonda atravesando la costra.','Rompe la costra en la mesa y retira la piel antes de servir.'],
+  e:['Usar pescado abierto o sin piel: queda salado.','Costra fina con grietas: se escapan los jugos.'],
+  seg:'',eq:'Horno, termómetro sonda.',x:''},
+ {n:'Brasa y fuego directo',f:'fuego',i:'🔥',k:/brasa|plancha|parrilla|asado|sellado|soplete|aburi/,
+  d:'Cocción sobre carbón o leña que aporta ahumado y costra. Se usa con verduras, pescados y carnes.',
+  c:'El calor radiante de las brasas dora intensamente (reacción de Maillard a partir de 140 °C) y la grasa que gotea genera humo aromático. Las brasas blancas, sin llama, dan un calor más estable.',
+  p:[['Brasa para carne','fuego fuerte, brasa blanca'],['Chuletón de 5 cm','6-8 min por lado · 48-50 °C al centro'],['Pescado entero','fuego medio, 6-10 min por lado'],['Verduras (calçots, puerros)','llama viva, hasta carbonizar la piel']],
+  s:['Enciende el carbón 30-40 minutos antes; espera a que no haya llama.','Crea dos zonas: una de fuego vivo y otra de fuego suave.','Atempera la carne y sécala; sala justo antes.','No muevas la pieza hasta que se despegue sola.','Reposa la carne la mitad del tiempo de cocción.'],
+  e:['Cocinar sobre llama: hollín y sabor amargo.','Pinchar la carne: pierde jugo.','Parrilla sucia o fría: se pega.'],
+  seg:'Nunca uses alcohol ni gasolina para avivar el fuego. Evita quemar la carne en exceso.',
+  eq:'Parrilla, brasero, carbón de encina o leña de calidad, pinzas largas.',x:''},
+ {n:'Fritura de precisión',f:'fuego',i:'🍤',k:/fritura|frit|tempura|crujiente|escamas|soufflé de patata|patatas souffl/,
+  d:'Control exacto de la temperatura del aceite para conseguir tempuras ligeras, patatas infladas o croquetas crujientes sin grasa.',
+  c:'Al entrar en aceite caliente, el agua del alimento se convierte en vapor y empuja hacia fuera: eso impide que el aceite entre. Si el aceite está frío, el vapor no basta y el alimento se empapa.',
+  p:[['Primera fritura (cocer)','140-160 °C'],['Fritura final (dorar)','175-190 °C'],['Tempura','170-180 °C, masa helada'],['Croquetas','180 °C'],['Pescado enharinado','180-190 °C']],
+  s:['Usa una olla honda con aceite de oliva o girasol alto oleico.','Comprueba la temperatura con termómetro.','Fríe por tandas pequeñas para que el aceite no se enfríe.','En patatas y alcachofas, haz doble fritura.','Escurre sobre rejilla, no sobre papel apilado.'],
+  e:['Freír demasiadas piezas a la vez: el aceite baja de temperatura.','Rebozar con masa templada: tempura pesada.','Reutilizar aceite oscuro o con olor.'],
+  seg:'Nunca eches agua a aceite ardiendo: tapa el recipiente y apaga el fuego. No llenes la olla más de un tercio.',
+  eq:'Freidora con termostato o cazo hondo, termómetro, araña, rejilla.',x:''},
+ {n:'Ahumado en frío',f:'fuego',i:'💨',k:/ahumad/,
+  d:'Aromatización con humo sin cocinar el producto. Se emplea en pescados, quesos, lácteos o cócteles.',
+  c:'El humo contiene compuestos aromáticos (fenoles) que se depositan sobre la superficie húmeda. Por debajo de 30 °C el producto no se cocina; el ahumado en caliente (60-90 °C) sí cuece.',
+  p:[['Temperatura','< 30 °C'],['Ahumado rápido (pistola)','2-10 min bajo campana'],['Salmón tradicional','6-12 h tras curar'],['Maderas suaves','haya, manzano, cerezo'],['Maderas intensas','roble, nogal']],
+  s:['Cura o sala antes el pescado para retirar agua.','Seca la superficie para que se forme una película pegajosa.','Ahúma en recipiente cerrado con la pistola o en ahumador con hielo debajo.','Deja reposar en nevera para que el humo se asiente.'],
+  e:['Usar maderas resinosas (pino): humo tóxico y amargo.','Exceso de humo: sabor a ceniza.'],
+  seg:'El pescado crudo que se ahúma en frío debe congelarse antes a -20 °C al menos 24 h (anisakis).',
+  eq:'Pistola de ahumado, serrín de madera aromática, campana o bolsa.',x:'Congela previamente el pescado crudo.'},
+ {n:'Lacado y glaseado',f:'fuego',i:'✨',k:/lacad|glasead|caramelizaci|caramelo/,
+  d:'Capas finas de mezcla azucarada (miel, soja, reducciones) que al caramelizar crean una película brillante y crujiente sobre carnes, verduras o postres.',
+  c:'Los azúcares caramelizan a partir de 160 °C y forman un barniz. La piel seca previamente se adhiere mejor y se vuelve vítrea.',
+  p:[['Secado de piel (pato)','12-24 h en nevera sin tapar'],['Pintado','3-4 capas durante el asado'],['Final','5 min a 220-230 °C o soplete'],['Zanahorias glaseadas','mantequilla + azúcar + agua hasta reducir']],
+  s:['Seca bien la superficie (escaldar la piel ayuda en patos y cerdo).','Pinta con la laca en varias capas finas, no en una gruesa.','Asa a temperatura media y sube al final para caramelizar.','Vigila los últimos minutos: el azúcar pasa de dorado a quemado muy rápido.'],
+  e:['Pintar desde el principio a fuego fuerte: se quema.','Piel húmeda: el glaseado resbala.'],
+  seg:'',eq:'Horno, pincel de silicona, soplete.',x:'El pato laqueado de Pekín seca la piel inflándola con aire.'},
+ {n:'Salsas emulsionadas en caliente',f:'salsa',i:'🥚',k:/sabay[oó]n|salsa emulsionada|holandes|bearnes|mornay|bechamel|velout|bisque/,
+  d:'Holandesa, bearnesa y sabayón: yemas batidas al calor hasta espesar y, en las salsas, montadas con mantequilla. Base de la cocina clásica francesa.',
+  c:'La yema contiene lecitina, un emulsionante que rodea las gotas de grasa. Al calentarla a 62-70 °C sus proteínas espesan; por encima de 75 °C cuajan y la salsa se corta.',
+  p:[['Sabayón','batido a 62-70 °C hasta formar cinta'],['Mantequilla','clarificada a 50-60 °C'],['Proporción holandesa','1 yema por 70-80 g de mantequilla'],['Conservación','termo o baño a 60 °C, máximo 1-2 h']],
+  s:['Haz una reducción de vinagre, vino y chalota (bearnesa) o usa zumo de limón (holandesa).','Bate las yemas con la reducción al baño María hasta que espesen.','Añade la mantequilla tibia en hilo sin dejar de batir.','Ajusta sal y termina con hierbas.'],
+  e:['Baño demasiado caliente: huevos revueltos.','Añadir la mantequilla de golpe: no emulsiona.','Para recuperarla: una yema nueva y la salsa cortada poco a poco.'],
+  seg:'Las salsas con yema deben mantenerse calientes y consumirse en el día.',
+  eq:'Bol de acero, baño María, varillas, termómetro.',x:'La bearnesa se creó en 1836-1837 en Saint-Germain-en-Laye.'},
+ {n:'Pil-pil y ligados con colágeno',f:'salsa',i:'🐟',k:/pil-pil|emulsi[oó]n de jugo|emulsi[oó]n por hervor|salsa verde|kokotx/,
+  d:'Emulsiones que se ligan sin huevo ni harina, con la gelatina que sueltan pescados como el bacalao o la merluza (pil-pil, salsa verde) o hirviendo fuerte el caldo con aceite (bullabesa).',
+  c:'La gelatina del pescado actúa como emulsionante natural. A unos 50-60 °C, con movimiento suave y constante, el aceite se dispersa en gotas muy finas y la salsa se vuelve blanca y espesa.',
+  p:[['Aceite para el pil-pil','templado a 50-60 °C'],['Movimiento','vaivén de la cazuela o colador en círculos'],['Emulsión por hervor (bullabesa)','borbotón fuerte 15-20 min']],
+  s:['Confita el bacalao en aceite templado con ajo, con la piel hacia arriba.','Retira el pescado y deja templar el aceite.','Vierte el jugo gelatinoso que haya soltado y mueve la cazuela o bate con un colador.','Añade el aceite poco a poco hasta que la salsa ligue.','Devuelve el pescado y napa.'],
+  e:['Aceite demasiado caliente: no liga.','Bacalao sin piel o con poca gelatina.'],
+  seg:'',eq:'Cazuela de barro, colador de malla.',x:'Es una técnica vasca del siglo XIX.'},
+ {n:'Mantequillas: noisette, beurre blanc y montados',f:'salsa',i:'🧈',k:/noisette|beurre|mantequilla|meuni[eè]re|mantecad|arroseado/,
+  d:'Usos de la mantequilla como salsa: tostada (noisette), emulsionada con reducción (beurre blanc) o añadida en frío al final para dar brillo (montar una salsa).',
+  c:'La mantequilla es una emulsión de grasa, agua y sólidos lácteos. A unos 150 °C los sólidos se tuestan y huelen a avellana; en un beurre blanc se mantiene emulsionada si no supera unos 60 °C.',
+  p:[['Noisette','hasta color avellana y aroma tostado'],['Beurre blanc','reducción + mantequilla fría en dados, 55-60 °C'],['Montar una salsa','mantequilla fría fuera del fuego']],
+  s:['Para noisette, calienta la mantequilla en cazo claro y retira al ver motas marrones.','Para beurre blanc, reduce vino y chalota casi a seco y añade la mantequilla fría poco a poco.','Para montar, añade dados fríos a la salsa caliente fuera del fuego y mueve el cazo.'],
+  e:['Noisette quemada: sabor amargo.','Beurre blanc demasiado caliente: se separa.'],
+  seg:'',eq:'Cazo de fondo claro, varillas.',x:''},
+ {n:'Esferificación',f:'textura',i:'🫧',k:/esferificaci|perlas|caviar de|ravioli l[ií]quido/,
+  d:'Gelificación con alginato y calcio que crea esferas con membrana fina y líquido en su interior. Hay versión directa e inversa.',
+  c:'El alginato sódico (de algas pardas) gelifica al contacto con iones de calcio. En la directa, el líquido lleva el alginato y cae en un baño de calcio; en la inversa, el líquido lleva el calcio y cae en un baño de alginato, y la esfera no sigue gelificando.',
+  p:[['Directa · alginato','0,5 % en el líquido'],['Directa · baño','cloruro cálcico 0,5-1 %'],['Inversa · líquido','gluconolactato cálcico 1-2 %'],['Inversa · baño','alginato 0,5 %'],['pH','superior a 4 (si es ácido, corrige con citrato)']],
+  s:['Tritura el alginato con el líquido y deja reposar para eliminar burbujas.','Prepara el baño y otro recipiente con agua limpia.','Deja caer la mezcla con cuchara o cuentagotas.','Espera el tiempo justo (1-3 min) y aclara en agua.','Sirve enseguida en la directa; la inversa aguanta más.'],
+  e:['Líquido muy ácido: no gelifica.','Burbujas en la mezcla: esferas que flotan.','Dejar demasiado tiempo en el baño (directa): se cuajan por dentro.'],
+  seg:'Pesa los aditivos con balanza de precisión: son dosis de décimas de gramo.',
+  eq:'Balanza de 0,01 g, batidora de mano, cuentagotas o cucharas medidoras.',x:'Técnica que difundió Ferran Adrià (elBulli) a partir de 2003.'},
+ {n:'Espumas y sifón',f:'textura',i:'🍶',k:/espuma|sif[oó]n|aireaci/,
+  d:'Texturas aireadas obtenidas con sifón y N2O a partir de cremas, caldos o purés. Pueden ser calientes o frías.',
+  c:'El óxido nitroso se disuelve en la grasa y el agua a presión; al salir se expande y forma burbujas. Para que la espuma se sostenga hace falta grasa, gelatina, almidón o clara.',
+  p:[['Sifón de 0,5 l','1 carga de N2O'],['Sifón de 1 l','2 cargas'],['Espuma caliente','baño María a 60-65 °C'],['Estabilizantes','grasa > 20 %, gelatina 1-2 hojas por 500 ml o patata']],
+  s:['Cuela muy fino la base: cualquier grumo atasca la boquilla.','Llena hasta la marca, cierra y carga el gas.','Agita con fuerza y deja reposar en frío o en baño caliente.','Sirve con el sifón boca abajo.'],
+  e:['No colar la base: el sifón se atasca.','Llenar por encima de la marca.','Espuma sin estabilizante: se baja enseguida.'],
+  seg:'Nunca abras el sifón con gas dentro: vacíalo antes por la boquilla.',
+  eq:'Sifón ISI, cartuchos de N2O, baño maría.',x:'Se asocia a la etapa de vanguardia de la cocina española.'},
+ {n:'Emulsiones y aires',f:'textura',i:'🌬️',k:/aire|lecitina|emulsi[oó]n(?! de jugo| por hervor| pil)|vinagreta/,
+  d:'Emulsiones estables con lecitina o gomas, y aires con burbujas grandes que aportan ligereza y aroma.',
+  c:'La lecitina de soja estabiliza burbujas de aire en líquidos con poca grasa. La goma xantana espesa en frío y mantiene emulsiones estables incluso en vinagretas.',
+  p:[['Aire · lecitina','0,3-0,6 % del líquido'],['Goma xantana','0,1-0,3 %'],['Temperatura del líquido','tibia, nunca hirviendo']],
+  s:['Mezcla la lecitina con el líquido en un recipiente ancho.','Inclina la batidora en la superficie para meter aire.','Deja reposar 1 minuto y recoge solo la espuma de arriba.','Sirve al momento.'],
+  e:['Sumergir del todo la batidora: no entra aire.','Líquido demasiado graso: el aire no se forma.'],
+  seg:'',eq:'Batidora de inmersión, lecitina de soja, goma xantana.',x:'Se sirven al momento.'},
+ {n:'Gelificación con agar',f:'textura',i:'🟩',k:/agar|gelificaci|gelatina|perlas/,
+  d:'El agar-agar gelifica en caliente y forma geles estables y firmes. Sirve para perlas, láminas y gelatinas calientes.',
+  c:'El agar se disuelve hirviendo y gelifica al bajar de 35-40 °C; no se funde otra vez hasta 80-85 °C, así que permite servir gelatinas calientes. La gelatina de cola de pescado, en cambio, funde a temperatura de boca.',
+  p:[['Agar · gel firme','1 %'],['Agar · gel tierno','0,3-0,5 %'],['Hervor del agar','1-2 min'],['Gelatina','6-8 g (3-4 hojas) por 500 ml']],
+  s:['Dispersa el agar en frío y lleva a hervor 1-2 minutos.','Para perlas, deja caer gotas en aceite muy frío (de congelador).','Para láminas, extiende en bandeja fina y corta al cuajar.','Para gelatinas, vierte en moldes y deja cuajar a temperatura ambiente.'],
+  e:['No hervir el agar: no gelifica.','Añadir ácido fuerte antes de hervir: gel débil.'],
+  seg:'',eq:'Balanza de precisión, jeringa, aceite frío.',x:'Es un gelificante vegetal, apto para vegetarianos.'},
+ {n:'Micro-trituración congelada',f:'textura',i:'🧊',k:/micro-tritur|pacojet|helado salado|sorbete/,
+  d:'Un bloque congelado se tritura en finas capas sin descongelarlo, para obtener sorbetes, mousses y farsas sedosos.',
+  c:'Al raspar el bloque a -20 °C en micras, los cristales de hielo quedan diminutos y la textura es cremosa sin necesidad de mantecar.',
+  p:[['Congelación de la base','-22 °C, 24 h'],['Pasada','justo antes de servir'],['Azúcares en sorbetes','20-28 %']],
+  s:['Prepara la base equilibrando azúcares, grasa y sólidos.','Congela en el vaso a -22 °C al menos 24 horas.','Pasa la máquina justo antes de servir.','Vuelve a congelar lo que sobre y repásalo.'],
+  e:['Base con poca materia seca: textura helada.','No respetar el nivel máximo del vaso.'],
+  seg:'',eq:'Pacojet y vasos metálicos, congelador a -22 °C.',x:'Muy usado en alta cocina y pastelería.'},
+ {n:'Helados salados',f:'textura',i:'🍦',k:/helado salado|sorbete salado|helado de/,
+  d:'Helados y sorbetes de queso, verduras o gazpachos que se sirven como acompañamiento en platos fríos.',
+  c:'El azúcar también regula la textura del helado: baja el punto de congelación. En helados salados se compensa con dextrosa, glucosa o grasa para que no salgan duros.',
+  p:[['Azúcares totales','15-20 % (menos dulce que uno de postre)'],['Grasa en helados de queso','8-12 %'],['Temperatura de servicio','-11 a -14 °C']],
+  s:['Prepara la base con el ingrediente principal y equilibra sal y dulce.','Enfría a 4 °C y deja madurar unas horas.','Manteca en heladera o micro-tritura.','Sirve en quenelle sobre el plato frío.'],
+  e:['Base sin suficiente azúcar o grasa: bloque de hielo.','Exceso de sal: el helado queda blando.'],
+  seg:'',eq:'Pacojet, heladera, batidora potente.',x:'Equilibra siempre dulzor y sal.'},
+ {n:'Clarificación',f:'textura',i:'💧',k:/clarificaci|consom|filtraci|agua de tomate/,
+  d:'Obtención de caldos y esencias transparentes mediante congelación con gelatina o filtración por gravedad.',
+  c:'Al congelar un caldo con un poco de gelatina y descongelarlo lentamente sobre un paño, la red de gelatina retiene las partículas y deja pasar un líquido cristalino.',
+  p:[['Gelatina','0,5-1 % sobre el caldo'],['Descongelación','en nevera, 24-48 h, sobre paño fino'],['Filtración por gravedad (agua de tomate)','12 h en nevera']],
+  s:['Disuelve la gelatina en el caldo caliente y congélalo en bloque.','Coloca el bloque sobre un colador con paño fino encima de un recipiente.','Deja descongelar en nevera sin tocar.','Recoge el líquido transparente.'],
+  e:['Presionar el paño: el caldo se enturbia.','Exceso de gelatina: rendimiento bajo.'],
+  seg:'',eq:'Congelador, colador fino, paño de estameña, gelatina.',x:'Da más aroma y menos turbidez que la clarificación con clara.'},
+ {n:'Destilación al vacío',f:'textura',i:'⚗️',k:/destilaci/,
+  d:'Un rotavapor destila a baja temperatura para capturar aromas puros de hierbas, flores o frutas.',
+  c:'Al bajar la presión, los líquidos hierven a 30-40 °C. Así se evaporan los aromas sin cocinarlos y se condensan en un destilado transparente.',
+  p:[['Temperatura del baño','30-50 °C'],['Presión','10-100 mbar']],
+  s:['Tritura el producto con agua o alcohol.','Destila al vacío y recoge el condensado frío.','Usa el destilado en salsas, cócteles o perfumes de plato.'],
+  e:['Calentar demasiado: aromas cocidos.'],
+  seg:'Equipo de laboratorio: requiere formación.',eq:'Rotavapor, bomba de vacío, refrigerante.',x:'El Celler de Can Roca ha trabajado perfumes y aromas con esta técnica.'},
+ {n:'Liofilización y deshidratado',f:'textura',i:'🍂',k:/deshidrat|liofiliz|tierra|crujiente|secado/,
+  d:'Elimina agua para concentrar sabores y crear crujientes, polvos y tierras comestibles.',
+  c:'El deshidratado evapora el agua con aire tibio; la liofilización congela y sublima el hielo al vacío, sin pasar por líquido, y conserva color, forma y aroma.',
+  p:[['Deshidratador','50-65 °C · 6-24 h'],['Horno','60-80 °C con puerta entreabierta'],['Liofilizadora','-40 °C y vacío']],
+  s:['Corta láminas finas y uniformes.','Coloca en una sola capa sin tocarse.','Seca hasta que estén crujientes.','Guarda en bote hermético con gel de sílice.'],
+  e:['Láminas desiguales: unas se queman y otras quedan blandas.','Guardar sin cierre hermético: se ablandan.'],
+  seg:'',eq:'Deshidratador, liofilizadora, horno a baja temperatura.',x:'Útil para decorar y crear texturas.'},
+ {n:'Criogenia (nitrógeno líquido)',f:'textura',i:'❄️',k:/criogen|nitr[oó]geno/,
+  d:'Enfriamiento a -196 °C para helados instantáneos y texturas únicas.',
+  c:'El nitrógeno líquido congela tan rápido que los cristales de hielo son minúsculos: helados muy cremosos en segundos.',
+  p:[['Temperatura','-196 °C'],['Helado instantáneo','base fría + nitrógeno en chorro fino batiendo']],
+  s:['Trabaja en un bol de acero, nunca de cristal.','Añade el nitrógeno poco a poco mientras bates.','Espera a que se evapore todo el nitrógeno antes de servir.'],
+  e:['Servir con nitrógeno líquido aún presente.'],
+  seg:'Solo con formación, guantes y gafas criogénicas y buena ventilación. Nunca se ingiere líquido ni se cierra en recipientes. Riesgo de quemaduras graves y asfixia.',
+  eq:'Dewar, guantes criogénicos, gafas, bol de acero.',x:'Solo con formación y ventilación; riesgo de quemaduras por frío.'},
+ {n:'Curado en sal y azúcar',f:'conserva',i:'🧂',k:/curad|gravlax|yema curada|salaz[oó]n|mojama/,
+  d:'Deshidrata parcialmente y condimenta pescados, yemas o carnes con mezclas de sal y azúcar.',
+  c:'La sal extrae agua por ósmosis y desnaturaliza proteínas superficiales: la carne se vuelve más firme y translúcida. El azúcar suaviza el sabor y retiene algo de humedad.',
+  p:[['Gravlax','sal y azúcar a partes iguales · 24-48 h'],['Yema curada','4-7 días en mezcla 1:1'],['Lomo de salmón (3 cm)','12-18 h'],['Mojama','salazón + 2-3 semanas de secado']],
+  s:['Congela antes el pescado crudo.','Cubre la pieza por completo con la mezcla y pon peso.','Dale la vuelta cada 12 horas y retira el líquido.','Lava, seca y deja reposar en nevera antes de cortar.'],
+  e:['Curar demasiado tiempo: textura de cecina.','No retirar el líquido: curado irregular.'],
+  seg:'Congela antes el pescado crudo para prevenir anisakis.',eq:'Nevera, peso, film alimentario.',x:''},
+ {n:'Curado ácido y escabeche',f:'conserva',i:'🍋',k:/marinado [aá]cido|curado [aá]cido|escabech|ceviche|vinagre|aguachile|tiradito/,
+  d:'Conservación y transformación de pescados con ácido (cítricos o vinagre). Cambia la textura y concentra el sabor.',
+  c:'El ácido desnaturaliza las proteínas igual que el calor: el pescado se vuelve opaco y firme sin cocinarse. No elimina parásitos ni todas las bacterias.',
+  p:[['Ceviche','2-10 min en zumo de lima'],['Boquerones en vinagre','12-24 h'],['Escabeche','vinagre + aceite + especias, vertido caliente']],
+  s:['Usa pescado muy fresco y congelado previamente.','Corta en piezas regulares.','Cubre con el ácido el tiempo justo.','Mantén siempre en frío.'],
+  e:['Dejar el ceviche demasiado tiempo: queda gomoso.','Confiar en que el ácido «cocina» y sustituye a la congelación.'],
+  seg:'Congela antes el pescado crudo y mantén la cadena de frío.',eq:'Nevera, recipientes de cristal, rejillas.',x:''},
+ {n:'Marinado y maceración',f:'conserva',i:'🫙',k:/marinad|macerac|miso|adob/,
+  d:'Reposo prolongado en mezclas de sal, azúcar, miso o alcohol para transformar sabor y textura.',
+  c:'La sal penetra con el tiempo y ayuda a retener agua; los aromáticos solo actúan en la superficie. Las enzimas y ácidos ablandan, pero en exceso deshacen la carne.',
+  p:[['Carnes','2-24 h'],['Pescados','30 min-3 días (miso)'],['Frutas en alcohol','horas o semanas']],
+  s:['Prepara el adobo con sal, aromáticos y algo de grasa.','Cubre el alimento en recipiente hermético.','Refrigera el tiempo indicado.','Escurre y seca antes de cocinar.'],
+  e:['Marinados muy ácidos o con piña/papaya mucho tiempo: textura harinosa.','Reutilizar el marinado de carne cruda sin hervirlo.'],
+  seg:'Marina siempre en nevera.',eq:'Recipientes herméticos y nevera.',x:'Respeta el tiempo y mantén la cadena de frío.'},
+ {n:'Fermentación',f:'conserva',i:'🦠',k:/ferment|ajo negro|koji|yogur|masa madre|kombucha/,
+  d:'Cultivos controlados (koji, lactofermentos, ajo negro) que generan umami, acidez y complejidad aromática.',
+  c:'Bacterias lácticas, levaduras u hongos transforman azúcares y proteínas. La lactofermentación con sal al 2 % permite que dominen las bacterias lácticas, que acidifican y protegen el alimento.',
+  p:[['Lactofermentación','sal 2-3 % del peso total · 18-22 °C · 5-21 días'],['pH seguro','inferior a 4,6'],['Yogur','43 °C · 6-8 h'],['Ajo negro','60-70 °C · 3-4 semanas (reacción de Maillard, no fermentación)']],
+  s:['Pesa verdura y agua y añade el porcentaje exacto de sal.','Mantén todo sumergido bajo la salmuera con un peso.','Deja fermentar a temperatura ambiente con tapa que deje salir el gas.','Prueba a diario; cuando esté ácido, pasa a la nevera.'],
+  e:['Verdura que asoma de la salmuera: moho.','Poca sal: crecen microbios no deseados.'],
+  seg:'Desecha si hay moho de colores, olor pútrido o textura viscosa. Requiere higiene rigurosa y control de pH.',
+  eq:'Tarros con válvula, pesos, balanza, termómetro, pH-metro.',x:'Requiere higiene rigurosa y control de pH.'},
+ {n:'Maduración de carne',f:'conserva',i:'🥩',k:/madurac|madurad/,
+  d:'Reposo en cámara con humedad y temperatura controladas que concentra el sabor y ablanda la carne.',
+  c:'Las enzimas de la propia carne rompen fibras y proteínas, y la pérdida de agua concentra el sabor. A partir de 30-45 días aparecen notas de frutos secos y queso.',
+  p:[['Temperatura','1-3 °C'],['Humedad','75-85 %'],['Tiempo habitual','21-45 días'],['Merma','15-30 %']],
+  s:['Elige piezas con hueso y buena cobertura de grasa.','Madura en cámara específica con ventilación.','Recorta la costra seca exterior antes de cocinar.'],
+  e:['Madurar en nevera doméstica sin control: riesgo sanitario.'],
+  seg:'Solo con piezas de calidad y equipo adecuado; en casa no es recomendable improvisar.',eq:'Cámara de maduración, sal y control higiénico.',x:''},
+ {n:'Extracción de umami (caldos y dashi)',f:'conserva',i:'🍵',k:/dashi|umami|caldo|fumet|fondo|demi-glace|jugo|consom/,
+  d:'Caldos cortos a temperatura controlada (kombu a 60 °C, bonito a 85 °C) y fondos clásicos que concentran glutamato e inosinato.',
+  c:'El glutamato (algas, tomate, queso) y los nucleótidos (bonito, carne, setas) potencian el sabor entre sí: juntos dan mucho más umami que por separado.',
+  p:[['Kombu','60 °C · 1 h'],['Katsuobushi','85 °C · 2 min fuera del fuego'],['Fondo oscuro','huesos tostados · 6-8 h sin hervir fuerte'],['Fumet de pescado','20-30 min máximo']],
+  s:['Hidrata el kombu en agua fría y calienta hasta 60 °C.','Retira el alga antes de que hierva.','Añade el bonito a 85 °C y deja reposar.','Cuela sin presionar.'],
+  e:['Hervir el kombu: caldo amargo y viscoso.','Fumet de pescado más de 30 min: sabor amargo.'],
+  seg:'',eq:'Termómetro y colador fino.',x:'Nunca hervir el kombu.'},
+ {n:'Templado de chocolate',f:'masa',i:'🍫',k:/templad|ganache|chocolate/,
+  d:'Curva de temperaturas que fija la forma cristalina estable de la manteca de cacao: brillo, chasquido y desmoldado limpio.',
+  c:'La manteca de cacao puede cristalizar de seis formas; solo la forma V da brillo y chasquido. Fundir, enfriar y recalentar ligeramente selecciona esos cristales.',
+  p:[['Negro','50-55 °C → 27-28 °C → 31-32 °C'],['Con leche','45-50 °C → 26-27 °C → 29-30 °C'],['Blanco','40-45 °C → 25-26 °C → 28-29 °C']],
+  s:['Funde el chocolate al baño María o en microondas a golpes cortos.','Enfría en mármol o añadiendo un tercio de chocolate picado.','Recalienta suavemente a la temperatura de trabajo.','Haz una prueba en papel: debe endurecer brillante en 5 minutos.'],
+  e:['Que caiga una gota de agua: el chocolate se apelmaza.','Pasar de temperatura: hay que repetir la curva.'],
+  seg:'',eq:'Termómetro, mármol o templadora, moldes de policarbonato.',x:'Ni una gota de agua.'},
+ {n:'Merengues y macaronage',f:'masa',i:'🍬',k:/macaron|merengue|claras|souffl|pâte à bombe|parfait/,
+  d:'Merengues francés, suizo e italiano, y la mezcla controlada del macaron, que da cáscaras lisas con pie.',
+  c:'Las proteínas de la clara atrapan aire al batirlas; el azúcar estabiliza la espuma. En el merengue italiano, el almíbar a 118-121 °C pasteuriza y lo hace muy estable.',
+  p:[['Merengue italiano','almíbar a 118-121 °C'],['Merengue suizo','claras y azúcar a 50-60 °C al baño'],['Macaron','secado hasta formar piel · 145-150 °C'],['Proporción merengue','2 partes de azúcar por 1 de clara']],
+  s:['Usa un bol limpio y sin grasa.','Bate las claras a velocidad media hasta espuma y añade el azúcar poco a poco.','Para el italiano, vierte el almíbar en hilo sobre las claras montadas.','Para macarons, mezcla con la almendra hasta que la masa caiga en cinta.'],
+  e:['Restos de yema o grasa: no montan.','Macaronage excesivo: cáscaras planas; corto: superficie con picos.'],
+  seg:'Usa claras pasteurizadas en merengues crudos.',eq:'Termómetro, manga, báscula de precisión.',x:'La masa debe caer en cinta; secar hasta formar piel antes de hornear.'},
+ {n:'Pasta choux',f:'masa',i:'🥐',k:/choux|profiterol|par[ií]s-brest|lionesa/,
+  d:'Masa cocida de agua, mantequilla, harina y huevo que se hincha en el horno por el vapor y queda hueca: profiteroles, lionesas, éclairs y Paris-Brest.',
+  c:'Al cocer la harina en el líquido el almidón gelatiniza y la masa puede retener mucha agua. En el horno, ese agua se convierte en vapor y la hincha; el huevo fija la estructura.',
+  p:[['Proporción','líquido 250 g · mantequilla 110 g · harina 150 g · huevos 250 g'],['Horno','180-190 °C sin abrir'],['Punto de la masa','cae en pico al levantar la espátula']],
+  s:['Hierve el agua, la leche, la mantequilla y la sal.','Añade la harina de golpe y seca la masa 1-2 minutos removiendo.','Deja templar y añade los huevos de uno en uno.','Escudilla con manga y hornea sin abrir la puerta hasta que estén dorados y secos.','Deja enfriar en el horno entreabierto.'],
+  e:['Abrir el horno antes de tiempo: se hunden.','Masa demasiado líquida: se aplastan.'],
+  seg:'',eq:'Cazo, espátula, manga pastelera, horno.',x:''},
+ {n:'Masas levadas y masa madre',f:'masa',i:'🍞',k:/masa levada|masa madre|masa fermentada|pan|bab[aá]|brioche|horneado en olla/,
+  d:'Masas que fermentan con levadura o masa madre: panes, brioches, babás y cocas.',
+  c:'Las levaduras consumen azúcares y producen gas y alcohol, que el gluten atrapa. La masa madre añade bacterias lácticas que dan acidez, aroma y mejor conservación.',
+  p:[['Hidratación pan rústico','70-80 %'],['Fermentación','24-28 °C hasta doblar'],['Masa madre','alimentar 1:1:1 y usar en su pico'],['Horno de pan','230-250 °C con vapor u olla tapada']],
+  s:['Amasa hasta que la masa esté lisa y elástica (prueba de la membrana).','Deja fermentar tapada hasta que doble.','Forma la pieza tensando la superficie.','Haz una segunda fermentación.','Hornea con vapor los primeros minutos.'],
+  e:['Agua demasiado caliente: mata la levadura.','Fermentar de más: la masa se hunde y sabe a alcohol.'],
+  seg:'',eq:'Amasadora o manos, báscula, banneton, olla de hierro.',x:''},
+ {n:'Cremas cocidas: inglesa y pastelera',f:'masa',i:'🍮',k:/crema inglesa|crema pastelera|crema muselina|flan|natillas|royal|cr[eè]me br/,
+  d:'Leche o nata espesadas con yema (inglesa, flan) o con yema y almidón (pastelera). Base de buena parte de la repostería.',
+  c:'Las yemas espesan a 82-84 °C y cuajan por encima de 85 °C. El almidón de la pastelera protege la yema y permite hervirla, lo que la hace más estable.',
+  p:[['Crema inglesa','82-84 °C, nunca hervir'],['Crema pastelera','hervir 1 minuto tras espesar'],['Flan al horno','baño María a 150-160 °C'],['Crème brûlée a baja temperatura','82 °C en circulador']],
+  s:['Infusiona la leche con vainilla o cítricos.','Blanquea las yemas con el azúcar (y el almidón en la pastelera).','Vierte la leche caliente sobre las yemas batiendo.','Devuelve al fuego removiendo sin parar hasta el punto.','Cuela y enfría con film a piel.'],
+  e:['Inglesa pasada de temperatura: grumos de huevo.','Pastelera sin hervir: se licua al día siguiente.'],
+  seg:'Enfría rápido y guarda en nevera: las cremas con huevo son muy perecederas.',eq:'Termómetro, cazo de fondo grueso, varillas.',x:''},
+ {n:'Pasta fresca y rellenos',f:'masa',i:'🍝',k:/pasta fresca|ravioli|pasta|rellen|tagliolini|canel/,
+  d:'Masas de harina y huevo laminadas finas, y rellenos cocinados (a veces al vacío) para concentrar el sabor.',
+  c:'El gluten de la harina 00 y la yema dan una masa elástica y sedosa. El reposo relaja el gluten y permite estirarla muy fina sin que encoja.',
+  p:[['Masa clásica','100 g de harina 00 por huevo'],['Masa de yema (tajarin)','250 g de harina por 10 yemas'],['Reposo','30-60 min tapada'],['Grosor','1-2 mm']],
+  s:['Forma un volcán con la harina y bate los huevos en el centro.','Amasa 10 minutos hasta que esté lisa.','Deja reposar tapada.','Estira por la máquina reduciendo el grosor poco a poco.','Rellena, sella bien expulsando el aire y cuece en agua con sal 1-3 minutos.'],
+  e:['Saltarse el reposo: la masa encoge.','Rellenos húmedos: la pasta se rompe.'],
+  seg:'',eq:'Envasadora, circulador, laminadora.',x:'La masa debe reposar para ser elástica.'}
+];
+function gTecRecs(t){ return S.recipes.filter(r=>GOURMET[r.id]&&t.k.test((GOURMET[r.id].t.join(' ')+' '+r.name).toLowerCase())); }
+function viewTecnicas(){
+  const q=(UI.gtq||'').toLowerCase(), fam=UI.gtf||'';
+  const list=G_TECX.filter(t=>(!fam||t.f===fam)&&(!q||(t.n+' '+t.d+' '+t.eq+' '+t.c+' '+t.seg+' '+t.x+' '+t.s.join(' ')+' '+t.e.join(' ')+' '+t.p.flat().join(' ')).toLowerCase().includes(q)));
+  const chip=(k,l,ic,n)=>`<span class="chip ${fam===k?'on':''}" data-act="gtf" data-v="${k}">${ic} ${esc(l)} <span class="pcnt" style="background:var(--wine-soft);color:var(--wine);border-radius:99px;padding:0 7px;font-size:11px">${n}</span></span>`;
+  const chips=`<div class="row mt" style="gap:6px">${chip('','Todas','📚',G_TECX.length)}${G_FAMS.map(([k,l,ic])=>chip(k,l,ic,G_TECX.filter(t=>t.f===k).length)).join('')}</div>`;
+  const card=t=>{ const fm=G_FAMS.find(f=>f[0]===t.f), recs=gTecRecs(t), open=UI.gOpen===t.n;
+    return `<div class="card tec ${open?'open':''}"><div class="row between tec-h" data-act="gtop" data-v="${esc(t.n)}" style="cursor:pointer;flex-wrap:nowrap;align-items:flex-start">
+      <div class="row" style="flex-wrap:nowrap;align-items:flex-start;gap:12px"><span class="tec-i">${t.i}</span><div><h3>${esc(t.n)}</h3><div class="tiny muted" style="margin-top:3px">${fm[2]} ${esc(fm[1])} · ${recs.length} receta${recs.length===1?'':'s'}</div></div></div>
+      <span class="tec-tg">${open?'−':'+'}</span></div>
+      <p class="small" style="margin:10px 0 0">${esc(t.d)}</p>
+      ${open?`<div class="tec-b">
+        <h4>🔬 Cómo funciona</h4><p class="small">${esc(t.c)}</p>
+        <h4>🎯 Parámetros clave</h4><table class="t tec-p">${t.p.map(([a,b])=>`<tr><td>${esc(a)}</td><td><b>${esc(b)}</b></td></tr>`).join('')}</table>
+        <h4>👣 Paso a paso</h4><ol class="tec-s">${t.s.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>
+        <h4>⚠️ Errores frecuentes</h4><ul class="tec-e">${t.e.map(s=>`<li>${esc(s)}</li>`).join('')}</ul>
+        ${t.seg?`<div class="tip tec-seg"><b>Seguridad:</b> ${esc(t.seg)}</div>`:''}
+        <p class="small mt"><b>⚙ Equipo:</b> ${esc(t.eq)}</p>${t.x?`<p class="tiny muted">${esc(t.x)}</p>`:''}
+        ${recs.length?`<h4>🍽️ Recetas del recetario con esta técnica</h4><div class="gchips">${recs.slice(0,24).map(r=>`<button class="gchip" data-go="receta-${r.id}">${esc(r.name)}</button>`).join('')}${recs.length>24?`<span class="tiny muted">y ${recs.length-24} más</span>`:''}</div>`:''}
+      </div>`:''}</div>`; };
+  return `<div class="card mt"><input type="search" placeholder="Buscar técnica, equipo o concepto (p. ej. «sifón», «colágeno», «anisakis»)…" value="${esc(UI.gtq||'')}" data-in="gtq">${chips}</div>
+   <div class="row between mt"><span class="small muted"><b>${list.length}</b> de ${G_TECX.length} técnicas · pulsa una ficha para desplegarla</span>${UI.gOpen?`<button class="btn sm" data-act="gtop" data-v="">Cerrar ficha</button>`:''}</div>
+   <div class="grid g2 mt tecgrid">${list.map(card).join('')||'<div class="empty">No hay técnicas con ese filtro.</div>'}</div>`;
+}
+
 const G_EQ=[
  ['Circulador de inmersión (roner)','Mantiene el agua a una temperatura exacta y la hace circular. Es la base de la cocina a baja temperatura.','Para carnes, pescados, huevos y verduras.'],
  ['Envasadora al vacío','Extrae el aire de las bolsas antes de cocinar, macerar o conservar. Hay modelos de campana y de cámara.','Las de cámara permiten envasar líquidos.'],
@@ -11222,7 +11517,7 @@ function viewGourmet(){
     <div class="row between mt"><span class="small muted"><b>${list.length}</b> de ${all.length} recetas gourmet</span></div>`;
     body=clas+`<div class="grid rgrid mt">${list.map(r=>{const g=GOURMET[r.id];return `<div>${rcard(r)}<div class="gchips">${g.t.map(x=>`<span class="gchip">🔬 ${esc(x)}</span>`).join('')}${g.e.slice(0,2).map(x=>`<span class="gchip eq">⚙ ${esc(x)}</span>`).join('')}</div></div>`}).join('')||'<div class="empty">Sin recetas gourmet.</div>'}</div>`;
   } else if(t==='tecnicas'){
-    body=`<div class="grid g2 mt">${G_TEC.map(([n,d,m,x])=>`<div class="card"><h3>${esc(n)}</h3><p class="small">${esc(d)}</p><p class="small"><b>Equipo:</b> ${esc(m)}</p><p class="tiny muted">${esc(x)}</p></div>`).join('')}</div>`;
+    body=viewTecnicas();
   } else if(t==='maquinaria'){
     body=`<div class="grid g2 mt">${G_EQ.map(([n,d,x])=>`<div class="card"><h3>⚙ ${esc(n)}</h3><p class="small">${esc(d)}</p><p class="tiny muted">${esc(x)}</p></div>`).join('')}</div>`;
   } else {
@@ -12456,6 +12751,8 @@ document.addEventListener('click',e=>{
     case 'gby': UI.gBy=v; UI.gF=''; render(); break;
     case 'gf': UI.gF=(v&&UI.gF===v)?'':v; render(); break;
     case 'gtab': UI.gTab=v; render(); toTop(); break;
+    case 'gtf': UI.gtf=(v&&UI.gtf===v)?'':v; UI.gOpen=''; render(); break;
+    case 'gtop': { UI.gOpen=(v&&UI.gOpen!==v)?v:''; render(); if(UI.gOpen){ const el=[...document.querySelectorAll('.tec-h')].find(x=>x.dataset.v===UI.gOpen); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); } break; }
     case 'rscope': { const s=(v!=='todas'&&(UI.rscope||'todas')===v)?'todas':v; UI.rscope=s; if(s!=='espana'){UI.ccaa='';UI.prov='';} if(s!=='intl') UI.country=''; } render(); toTop(); break;
     case 'country': UI.country=(v&&UI.country===v)?'':v; render(); toTop(); break;
     case 'evt': (UI.ev=UI.ev||{t:'',s:'todas',ca:'',co:'',m:0}).t=v; render(); break;
