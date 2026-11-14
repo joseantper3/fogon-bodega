@@ -8100,8 +8100,12 @@ const ART = {
    o+=`<path d="${wedge(CX,CY,R+14,20,62)}" fill="#fbf9f4"/><path d="M${CX} ${CY} L${f1(CX+Math.cos(20*Math.PI/180)*R)} ${f1(CY+Math.sin(20*Math.PI/180)*R)} M${CX} ${CY} L${f1(CX+Math.cos(62*Math.PI/180)*R)} ${f1(CY+Math.sin(62*Math.PI/180)*R)}" stroke="#f7e6bb" stroke-width="12" stroke-linecap="round"/>`;
    return o+glass('#a5562a'); },
 };
-function heroMedia(r,thumb){ const c=cover(r); if(c) return mediaEl(c,'hero-img',thumb); return dishArt(r); }
-const hasHero = r => !!(cover(r)||ART[r.id]||SPEC[r.id]||(typeof GPRO!=='undefined'&&GPRO[r.id]));
+/* Imágenes de plato generadas con IA (archivos fotos/<id>.jpg junto a la app) */
+const FOTOS={r1:1,r2:1,r20:1};
+const genFoto = r => FOTOS[r.id] ? 'fotos/'+r.id+'.jpg' : '';
+function fotoFail(el){ const r=S.recipes.find(x=>x.id===el.dataset.rid); delete FOTOS[el.dataset.rid]; const b=el.parentNode&&el.parentNode.querySelector('.artbadge'); if(b) b.textContent='Ilustración'; el.outerHTML=r?dishArt(r):''; }
+function heroMedia(r,thumb){ const c=cover(r); if(c) return mediaEl(c,'hero-img',thumb); const g=genFoto(r); if(g) return `<img class="hero-img" src="${g}" data-rid="${r.id}" alt="Imagen de ${esc(r.name)}" loading="lazy" decoding="async" onerror="fotoFail(this)">`; return dishArt(r); }
+const hasHero = r => !!(cover(r)||genFoto(r)||ART[r.id]||SPEC[r.id]||(typeof GPRO!=='undefined'&&GPRO[r.id]));
 
 /* ---------- Escandallo profesional ----------
    q = cantidad neta (la que entra en el plato), m = merma %, pc = precio de compra (€/kg, €/l o €/ud) */
@@ -12134,7 +12138,7 @@ function recipeTable(list){
 function rcard(r){
   const cost=recipeCost(r)/r.serv; const w=rankWines(r.profile)[0];
   return `<div class="card rcard" data-go="receta-${r.id}">
-    <div class="rhero ${hasHero(r)?'ph':''}" style="${heroBg(r.cat)}">${cover(r)?heroMedia(r,true):hasHero(r)?`<i class="lazyart" data-rid="${r.id}"></i>`:''}<span class="em">${hasHero(r)?'':(CATS[r.cat]||'🍽️')}</span><span class="reg">${esc(placeLabel(r)||r.cat)}</span></div>
+    <div class="rhero ${hasHero(r)?'ph':''}" style="${heroBg(r.cat)}">${(cover(r)||genFoto(r))?heroMedia(r,true):hasHero(r)?`<i class="lazyart" data-rid="${r.id}"></i>`:''}<span class="em">${hasHero(r)?'':(CATS[r.cat]||'🍽️')}</span><span class="reg">${esc(placeLabel(r)||r.cat)}</span></div>
     <div class="rbody"><div class="row between"><h3>${esc(r.name)}</h3>${r.fav?'<span title="Favorita">★</span>':''}</div>
       <div class="meta">${UI.celiac?`<span class="pill ${CEL_PILL[celiacInfo(r).st]}">${CEL_LBL[celiacInfo(r).st]}</span>`:''}<span>⏱ ${hmin(r.active)}</span><span>${esc(r.diff)}</span><span>${eur(cost)}/rac.</span>${(r.media||[]).some(m=>m.kind==='video')||(r.links||[]).length?'<span>▶ vídeo</span>':''}${(r.media||[]).length?'<span>📷 '+(r.media||[]).filter(m=>m.kind==='img').length+'</span>':''}</div>
       <div class="row mt small"><span class="wdot" style="background:${TYPECOL[w.w.type]}"></span><span class="muted">${esc(w.w.name)}</span></div>
@@ -12146,7 +12150,7 @@ function viewRecipe(id){
   const ec=escandallo(r,n); const done=S.ingDone[id]||[];
   const top=rankWines(r.profile).slice(0,4); const bb=bestBottles(r.profile,3);
   return `<button class="btn ghost" data-go="recetas">Recetario</button>
-  <div class="detail-hero mt ${hasHero(r)?'ph':''}" style="${heroBg(r.cat)}">${heroMedia(r,false)}${!cover(r)&&(ART[r.id]||SPEC[r.id]||GPRO[r.id])?'<span class="artbadge">Ilustración</span>':''}<div><div class="tiny" style="letter-spacing:1.4px;text-transform:uppercase;font-weight:700;opacity:.85">${esc(r.cat)}${placeLabel(r)?' · '+esc(placeLabel(r)):''}</div><h1>${esc(r.name)}</h1>
+  <div class="detail-hero mt ${hasHero(r)?'ph':''}" style="${heroBg(r.cat)}">${heroMedia(r,false)}${!cover(r)&&genFoto(r)?'<span class="artbadge">Imagen generada con IA</span>':!cover(r)&&(ART[r.id]||SPEC[r.id]||GPRO[r.id])?'<span class="artbadge">Ilustración</span>':''}<div><div class="tiny" style="letter-spacing:1.4px;text-transform:uppercase;font-weight:700;opacity:.85">${esc(r.cat)}${placeLabel(r)?' · '+esc(placeLabel(r)):''}</div><h1>${esc(r.name)}</h1>
     <div class="meta" style="color:#f3e3d6;margin-top:8px"><span>⏱ ${hmin(r.active)} activos${r.rest?' + '+hmin(r.rest)+' de reposo/cocción':''}</span><span>Dificultad: ${esc(r.diff)}</span></div></div>
     <div class="row"><button class="btn" data-act="poster" data-id="${id}">Ficha para imprimir</button><button class="btn" data-act="pstTec" data-id="${id}">Ficha técnica</button><button class="btn" data-act="heroPhoto" data-id="${id}">${cover(r)?'Cambiar foto del plato':'Añadir foto del plato'}</button><button class="btn" data-act="fotoPrompt" data-id="${id}">Prompt para foto</button><button class="btn" data-act="fav" data-id="${id}">${r.fav?'Favorita ✓':'Favorita'}</button><button class="btn pri" data-act="cook" data-id="${id}">Modo cocina</button>${vidBtn(r)}${fotoBtn(r)}</div></div>
   ${r.hist?`<div class="card mt histcard"><div class="row" style="gap:14px;align-items:flex-start;flex-wrap:nowrap"><span class="histico">📜</span><div><h3>Historia - Curiosidades</h3><p>${esc(r.hist)}</p></div></div></div>`:''}
