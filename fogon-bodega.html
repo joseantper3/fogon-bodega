@@ -11999,19 +11999,19 @@ document.addEventListener('click',e=>{
     case 'mdel': {const r=recipe(id); const f=findMedia(r,v); if(f){ f.arr.splice(f.arr.indexOf(f.m),1); save(); purge(f.m);} closeModal(); render(); if(COOK) drawCook(); toast('Eliminado'); break;}
     case 'addLink': openModal(`<div class="mhead"><h2>Enlace de vídeo</h2><button class="x" data-act="close">×</button></div><p class="small muted">YouTube, Instagram, TikTok, Vimeo o cualquier web. Se abrirá fuera de la app.</p><form id="lf" data-id="${id}"><label class="f">Enlace</label><input type="text" name="url" placeholder="https://…" required><label class="f mt">Título</label><input type="text" name="label" placeholder="p. ej. Técnica del pil-pil"><div class="row mt" style="justify-content:flex-end"><button type="button" class="btn" data-act="close">Cancelar</button><button class="btn pri">Guardar</button></div></form>`); break;
     case 'delLink': {const r=recipe(id); r.links.splice(+v,1); save(); render(); break;}
-    case 'cat': if(v==='Internacional'){ UI.cat=''; UI.rscope='intl'; UI.ccaa=''; UI.prov=''; UI.country=''; } else { UI.cat=v; if(!v&&UI.rscope==='intl'){ UI.rscope='todas'; UI.country=''; } } render(); toTop(); break;
+    case 'cat': if(v==='Internacional'&&UI.rscope==='intl'){ UI.rscope='todas'; UI.country=''; } else if(v==='Internacional'){ UI.cat=''; UI.rscope='intl'; UI.ccaa=''; UI.prov=''; UI.country=''; } else if(v&&UI.cat===v){ UI.cat=''; } else { UI.cat=v; if(!v&&UI.rscope==='intl'){ UI.rscope='todas'; UI.country=''; } } render(); toTop(); break;
     case 'gby': UI.gBy=v; UI.gF=''; render(); break;
-    case 'gf': UI.gF=v; render(); break;
+    case 'gf': UI.gF=(v&&UI.gF===v)?'':v; render(); break;
     case 'gtab': UI.gTab=v; render(); toTop(); break;
-    case 'rscope': UI.rscope=v; if(v!=='espana'){UI.ccaa='';UI.prov='';} if(v!=='intl') UI.country=''; render(); toTop(); break;
-    case 'country': UI.country=v; render(); toTop(); break;
+    case 'rscope': { const s=(v!=='todas'&&(UI.rscope||'todas')===v)?'todas':v; UI.rscope=s; if(s!=='espana'){UI.ccaa='';UI.prov='';} if(s!=='intl') UI.country=''; } render(); toTop(); break;
+    case 'country': UI.country=(v&&UI.country===v)?'':v; render(); toTop(); break;
     case 'evt': (UI.ev=UI.ev||{t:'',s:'todas',ca:'',co:'',m:0}).t=v; render(); break;
     case 'evm': (UI.ev=UI.ev||{t:'',s:'todas',ca:'',co:'',m:0}).m=+v; render(); break;
     case 'evs': UI.ev=UI.ev||{t:'',s:'todas',ca:'',co:'',m:0}; UI.ev.s=v; UI.ev.ca=''; UI.ev.co=''; render(); toTop(); break;
     case 'evca': UI.ev.ca=v; render(); toTop(); break;
     case 'evco': UI.ev.co=v; render(); toTop(); break;
-    case 'ccaa': UI.ccaa=v; UI.prov=''; UI.rscope='espana'; render(); window.scrollTo&&window.scrollTo({top:0,behavior:'smooth'}); break;
-    case 'prov': UI.prov=v; render(); toTop(); break;
+    case 'ccaa': UI.ccaa=(v&&UI.ccaa===v&&!UI.prov)?'':v; UI.prov=''; UI.rscope='espana'; render(); window.scrollTo&&window.scrollTo({top:0,behavior:'smooth'}); break;
+    case 'prov': UI.prov=(v&&UI.prov===v)?'':v; render(); toTop(); break;
     case 'newRecipeHere': recipeForm(null,{region:UI.ccaa&&UI.ccaa!=='España'?UI.ccaa:(UI.ccaa||'Otra'),prov:UI.prov&&UI.prov!=='_'?UI.prov:''}); break;
     case 'recView': S.recView=v; save(); render(); break;
     case 'rsort': if(UI.rsort===v) UI.rdir=-(UI.rdir||1); else { UI.rsort=v; UI.rdir=1; } render(); break;
