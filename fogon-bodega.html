@@ -12292,6 +12292,12 @@ const THEMES={
  bodega:{n:'Bodega',bg:'#3a1218',grad:1,ink:'#f6e7d0',accent:'#d9b56a',accent2:'#f6e7d0',frame:'double',corners:1,title:'Playfair Display',body:'Cormorant Garamond',script:'Great Vibes'},
  mediterraneo:{n:'Mediterráneo',bg:'#f6f2ea',ink:'#1f3a5f',accent:'#c96a3c',accent2:'#1f3a5f',frame:'thin',title:'Oswald',body:'Lora',script:'Dancing Script'},
  oliva:{n:'Oliva',bg:'#eef0e2',grad:1,ink:'#2f3a1e',accent:'#6f7f22',accent2:'#2f3a1e',frame:'double',title:'Cormorant Garamond',body:'Montserrat',script:'Great Vibes'},
+ noche:{n:'Noche',bg:'#141414',ink:'#f1ece2',accent:'#c9a96a',accent2:'#f1ece2',frame:'thin',title:'Cormorant Garamond',body:'Lora',script:'Great Vibes'},
+ terracota:{n:'Terracota',bg:'#f4e6d4',grad:1,ink:'#4a2416',accent:'#b4532a',accent2:'#4a2416',frame:'double',corners:1,title:'Oswald',body:'Lora',script:'Dancing Script'},
+ marino:{n:'Marino',bg:'#eef4f7',ink:'#12304a',accent:'#2b6f9e',accent2:'#c9a96a',frame:'double',title:'Playfair Display',body:'Lora',script:'Dancing Script'},
+ asador:{n:'Asador',bg:'#1f1712',grad:1,ink:'#f3e6d2',accent:'#e0893a',accent2:'#f3e6d2',frame:'thin',title:'Bebas Neue',body:'Lora',script:'Dancing Script'},
+ rosa:{n:'Rosa',bg:'#fbefef',ink:'#4a1b2a',accent:'#b23a5a',accent2:'#4a1b2a',frame:'double',corners:1,title:'Playfair Display',body:'Cormorant Garamond',script:'Great Vibes'},
+ alegre:{n:'Alegre',bg:'#fff7e2',ink:'#2a2a4a',accent:'#e8573c',accent2:'#2a8a9a',frame:'thin',title:'Bebas Neue',body:'Montserrat',script:'Dancing Script'},
 };
 const ALG_LEGEND='Alérgenos: '+ALLERGENS.map((a,i)=>`${i+1} ${a}`).join(' · ')+'. Consulte a nuestro personal.';
 const curMenu=()=>(S.menus||[]).find(m=>m.id===UI.menuId);
@@ -12313,6 +12319,7 @@ function section(text,x,y,w,size=26){ return txtEl(text,x,y,w,{font:'title',size
 function divEl(x,y,w,style='ornament',color='accent'){ return {id:uid(),type:'divider',x,y,w,h:24,style,color}; }
 function buildMenu(key,themeKey){
   const used=new Set(); const b=brand(); let fmt='a4v', els=[], name='', th=themeKey||'pergamino';
+  const pickF=(fn,n)=>{ const out=[]; for(const r of S.recipes.filter(r=>!used.has(r.id)&&fn(r)).sort((a,b)=>(b.fav-a.fav))){ if(out.length>=n) break; out.push(r); used.add(r.id);} return out; };
   if(key==='dia'){
     name='Menú del día'; const W=794, x=110, w=W-220; let y=60;
     els.push({id:uid(),type:'logo',x:W/2-42,y:y-10,w:84,h:84}); y+=84;
@@ -12428,10 +12435,138 @@ function buildMenu(key,themeKey){
     els.push(divEl(W/2-150,y,300)); y+=28;
     els.push(txtEl('Vinos del Condado de Huelva y fino de la tierra',60,y,W-120,{font:'body',size:18,italic:true}));
     els.push(txtEl(ALG_LEGEND,70,1123-58,W-140,{font:'Inter',size:8.5,lh:1.4}));
+  } else if(key==='brunch'){
+    name='Brunch'; th=themeKey||'mediterraneo'; const W=794, x=110, w=W-220; let y=64;
+    els.push(txtEl('Brunch',60,y,W-120,{font:'title',size:70,weight:700,upper:true,ls:6})); y+=86;
+    els.push(txtEl('sábados y domingos, de 10:00 a 13:30',60,y,W-120,{font:'script',size:28,color:'accent'})); y+=50;
+    els.push(divEl(W/2-150,y,300,'dots')); y+=34;
+    [['Huevos',r=>r.cat==='Huevos',3],['Salado',r=>r.cat==='Entrantes',3],['Dulce',r=>r.cat==='Postres',3]].forEach(([t,f,n])=>{ els.push(section(t,x,y,w,23)); y+=42; y=stackDishes(els,pickF(f,n),x,y,w,{show:{desc:true},st:{size:18,align:'left'},gap:10})+10; });
+    els.push(txtEl('Café, zumo natural y bollería: 6 € · Copa de cava: 4 €',60,y+4,W-120,{font:'body',size:17,italic:true}));
+    els.push(txtEl(ALG_LEGEND,70,1123-58,W-140,{font:'Inter',size:8.5,lh:1.4}));
+  } else if(key==='gourmet'){
+    name='Menú gourmet'; th=themeKey||'noche'; const W=794, x=120, w=W-240; let y=70;
+    els.push(txtEl(b.name,60,y,W-120,{font:'title',size:18,upper:true,ls:8,color:'accent'})); y+=40;
+    els.push(txtEl('Menú gastronómico',60,y,W-120,{font:'title',size:54,weight:400,ls:1})); y+=70;
+    els.push(txtEl('técnica, producto y temporada',60,y,W-120,{font:'script',size:30,color:'accent'})); y+=56;
+    els.push(divEl(W/2-130,y,260,'line')); y+=40;
+    const G=c=>pickF(r=>typeof GOURMET!=='undefined'&&GOURMET[r.id]&&c.includes(r.cat),1);
+    const list=[...G(['Entrantes']),...G(['Huevos','Entrantes']),...G(['Pescados y mariscos']),...G(['Arroces y pastas','Pescados y mariscos']),...G(['Carnes']),...G(['Postres'])];
+    y=stackDishes(els,list,x,y,w,{show:{price:false,wine:true,alg:true},st:{size:20,align:'center'},gap:22});
+    const sum=list.reduce((a,r)=>a+escandallo(r,r.serv).pvpRed,0); const p=Math.round(sum*.75/5)*5;
+    els.push(divEl(W/2-130,y,260,'line')); y+=36;
+    els.push(txtEl(`${p} € · Maridaje ${list.length*6} €`,60,y,W-120,{font:'title',size:26,color:'accent'})); y+=42;
+    els.push(txtEl('Para toda la mesa · IVA incluido',60,y,W-120,{font:'body',size:16,italic:true}));
+    els.push(txtEl(ALG_LEGEND,70,1123-64,W-140,{font:'Inter',size:9,lh:1.4}));
+  } else if(key==='arroces'){
+    name='Carta de arroces'; th=themeKey||'terracota'; const W=794, x=110, w=W-220; let y=64;
+    els.push(txtEl('Arroces',60,y,W-120,{font:'title',size:72,weight:700,upper:true,ls:6})); y+=90;
+    els.push(txtEl('a la leña · mínimo dos personas · precio por ración',60,y,W-120,{font:'script',size:24,color:'accent'})); y+=48;
+    els.push(divEl(W/2-150,y,300)); y+=34;
+    y=stackDishes(els,pickF(r=>r.cat==='Arroces y pastas'&&/arroz|arr[oò]s|paella|caldero|fideu|risotto/i.test(r.name),8),x,y,w,{show:{desc:true,wine:false},st:{size:20,align:'left'},gap:14});
+    els.push(txtEl('Tiempo de elaboración: 25-30 minutos. Gracias por su paciencia.',60,Math.min(y+12,1123-100),W-120,{font:'body',size:16,italic:true}));
+    els.push(txtEl(ALG_LEGEND,70,1123-58,W-140,{font:'Inter',size:8.5,lh:1.4}));
+  } else if(key==='mar'){
+    name='Del mar'; th=themeKey||'marino'; const W=794, x=110, w=W-220; let y=60;
+    els.push(txtEl('Del mar',60,y,W-120,{font:'title',size:70,weight:700,upper:true,ls:5})); y+=88;
+    els.push(txtEl('pescado y marisco de lonja',60,y,W-120,{font:'script',size:30,color:'accent'})); y+=52;
+    els.push(divEl(W/2-150,y,300,'double')); y+=34;
+    [['Mariscos',r=>r.cat==='Pescados y mariscos'&&['marisco'].includes((r.profile||{}).p),4],['Pescados',r=>r.cat==='Pescados y mariscos'&&(r.profile||{}).p==='pescado',4]].forEach(([t,f,n])=>{ els.push(section(t,x,y,w,23)); y+=42; y=stackDishes(els,pickF(f,n),x,y,w,{show:{wine:true},st:{size:19,align:'left'},gap:12})+10; });
+    els.push(txtEl('Pescados según disponibilidad de lonja · precio por ración',60,y+4,W-120,{font:'body',size:16,italic:true}));
+    els.push(txtEl(ALG_LEGEND,70,1123-58,W-140,{font:'Inter',size:8.5,lh:1.4}));
+  } else if(key==='asador'){
+    name='Asador y brasa'; th=themeKey||'asador'; const W=794, x=110, w=W-220; let y=60;
+    els.push(txtEl('Asador',60,y,W-120,{font:'title',size:76,weight:700,upper:true,ls:8})); y+=94;
+    els.push(txtEl('carnes a la brasa de encina',60,y,W-120,{font:'script',size:30,color:'accent'})); y+=52;
+    els.push(divEl(W/2-150,y,300)); y+=34;
+    els.push(section('Para empezar',x,y,w,22)); y+=40; y=stackDishes(els,pickF(r=>r.cat==='Entrantes'&&/brasa|asad|parrilla|embutido|jam[oó]n|morcilla|chorizo|provoleta|pimientos/i.test(r.name+' '+r.tags.join(' ')),3),x,y,w,{st:{size:18,align:'left'},gap:10})+10;
+    els.push(section('Brasa y horno',x,y,w,22)); y+=40; y=stackDishes(els,pickF(r=>r.cat==='Carnes'&&/brasa|asad|parrilla|chulet|lechazo|cochinillo|cordero|entrecot|secreto|presa|churrasco/i.test(r.name+' '+r.tags.join(' ')),5),x,y,w,{show:{wine:true},st:{size:19,align:'left'},gap:12})+10;
+    els.push(txtEl('Guarniciones: patatas, pimientos asados o ensalada',60,y+4,W-120,{font:'body',size:16,italic:true}));
+    els.push(txtEl(ALG_LEGEND,70,1123-58,W-140,{font:'Inter',size:8.5,lh:1.4}));
+  } else if(key==='vegetariano'){
+    name='Menú vegetariano'; th=themeKey||'oliva'; const W=794, x=110, w=W-220; let y=64;
+    const NOVEG=/jam[oó]n|chorizo|panceta|tocino|carne|pollo|cerdo|ternera|vacuno|cordero|conejo|pato|anchoa|at[uú]n|bacalao|gamba|langost|caldo|fumet|fondo|morcilla|lomo|beicon|bacon|pescado|marisco|sangre|manteca|gelatina|salchich|sobrasada|butifarra|foie|huevas|sardin|bonito|mejill|almeja|calamar|sepia|pulpo|salsa de pescado|perdiz|codorniz|carrillera/i;
+    const V=r=>!r.ings.some(i=>NOVEG.test(i.n))&&!['cerdo','vacuno','cordero','caza','ave','pescado','marisco'].includes((r.profile||{}).p);
+    els.push(txtEl('Menú vegetariano',60,y,W-120,{font:'title',size:52,weight:700,upper:true,ls:2})); y+=70;
+    els.push(txtEl('de la huerta a la mesa',60,y,W-120,{font:'script',size:30,color:'accent'})); y+=52;
+    els.push(divEl(W/2-150,y,300)); y+=34;
+    [['Entrantes',r=>V(r)&&['Entrantes','Huevos'].includes(r.cat),3],['Principales',r=>V(r)&&['Arroces y pastas','Entrantes','Huevos'].includes(r.cat),2],['Postre',r=>V(r)&&r.cat==='Postres',2]].forEach(([t,f,n])=>{ els.push(section(t,x,y,w,23)); y+=42; y=stackDishes(els,pickF(f,n),x,y,w,{show:{price:false},st:{size:19,align:'center'},gap:14})+10; });
+    els.push(divEl(W/2-150,y,300)); y+=30;
+    els.push(txtEl('28 € · Pan, agua y café incluidos',60,y,W-120,{font:'title',size:28,weight:700,color:'accent'})); y+=44;
+    els.push(txtEl('Sin carne ni pescado. Consulte otras opciones veganas.',60,y,W-120,{font:'body',size:16,italic:true}));
+    els.push(txtEl(ALG_LEGEND,70,1123-58,W-140,{font:'Inter',size:8.5,lh:1.4}));
+  } else if(key==='singluten'){
+    name='Menú sin gluten'; th=themeKey||'blanco'; const W=794, x=110, w=W-220; let y=64;
+    const SG=r=>{ try{ return celiacInfo(r).st==='si'; }catch(_){ return !r.alg.includes('gluten'); } };
+    els.push(txtEl('Menú sin gluten',60,y,W-120,{font:'title',size:52,weight:700,upper:true,ls:2})); y+=70;
+    els.push(txtEl('pensado para celíacos, rico para todos',60,y,W-120,{font:'script',size:30,color:'accent'})); y+=52;
+    els.push(divEl(W/2-150,y,300,'line')); y+=34;
+    [['Entrantes',r=>SG(r)&&['Entrantes','Huevos'].includes(r.cat),3],['Principales',r=>SG(r)&&['Pescados y mariscos','Carnes','Arroces y pastas'].includes(r.cat),3],['Postres',r=>SG(r)&&r.cat==='Postres',2]].forEach(([t,f,n])=>{ els.push(section(t,x,y,w,23)); y+=42; y=stackDishes(els,pickF(f,n),x,y,w,{show:{price:true},st:{size:19,align:'left'},gap:12})+10; });
+    els.push({id:uid(),type:'box',x:W/2-250,y:y+6,w:500,h:62,fill:'accent',fop:.1,bcolor:'accent',bw:1.5,radius:10});
+    els.push(txtEl('Elaborados sin ingredientes con gluten. Informe a nuestro personal: cuidamos la contaminación cruzada.',W/2-240,y+16,480,{font:'body',size:15,italic:true,lh:1.35}));
+    els.push(txtEl(ALG_LEGEND,70,1123-58,W-140,{font:'Inter',size:8.5,lh:1.4}));
+  } else if(key==='infantil'){
+    name='Menú infantil'; th=themeKey||'alegre'; const W=794, x=130, w=W-260; let y=64;
+    const K=r=>r.diff==='Fácil'&&(r.profile||{}).h<=1&&!r.alg.includes('sulfitos')&&!/crud|tataki|ceviche|tartar|carpaccio|sushi|ostra|picante|alcohol|ron|licor|caza/i.test(r.name+' '+r.tags.join(' '))&&!['caza'].includes((r.profile||{}).p);
+    els.push(txtEl('Menú infantil',60,y,W-120,{font:'title',size:70,weight:400,upper:true,ls:3})); y+=88;
+    els.push(txtEl('para los peques de la casa',60,y,W-120,{font:'script',size:30,color:'accent2'})); y+=52;
+    els.push(divEl(W/2-150,y,300,'dots','accent2')); y+=34;
+    [['Elige un plato',r=>K(r)&&['Huevos','Carnes','Arroces y pastas','Pescados y mariscos'].includes(r.cat),4],['Y de postre',r=>K(r)&&r.cat==='Postres',2]].forEach(([t,f,n])=>{ els.push(section(t,x,y,w,26)); y+=46; y=stackDishes(els,pickF(f,n),x,y,w,{show:{price:false,desc:false},st:{size:22,align:'center'},gap:16})+12; });
+    els.push({id:uid(),type:'box',x:W/2-200,y:y+6,w:400,h:76,fill:'accent',fop:.15,bcolor:'accent',bw:3,radius:40});
+    els.push(txtEl('12 €\ncon bebida y helado',W/2-190,y+14,380,{font:'title',size:26,color:'accent',lh:1.25}));
+    els.push(txtEl('Hasta 12 años · '+ALG_LEGEND,70,1123-58,W-140,{font:'Inter',size:8.5,lh:1.4}));
+  } else if(key==='sanvalentin'){
+    name='San Valentín'; th=themeKey||'rosa'; const W=794, x=120, w=W-240; let y=70;
+    const SV=(c,n)=>{ const g=pickF(r=>c.includes(r.cat)&&typeof GOURMET!=='undefined'&&GOURMET[r.id],n); return g.length?g:pickF(r=>c.includes(r.cat),n); };
+    els.push(txtEl('San Valentín',60,y,W-120,{font:'script',size:76,color:'accent'})); y+=96;
+    els.push(txtEl('Menú para dos',60,y,W-120,{font:'title',size:28,upper:true,ls:8})); y+=50;
+    els.push(divEl(W/2-140,y,280)); y+=36;
+    [['Para abrir',['Entrantes','Pescados y mariscos'],2],['Principal',['Carnes','Pescados y mariscos'],1],['Para compartir',['Postres'],1]].forEach(([t,c,n])=>{ els.push(section(t,x,y,w,21)); y+=40; y=stackDishes(els,SV(c,n),x,y,w,{show:{price:false,wine:true},st:{size:20,align:'center'},gap:16})+12; });
+    els.push(divEl(W/2-140,y,280)); y+=30;
+    els.push(txtEl('90 € la pareja · Copa de cava de bienvenida',60,y,W-120,{font:'title',size:24,color:'accent'})); y+=40;
+    els.push(txtEl('14 de febrero · Reserva previa',60,y,W-120,{font:'body',size:16,italic:true}));
+    els.push(txtEl(ALG_LEGEND,70,1123-58,W-140,{font:'Inter',size:8.5,lh:1.4}));
+  } else if(key==='espana'){
+    name='Ruta por España'; th=themeKey||'pergamino'; const W=794, x=110, w=W-220; let y=56;
+    els.push(txtEl('Ruta por España',60,y,W-120,{font:'title',size:52,weight:900,upper:true,ls:1})); y+=66;
+    els.push(txtEl('un plato de cada tierra',60,y,W-120,{font:'script',size:30,color:'accent'})); y+=50;
+    els.push(divEl(W/2-150,y,300)); y+=30;
+    const seen=new Set(); const order=['Entrantes','Pescados y mariscos','Arroces y pastas','Carnes','Carnes','Entrantes','Postres'];
+    order.forEach(c=>{ const r=pickF(z=>z.cat===c&&CCAA_BY[z.region]&&!seen.has(z.region),1)[0]; if(!r) return; seen.add(r.region);
+      els.push(txtEl((CCAA_BY[r.region].n||r.region).toUpperCase(),x,y,w,{font:'Inter',size:11,weight:700,ls:3,color:'accent'})); y+=20;
+      const d=dishEl(r,x,y,w,{show:{price:false,wine:true},st:{size:19,align:'center'}}); els.push(d); y+=dishH(d)+14; });
+    els.push(divEl(W/2-150,y,300)); y+=28;
+    els.push(txtEl('55 € por persona · Vinos de las D.O. de cada región',60,y,W-120,{font:'title',size:22,weight:700,color:'accent'}));
+    els.push(txtEl(ALG_LEGEND,70,1123-58,W-140,{font:'Inter',size:8.5,lh:1.4}));
+  } else if(key==='mundo'){
+    name='Vuelta al mundo'; th=themeKey||'blanco'; const W=794, x=110, w=W-220; let y=56;
+    els.push(txtEl('Vuelta al mundo',60,y,W-120,{font:'title',size:52,weight:700,upper:true,ls:2})); y+=66;
+    els.push(txtEl('cocinas del mundo en un menú',60,y,W-120,{font:'script',size:30,color:'accent'})); y+=50;
+    els.push(divEl(W/2-150,y,300,'dots')); y+=30;
+    const seen=new Set(); const order=['Entrantes','Entrantes','Pescados y mariscos','Arroces y pastas','Carnes','Carnes','Postres'];
+    order.forEach(c=>{ const r=pickF(z=>(z.cat===c||(z.cat==='Internacional'&&c!=='Postres'))&&!isSpain(z)&&z.region!=='Otra'&&!seen.has(z.region),1)[0]; if(!r) return; seen.add(r.region);
+      els.push(txtEl(r.region.toUpperCase(),x,y,w,{font:'Inter',size:11,weight:700,ls:3,color:'accent'})); y+=20;
+      const d=dishEl(r,x,y,w,{show:{price:false,wine:true},st:{size:19,align:'center'}}); els.push(d); y+=dishH(d)+14; });
+    els.push(divEl(W/2-150,y,300,'dots')); y+=28;
+    els.push(txtEl('48 € por persona · Siete países, siete pases',60,y,W-120,{font:'title',size:22,weight:700,color:'accent'}));
+    els.push(txtEl(ALG_LEGEND,70,1123-58,W-140,{font:'Inter',size:8.5,lh:1.4}));
+  } else if(key==='semanal'){
+    name='Menú semanal'; fmt='a4h'; th=themeKey||'mediterraneo'; const W=1123, H=794, cols=5, gap=16, x0=48, cw=(W-x0*2-gap*(cols-1))/cols;
+    els.push(txtEl('Menú de la semana',60,40,W-120,{font:'title',size:46,weight:700,upper:true,ls:3}));
+    els.push(txtEl('primero, segundo, pan, bebida y postre',60,100,W-120,{font:'script',size:24,color:'accent'}));
+    els.push(divEl(W/2-140,138,280));
+    ['Lunes','Martes','Miércoles','Jueves','Viernes'].forEach((d,i)=>{ const x=x0+i*(cw+gap); let y=180;
+      els.push({id:uid(),type:'box',x:x-6,y:y-10,w:cw+12,h:480,fill:'accent',fop:.06,bcolor:'accent',bw:1,radius:12});
+      els.push(section(d,x,y,cw,19)); y+=40;
+      els.push(txtEl('Primero',x,y,cw,{font:'Inter',size:10,weight:700,ls:2,upper:true,color:'accent2'})); y+=18;
+      y=stackDishes(els,pickF(r=>['Entrantes','Huevos','Arroces y pastas'].includes(r.cat),1),x,y,cw,{show:{price:false,desc:true,alg:true},st:{size:15,align:'center'},gap:10})+60;
+      els.push(txtEl('Segundo',x,y,cw,{font:'Inter',size:10,weight:700,ls:2,upper:true,color:'accent2'})); y+=18;
+      stackDishes(els,pickF(r=>['Carnes','Pescados y mariscos'].includes(r.cat),1),x,y,cw,{show:{price:false,desc:true,alg:true},st:{size:15,align:'center'},gap:10}); });
+    els.push(txtEl('14,50 € · IVA incluido',60,H-108,W-120,{font:'title',size:30,weight:700,color:'accent'}));
+    els.push(txtEl(ALG_LEGEND,80,H-46,W-160,{font:'Inter',size:8.5,lh:1.4}));
   } else { name='Menú en blanco'; els.push(txtEl('Título del menú',60,80,674,{font:'title',size:52,weight:700,upper:true})); }
   return {id:'m'+uid(),name,fmt,theme:th,th:{...THEMES[th]},els,updated:Date.now()};
 }
-const MTPL=[['dia','Menú del día','Primeros, segundos y postre con precio cerrado'],['degustacion','Degustación con maridaje','Pases con su vino de la bodega'],['carta','Carta','A4 horizontal a dos columnas con precios'],['grupos','Grupos y eventos','Para compartir, principal a elegir y bodega'],['tapas','Tapas y raciones','Pizarra para compartir con precios'],['vinos','Carta de vinos','Tu bodega por tipo, con precios de carta'],['navidad','Menú de Navidad','Aperitivo, entrante, principal y postre con vino'],['postres','Postres y vinos dulces','Cuadrado para redes o sala'],['sugerencias','Sugerencias del día','Pantalla 16:9 para el comedor'],['redes','Plato del día (redes)','Foto, vino y precio en formato cuadrado'],['boda','Boda y celebración','Cóctel, entrante, principal y tarta'],['huelva','Sabores de Huelva','De la sierra a la costa con vinos de la tierra'],['blanco','En blanco','Empieza desde cero']];
+const MTPL=[['dia','Menú del día','Primeros, segundos y postre con precio cerrado'],['degustacion','Degustación con maridaje','Pases con su vino de la bodega'],['carta','Carta','A4 horizontal a dos columnas con precios'],['grupos','Grupos y eventos','Para compartir, principal a elegir y bodega'],['tapas','Tapas y raciones','Pizarra para compartir con precios'],['vinos','Carta de vinos','Tu bodega por tipo, con precios de carta'],['navidad','Menú de Navidad','Aperitivo, entrante, principal y postre con vino'],['postres','Postres y vinos dulces','Cuadrado para redes o sala'],['sugerencias','Sugerencias del día','Pantalla 16:9 para el comedor'],['redes','Plato del día (redes)','Foto, vino y precio en formato cuadrado'],['boda','Boda y celebración','Cóctel, entrante, principal y tarta'],['huelva','Sabores de Huelva','De la sierra a la costa con vinos de la tierra'],['brunch','Brunch','Huevos, salado y dulce para el fin de semana'],['gourmet','Menú gastronómico','Seis pases de alta cocina con maridaje'],['arroces','Carta de arroces','Arroces del recetario con precio por ración'],['mar','Del mar','Mariscos y pescados de lonja con su vino'],['asador','Asador y brasa','Entrantes y carnes a la brasa, fondo oscuro'],['vegetariano','Menú vegetariano','Sin carne ni pescado, con precio cerrado'],['singluten','Menú sin gluten','Solo platos sin ingredientes con gluten'],['infantil','Menú infantil','Platos fáciles y suaves para niños'],['sanvalentin','San Valentín','Menú para dos con cava de bienvenida'],['espana','Ruta por España','Un plato de cada comunidad con su vino'],['mundo','Vuelta al mundo','Siete países, siete pases'],['semanal','Menú semanal','A4 horizontal de lunes a viernes'],['blanco','En blanco','Empieza desde cero']];
 /* ---- render del lienzo ---- */
 function dividerSVG(st,col,w){
   if(st==='line') return `<svg width="${w}" height="24"><line x1="0" y1="12" x2="${w}" y2="12" stroke="${col}" stroke-width="1.5"/></svg>`;
