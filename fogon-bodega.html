@@ -8101,7 +8101,7 @@ const ART = {
    return o+glass('#a5562a'); },
 };
 /* Imágenes de plato generadas con IA (archivos fotos/<id>.jpg junto a la app) */
-const FOTOS={r1:1,r2:1,r3:1,r4:1,r5:1,r6:1,r11:1,r12:1,r16:1,r17:1,r20:1,r21:1,r27:1,r318:1};
+const FOTOS={r1:1,r2:1,r3:1,r4:1,r5:1,r6:1,r10:1,r11:1,r12:1,r13:1,r14:1,r15:1,r16:1,r17:1,r18:1,r19:1,r20:1,r21:1,r27:1,r318:1};
 const genFoto = r => FOTOS[r.id] ? 'fotos/'+r.id+'.jpg' : '';
 function fotoFail(el){ const r=S.recipes.find(x=>x.id===el.dataset.rid); delete FOTOS[el.dataset.rid]; const b=el.parentNode&&el.parentNode.querySelector('.artbadge'); if(b) b.textContent='Ilustración'; el.outerHTML=r?dishArt(r):''; }
 function heroMedia(r,thumb){ const c=cover(r); if(c) return mediaEl(c,'hero-img',thumb); const g=genFoto(r); if(g) return `<img class="hero-img" src="${g}" data-rid="${r.id}" alt="Imagen de ${esc(r.name)}" loading="lazy" decoding="async" onerror="fotoFail(this)">`; return dishArt(r); }
