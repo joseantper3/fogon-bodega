@@ -7,6 +7,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700;900&family=Dancing+Script:wght@600&family=Lora:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;600;800&family=Oswald:wght@400;600&family=Bebas+Neue&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
+  .print-foto {
+    text-align: center;
+    margin: 10px 0;
+  }
+  .print-foto img {
+    max-width: 40%;
+    height: auto;  
+  }
+  @media print {
+    .print-foto img {
+      max-width: 50%;
+      height: auto;
+    }
+  }
+  .ficha-foto {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .ficha-foto img {
+    max-width: 30%;
+    height: auto;
+  }
 :root{
   --bg:#f6f1e8;--paper:#fffdf9;--ink:#2a1d19;--muted:#7a6a60;--line:#e6dbcb;
   --wine:#7b1e2b;--wine2:#a33445;--wine-soft:#f4e3e3;--gold:#b08a3e;--gold-soft:#f5ecd9;
@@ -12592,7 +12614,9 @@ function techHTML(r){
   const fs=Math.min(30,Math.max(18,Math.floor(560/(tl.length*.62))));
   const rows=ec.rows; const rf=rows.length<=9?11:rows.length<=12?10.2:rows.length<=15?9.4:8.6; const rp=rows.length<=9?5:rows.length<=12?3.8:rows.length<=15?2.8:2;
   const famCol={'Frutería':'#7aa548','Carnicería':'#7b1e2b','Pescadería':'#2d6d8a','Lácteos y huevos':'#d9b54a','Panadería':'#c49a6c','Despensa':'#b08a3e','Especias':'#c0392b','Asiático':'#3f7a5a','Bodega':'#5a2a4a','Otros':'#999'};
-  const pic=cover(r)?imgTag(cover(r)):dishArt(r).replace('class="hero-img"','').replace('viewBox="0 0 800 400"','viewBox="290 10 460 380"');
+  const gf=genFoto(r);
+  const pic=cover(r)?imgTag(cover(r)):gf?`<img src="${gf}" alt="${esc(r.name)}" style="width:100%;height:100%;object-fit:cover">`:dishArt(r).replace('class="hero-img"','').replace('viewBox="0 0 800 400"','viewBox="290 10 460 380"');
+  const fotoBlock=gf&&!cover(r)?`<div class="ficha-foto"><img src="${gf}" alt="${esc(r.name)}"><div style="font-size:8px;color:#888;margin-top:2px">Imagen generada con IA</div></div>`:'';
   const top=rankWines(r.profile).slice(0,3);
   const today=new Date(); const fecha=`${String(today.getDate()).padStart(2,'0')}.${String(today.getMonth()+1).padStart(2,'0')}.${today.getFullYear()}`;
   const steps=r.steps.slice(0,rows.length>11?8:9);
@@ -12606,6 +12630,7 @@ function techHTML(r){
      <div><div class="t-kick">Ficha técnica · Escandallo desglosado</div><div class="t-title" style="font-size:${fs}px">${esc(r.name)}</div><div class="t-sub">${esc(d.family)} · ${esc(placeLabel(r)||r.cat)} · ${n} ${n===1?'ración':'raciones'}</div></div>
      <div class="t-pic">${pic}</div>
    </div>
+   ${fotoBlock}
    <div class="t-data">
      <div><b>${hmin(r.active)}</b><small>Tiempo activo</small></div>
      <div><b>${hmin(r.rest)}</b><small>Reposo / cocción</small></div>
@@ -12651,8 +12676,9 @@ function posterHTML(r){
   const b=brand(), d=cardData(r), n=S.scale[r.id]||r.serv, k=n/r.serv, ec=escandallo(r,n), top=rankWines(r.profile).slice(0,5);
   const [l1,l2]=splitTitle(r.name.toUpperCase()); const maxL=Math.max(l1.length,l2.length); const fs=Math.min(52,Math.max(28,Math.floor(470/(maxL*.68))));
   const ings=r.ings; const ifs=ings.length<=8?12.5:ings.length<=11?11.5:ings.length<=14?10.5:9.6;
-  const hero=cover(r)?imgTag(cover(r)):dishArt(r).replace('class="hero-img"','').replace('viewBox="0 0 800 400"','viewBox="290 10 460 380"');
-  const steps=r.steps.slice(0,8); const cols=Math.max(4,steps.length);
+  const gf2=genFoto(r);
+  const hero=cover(r)?imgTag(cover(r)):gf2?`<img src="${gf2}" alt="${esc(r.name)}" style="width:100%;height:100%;object-fit:cover">`:dishArt(r).replace('class="hero-img"','').replace('viewBox="0 0 800 400"','viewBox="290 10 460 380"');
+  const printFotoBlock=gf2&&!cover(r)?`<div class="print-foto"><img src="${gf2}" alt="${esc(r.name)}"><div style="font-size:8px;color:#888;margin-top:2px">Imagen generada con IA</div></div>`:'';
   const today=new Date(); const fecha=`${String(today.getDate()).padStart(2,'0')}.${String(today.getMonth()+1).padStart(2,'0')}.${today.getFullYear()}`;
   const stepImg=s=>{ const m=(s.media||[]).find(x=>x.kind==='img'); return m?imgTag(m):''; };
   return `<div class="poster">
@@ -12687,6 +12713,7 @@ function posterHTML(r){
         <div style="font-size:9.5px;font-weight:700;margin-top:8px;text-transform:uppercase;letter-spacing:.6px">Alérgenos</div>
         <div class="pst-alg">${r.alg.length?r.alg.map(a=>`<span>${esc(a)}</span>`).join(''):'<span style="background:#1e3a2b">Sin alérgenos</span>'}</div>${km0Line(r,'pst-km0')}</div>`}</div>
    </div>
+   ${printFotoBlock}
    <div class="pst-ribbon" style="margin-top:16px;height:44px;width:520px">${ribbonSVG()}<span style="font-size:16px">♥ Elaboración paso a paso ♥</span></div>
    <div class="pst-steps" style="grid-template-columns:repeat(${cols},1fr)">${steps.map((s,i)=>`<div class="pst-step"><div class="hd"><i>${i+1}</i>${esc(stepLabel(s.t))}</div>
       <div class="ph">${stepImg(s)||`<div class="ph0"><b>${i+1}</b>${s.min?`<small>⏱ ${hmin(s.min)}</small>`:''}</div>`}</div><p>${esc(s.t)}</p></div>`).join('')}</div>
