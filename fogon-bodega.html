@@ -299,7 +299,7 @@ details summary{cursor:pointer;font-weight:600}
 .pst-codes b{display:block;font-family:'Playfair Display',serif;font-size:19px;color:#6b1a1f;line-height:1.05}
 .pst-codes .t{font-family:'Playfair Display',serif;font-size:12.5px;line-height:1.15;font-weight:700;color:#1f2a22}
 .pst-codes small{display:block;font-family:Inter,sans-serif;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;margin-top:4px;border-top:1px solid rgba(138,106,58,.5);padding-top:3px;font-weight:600}
-.pst-hero{position:relative;height:150px;border-radius:50%/42%;overflow:hidden;border:6px solid #fbf1dc;box-shadow:0 0 0 2px #b08a3e,0 14px 30px rgba(42,29,25,.35);background:#4a3022}
+.pst-hero{position:relative;width:220px;height:150px;border-radius:50%/42%;overflow:hidden;border:6px solid #fbf1dc;box-shadow:0 0 0 2px #b08a3e,0 14px 30px rgba(42,29,25,.35);background:#4a3022}
 .pst-hero img,.pst-hero svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .pst-badge{position:absolute;width:92px;height:92px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Playfair Display',serif;font-weight:700;font-size:10px;line-height:1.15;text-transform:uppercase;padding:8px;color:#f3e4c8;border:3px solid #e8c98c;box-shadow:0 6px 14px rgba(0,0,0,.3);z-index:3}
 .pst-badge.l{background:#6b1a1f;left:-14px;bottom:-30px}
@@ -8123,7 +8123,7 @@ const ART = {
    return o+glass('#a5562a'); },
 };
 /* Imágenes de plato generadas con IA (archivos fotos/<id>.jpg junto a la app) */
-const FOTOS={r1:1,r2:1,r3:1,r4:1,r5:1,r6:1,r7:1,r8:1,r9:1,r10:1,r11:1,r12:1,r13:1,r14:1,r15:1,r16:1,r17:1,r18:1,r19:1,r20:1,r21:1,r22:1,r23:1,r24:1,r25:1,r26:1,r27:1,r28:1,r29:1,r30:1,r31:1,r32:1,r33:1,r34:1,r35:1,r36:1,r37:1,r38:1,r39:1,r40:1,r41:1,r42:1,r43:1,r44:1,r45:1,r46:1,r47:1,r48:1,r49:1,r50:1,r51:1,r52:1,r53:1,r55:1,r56:1,r57:1,r58:1,r59:1,r60:1,r61:1,r62:1,r63:1,r64:1,r65:1,r66:1,r67:1,r68:1,r69:1,r70:1,r71:1,r72:1,r73:1,r318:1};
+const FOTOS={r1:1,r2:1,r3:1,r4:1,r5:1,r6:1,r7:1,r8:1,r9:1,r10:1,r11:1,r12:1,r13:1,r14:1,r15:1,r16:1,r17:1,r18:1,r19:1,r20:1,r21:1,r22:1,r23:1,r24:1,r25:1,r26:1,r27:1,r28:1,r29:1,r30:1,r31:1,r32:1,r33:1,r34:1,r35:1,r36:1,r37:1,r38:1,r39:1,r40:1,r41:1,r42:1,r43:1,r44:1,r45:1,r46:1,r47:1,r48:1,r49:1,r50:1,r51:1,r52:1,r53:1,r55:1,r56:1,r57:1,r58:1,r59:1,r60:1,r61:1,r62:1,r63:1,r64:1,r65:1,r66:1,r67:1,r68:1,r69:1,r70:1,r71:1,r72:1,r73:1,r74:1,r75:1,r318:1};
 const genFoto = r => FOTOS[r.id] ? 'fotos/'+r.id+'.jpg' : '';
 function fotoFail(el){ const r=S.recipes.find(x=>x.id===el.dataset.rid); delete FOTOS[el.dataset.rid]; const b=el.parentNode&&el.parentNode.querySelector('.artbadge'); if(b) b.textContent='Ilustración'; el.outerHTML=r?dishArt(r):''; }
 function heroMedia(r,thumb){ const c=cover(r); if(c) return mediaEl(c,'hero-img',thumb); const g=genFoto(r); if(g) return `<img class="hero-img" src="${g}" data-rid="${r.id}" alt="Imagen de ${esc(r.name)}" loading="lazy" decoding="async" onerror="fotoFail(this)">`; return dishArt(r); }
@@ -12174,7 +12174,7 @@ function viewRecipe(id){
   return `<button class="btn ghost" data-go="recetas">Recetario</button>
   <div class="detail-hero mt ${hasHero(r)?'ph':''}" style="${heroBg(r.cat)}">${heroMedia(r,false)}${!cover(r)&&genFoto(r)?'<span class="artbadge">Imagen generada con IA</span>':!cover(r)&&(ART[r.id]||SPEC[r.id]||GPRO[r.id])?'<span class="artbadge">Ilustración</span>':''}<div><div class="tiny" style="letter-spacing:1.4px;text-transform:uppercase;font-weight:700;opacity:.85">${esc(r.cat)}${placeLabel(r)?' · '+esc(placeLabel(r)):''}</div><h1>${esc(r.name)}</h1>
     <div class="meta" style="color:#f3e3d6;margin-top:8px"><span>⏱ ${hmin(r.active)} activos${r.rest?' + '+hmin(r.rest)+' de reposo/cocción':''}</span><span>Dificultad: ${esc(r.diff)}</span></div></div>
-    <div class="row"><button class="btn" data-act="poster" data-id="${id}">Ficha</button><button class="btn" data-act="heroPhoto" data-id="${id}">${cover(r)?'Cambiar foto del plato':'Añadir foto del plato'}</button><button class="btn" data-act="fotoPrompt" data-id="${id}">Prompt para foto</button><button class="btn" data-act="fav" data-id="${id}">${r.fav?'Favorita ✓':'Favorita'}</button><button class="btn pri" data-act="cook" data-id="${id}">Modo cocina</button>${vidBtn(r)}${fotoBtn(r)}</div></div>
+    <div class="row"><button class="btn" data-act="poster" data-id="${id}">Ficha</button><button class="btn" data-act="heroPhoto" data-id="${id}">${cover(r)?'Cambiar foto del plato':'Añadir foto del plato'}</button><button class="btn" data-act="fav" data-id="${id}">${r.fav?'Favorita ✓':'Favorita'}</button><button class="btn pri" data-act="cook" data-id="${id}">Modo cocina</button>${vidBtn(r)}${fotoBtn(r)}</div></div>
   ${r.hist?`<div class="card mt histcard"><div class="row" style="gap:14px;align-items:flex-start;flex-wrap:nowrap"><span class="histico">📜</span><div><h3>Historia - Curiosidades</h3><p>${esc(r.hist)}</p></div></div></div>`:''}
   ${GOURMET[id]?gProCard(id):''}
   <div class="grid g2 mt">
@@ -12698,7 +12698,7 @@ function posterHTML(r){
      </div>
      <div>
        <div class="pst-codes" style="grid-template-columns:1fr"><div><div class="t">${esc(d.subfamily)}</div><small>Subfamilia</small></div></div>
-       <div style="position:relative"><div class="pst-hero">${hero}</div>
+       <div style="position:relative;width:fit-content;margin-right:auto"><div class="pst-hero">${hero}</div>
          <div class="pst-badge l">${esc(d.badgeL)}</div><div class="pst-badge r">${esc(d.badgeR)}</div></div>
        ${r.hist?`<div class="pst-hist"><h4>Historia - Curiosidades</h4><p>${esc(r.hist)}</p></div>`:''}
      </div>
