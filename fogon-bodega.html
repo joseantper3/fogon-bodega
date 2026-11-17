@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -601,6 +602,13 @@ input[type=text],input[type=number],input[type=search],select,textarea{border-ra
 .evcard{display:flex;gap:12px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:var(--shadow)}
 .evi{flex:none;width:44px;height:44px;border-radius:12px;background:#f6ede2;color:var(--wine);display:flex;align-items:center;justify-content:center}
 .evi svg{width:28px;height:28px}
+.evcard.hasimg{flex-direction:column;gap:0;padding:0;overflow:hidden}
+.evcard.hasimg .evph{position:relative;height:118px;background:#2a1d19;flex:none}
+.evcard.hasimg .evph img{width:100%;height:100%;object-fit:cover;display:block}
+.evcard.hasimg .evph::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,12,10,0) 45%,rgba(20,12,10,.45))}
+.evcard.hasimg .evi{position:absolute;left:10px;bottom:-14px;z-index:2;width:36px;height:36px;border-radius:50%;background:var(--paper);border:2px solid var(--paper);box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.evcard.hasimg .evi svg{width:20px;height:20px}
+.evcard.hasimg .evb{padding:20px 12px 12px}
 .evb{min-width:0;flex:1}.evt b{font-size:15px;line-height:1.25}
 .evm{font-size:12px;color:var(--muted,#8a7a6e);margin-top:4px;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center}
 .evn{font-size:13px;margin:6px 0 8px;line-height:1.4}
@@ -8123,7 +8131,7 @@ const ART = {
    return o+glass('#a5562a'); },
 };
 /* Imágenes de plato generadas con IA (archivos fotos/<id>.jpg junto a la app) */
-const FOTOS={r1:1,r2:1,r3:1,r4:1,r5:1,r6:1,r7:1,r8:1,r9:1,r10:1,r11:1,r12:1,r13:1,r14:1,r15:1,r16:1,r17:1,r18:1,r19:1,r20:1,r21:1,r22:1,r23:1,r24:1,r25:1,r26:1,r27:1,r28:1,r29:1,r30:1,r31:1,r32:1,r33:1,r34:1,r35:1,r36:1,r37:1,r38:1,r39:1,r40:1,r41:1,r42:1,r43:1,r44:1,r45:1,r46:1,r47:1,r48:1,r49:1,r50:1,r51:1,r52:1,r53:1,r55:1,r56:1,r57:1,r58:1,r59:1,r60:1,r61:1,r62:1,r63:1,r64:1,r65:1,r66:1,r67:1,r68:1,r69:1,r70:1,r71:1,r72:1,r73:1,r74:1,r75:1,r318:1};
+const FOTOS={r1:1,r2:1,r3:1,r4:1,r5:1,r6:1,r7:1,r8:1,r9:1,r10:1,r11:1,r12:1,r13:1,r14:1,r15:1,r16:1,r17:1,r18:1,r19:1,r20:1,r21:1,r22:1,r23:1,r24:1,r25:1,r26:1,r27:1,r28:1,r29:1,r30:1,r31:1,r32:1,r33:1,r34:1,r35:1,r36:1,r37:1,r38:1,r39:1,r40:1,r41:1,r42:1,r43:1,r44:1,r45:1,r46:1,r47:1,r48:1,r49:1,r50:1,r51:1,r52:1,r53:1,r55:1,r56:1,r57:1,r58:1,r59:1,r60:1,r61:1,r62:1,r63:1,r64:1,r65:1,r66:1,r67:1,r68:1,r69:1,r70:1,r71:1,r72:1,r73:1,r74:1,r75:1,r76:1,r318:1};
 const genFoto = r => FOTOS[r.id] ? 'fotos/'+r.id+'.jpg' : '';
 function fotoFail(el){ const r=S.recipes.find(x=>x.id===el.dataset.rid); delete FOTOS[el.dataset.rid]; const b=el.parentNode&&el.parentNode.querySelector('.artbadge'); if(b) b.textContent='Ilustración'; el.outerHTML=r?dishArt(r):''; }
 function heroMedia(r,thumb){ const c=cover(r); if(c) return mediaEl(c,'hero-img',thumb); const g=genFoto(r); if(g) return `<img class="hero-img" src="${g}" data-rid="${r.id}" alt="Imagen de ${esc(r.name)}" loading="lazy" decoding="async" onerror="fotoFail(this)">`; return dishArt(r); }
@@ -10324,7 +10332,7 @@ function fillArt(el){ if(!el.isConnected) return; const r=S.recipes.find(x=>x.id
 function hydrateArt(){ const els=document.querySelectorAll('.lazyart'); if(!els.length) return; if(typeof IntersectionObserver==='undefined'){ els.forEach(fillArt); return; } if(!_artIO) _artIO=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ _artIO.unobserve(e.target); fillArt(e.target); } }),{rootMargin:'600px 0px'}); els.forEach(el=>_artIO.observe(el)); }
 
 /* ============ EVENTOS GASTRONÓMICOS ============ */
-const EV_UPDATED='12 de noviembre de 2026';
+const EV_UPDATED='16 de noviembre de 2026';
 const EV_TYPES=['Alimentos','Cocina','Vino','Cerveza','Destilados'];
 const EVICO={
  'Todos':'<rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.6"/>',
@@ -10339,6 +10347,17 @@ const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','
 const MES3=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 /* [nombre, tipo, comunidad (España) o país, población, meses habituales, nota] — "ES" = España */
 const EV=[
+ ['Feria del Queso Artesano de Liérganes','Alimentos','Cantabria','Liérganes',[4],'Feria de quesos artesanos cada primavera en la Plaza de los Cañones; la IV edición fue el 11-12 de abril de 2026. Próxima edición: primavera de 2027 (fechas por confirmar).'],
+ ['Fiesta de la Virgen de la Velilla y Feria Agroalimentaria de Valderredible','Alimentos','Cantabria','Polientes (Valderredible)',[9],'Feria agroalimentaria en torno a la fiesta del 8 de septiembre; última edición el 8 de septiembre de 2026. Próxima edición: septiembre de 2027 (por confirmar).'],
+ ['Matavendimia','Vino','Murcia','Jumilla',[10],'Feria de bodegas de Jumilla; la V edición fue el 24 y 25 de octubre de 2026. Próxima edición por confirmar.'],
+ ['GastroLata','Alimentos','Murcia','Molina de Segura',[6],'Festival de conservas gourmet; última edición el 19-20 de junio de 2026. Próxima edición por confirmar.'],
+ ['Feria de los Nabos de Sotrondio','Alimentos','Asturias','Sotrondio (San Martín del Rey Aurelio)',[11],'Fiesta de Interés Turístico del Principado en noviembre; la edición de 2026 fue los días 6, 7, 8 y 11 de noviembre. Próxima edición: noviembre de 2027 (por confirmar).'],
+ ['Fiesta Gastronómica de los Callos de Noreña','Alimentos','Asturias','Noreña',[12],'Fiesta de los callos en el primer fin de semana de diciembre; próxima edición el 5-6 de diciembre de 2026.'],
+ ['Jornadas de la Sidra Natural de La Felguera','Destilados','Asturias','La Felguera (Langreo)',[4],'Jornadas de la sidra natural a finales de abril; la XXX edición fue el 24-26 de abril de 2026. Próxima edición: abril de 2027 (por confirmar).'],
+ ['Preba de la Sidra de Gascona','Destilados','Asturias','Oviedo',[6],'Cata de sidra en la calle Gascona (Bulevar de la Sidra) a comienzos de junio; última edición el 7 de junio de 2026. Próxima edición por confirmar.'],
+ ['San Martín de Unx Rosé Day','Vino','Navarra','San Martín de Unx',[6],'Día del Rosado de Navarra; la XXVII edición fue el 7 de junio de 2026 (actos desde el viernes 5). Próxima edición por confirmar.'],
+ ['Entre Corchetes','Vino','Navarra','Orísoain, Carcastillo y Olite',[5],'Festival enogastronómico de Navarra Media con edición de primavera; última edición los fines de semana del 23 y 30 de mayo de 2026. Próxima edición por confirmar.'],
+ ['Ferias de San Martín de Urroz-Villa','Alimentos','Navarra','Urroz-Villa',[11],'Feria tradicional con concurso de quesos, el fin de semana más cercano al 11 de noviembre; última edición el 7-8 de noviembre de 2026.'],
  ['Gran Fiesta del Sobao Pasiego y la Quesada','Alimentos','Cantabria','Vega de Pas',[3,4],'Fiesta de Interés Turístico Regional en Semana Santa; la VIII edición fue del 2 al 5 de abril de 2026. Confirma la próxima edición.'],
  ['Feria del Queso de Cóbreces','Alimentos','Cantabria','Cóbreces (Alfoz de Lloredo)',[7],'Feria de quesos artesanales en julio, con catas y talleres. Fechas de la próxima edición por confirmar.'],
  ['Feria de las 11 Denominaciones de Origen y Calidad','Alimentos','Navarra','Mendavia',[7],'Degustaciones y catas de los productos con DO e IGP del municipio; la XXII edición fue en julio de 2026 (17-19 jul según el directorio).'],
@@ -10572,9 +10591,39 @@ const CCAA_NAMES=new Set(CCAA.map(c=>c[0]));
 const evIsES=e=>CCAA_NAMES.has(e[2]);
 const evOrder=e=>{ const cur=new Date().getMonth()+1; if(!e[4].length) return 99; return Math.min(...e[4].map(m=>(m-cur+12)%12)); };
 function evMonthLabel(e){ return e[4].length?e[4].map(m=>MESES[m-1]).join(' · '):'Fecha por confirmar'; }
+/* Fotos de plato ya creadas (fotos/rN.jpg) reutilizadas como imagen ilustrativa de cada evento */
+const EVFOTO_RULES=[
+ [/queso|quesada|torta del casar|idiazabal|cabrales|gamon/,'r30'],
+ [/jam[oó]n|jabugo|embutido|chosco|butifarra|matanza|ib[eé]rico/,'r16'],
+ [/trufa|hongos|setas/,'r7'],
+ [/callos/,'r56'],
+ [/sidra/,'r21'],
+ [/jerez|sherry|montilla|manzanilla|pedro xim|oloroso/,'r55'],
+ [/vendimia|uva|moscatel|verema/,'r15'],
+ [/paella|arr[oó]s|firarr|fideu/,'r20'],
+ [/pulpo|lac[oó]n/,'r3'],
+ [/at[uú]n|almadraba/,'r9'],
+ [/bonito|anchoa|conserva|gastrolata/,'r39'],
+ [/mejill|marisco|lamprea|calamar|choco|pescado|cabracho|sardin/,'r52'],
+ [/pimiento|piquillo|pinchos|pintxo/,'r35'],
+ [/tapa/,'r23'],
+ [/esp[aá]rrago|verdura|nabo|alubia|habas|cebolleta/,'r71'],
+ [/turr[oó]n|galleta|dulce|mantecado|miel|avellana|nuez|navidad/,'r68'],
+ [/aceite|oliva|olivar|azafr[aá]n/,'r69'],
+ [/cordero|lechazo|cochinillo|carne/,'r10'],
+ [/whisk|ginebra|vermu|cocktail|c[oó]ctel|bourbon|orujo|tropikal|destil/,'r34']
+];
+const EVFOTO_POOL={Alimentos:['r2','r70','r73','r33','r71'],Cocina:['r18','r19','r20','r22','r34'],Vino:['r4','r55','r15','r26'],Cerveza:['r17','r23','r59'],Destilados:['r34','r55']};
+function evFoto(e){
+  const t=(e[0]+' '+e[5]).toLowerCase();
+  for(const [re,id] of EVFOTO_RULES){ if(re.test(t)) return 'fotos/'+id+'.jpg'; }
+  let h=0; for(const c of e[0]) h=(h*31+c.charCodeAt(0))>>>0;
+  const p=EVFOTO_POOL[e[1]]||EVFOTO_POOL.Alimentos;
+  return 'fotos/'+p[h%p.length]+'.jpg';
+}
 function evCard(e){
   const q=encodeURIComponent(e[0]+' '+e[3]+' fechas web oficial');
-  return `<div class="evcard"><div class="evi">${evIcon(e[1])}</div><div class="evb"><div class="evt"><b>${esc(e[0])}</b></div><div class="evm"><span class="pill p-grey">${e[1]}</span> <span>📍 ${esc(e[3])}</span> · <span>🗓 ${evMonthLabel(e)}</span></div><p class="evn">${esc(e[5])}</p><a class="btn sm" style="text-decoration:none" href="https://www.google.com/search?q=${q}" target="_blank" rel="noopener">🔎 Web oficial y fechas</a></div></div>`;
+  return `<div class="evcard hasimg"><div class="evph"><img src="${evFoto(e)}" alt="Imagen ilustrativa: ${esc(e[0])}" loading="lazy" decoding="async" onerror="this.remove()"><div class="evi">${evIcon(e[1])}</div></div><div class="evb"><div class="evt"><b>${esc(e[0])}</b></div><div class="evm"><span class="pill p-grey">${e[1]}</span> <span>📍 ${esc(e[3])}</span> · <span>🗓 ${evMonthLabel(e)}</span></div><p class="evn">${esc(e[5])}</p><a class="btn sm" style="text-decoration:none" href="https://www.google.com/search?q=${q}" target="_blank" rel="noopener">🔎 Web oficial y fechas</a></div></div>`;
 }
 function viewEventos(){
   const E=UI.ev||(UI.ev={t:'',s:'todas',ca:'',co:'',m:0});
@@ -13683,3 +13732,5 @@ render();
 </script>
 </body>
 </html>
+
+</body></html>
