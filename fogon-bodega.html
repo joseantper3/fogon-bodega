@@ -21,6 +21,14 @@
       max-width: 50%;
       height: auto;
     }
+    /* ---- Fichas: ajustar al área de impresión A4 ---- */
+    @page { size: A4 portrait; margin: 0; }
+    body { margin: 0 !important; padding: 0 !important; background: #fff !important; }
+    #app, #nav, .head, .btn, .pst-tabs, .mhead, .pst-preview ~ *, .modal-overlay > .mbox > :not(.pst-preview) { display: none !important; }
+    .modal-overlay, .mbox { position: static !important; overflow: visible !important; background: none !important; padding: 0 !important; margin: 0 !important; max-width: none !important; width: auto !important; box-shadow: none !important; }
+    .pst-preview { overflow: visible !important; width: 794px !important; height: 1123px !important; box-shadow: none !important; border-radius: 0 !important; background: transparent !important; }
+    .pst-preview .poster { transform: none !important; width: 794px !important; height: 1123px !important; }
+    .poster { page-break-inside: avoid; break-inside: avoid; overflow: hidden; }
   }
   .ficha-foto {
     text-align: center;
@@ -12649,14 +12657,49 @@ function fitTech(root){
   const gap=()=>(cr.getBoundingClientRect().top-hy.getBoundingClientRect().bottom)/sc;
   const steps=el.querySelector('.t-steps'), tbl=el.querySelector('table'), ul=hy.querySelector('ul');
   const fs=(e,d)=>parseFloat(getComputedStyle(e).fontSize)+d;
+  /* también comprobar desbordamiento total del poster */
+  const overflow=()=>{ const ch=[...el.children]; const last=ch[ch.length-1]; const bot=last.getBoundingClientRect().bottom/sc; const elBot=el.getBoundingClientRect().top/sc+1123; return bot-elBot; };
   let g=0;
-  while(gap()<12&&g++<60){
-    if(fs(ul,0)>7.7){ ul.style.fontSize=(fs(ul,-.2))+'px'; continue; }
-    if(steps&&fs(steps,0)>7.9){ steps.style.fontSize=(fs(steps,-.2))+'px'; continue; }
-    if(tbl&&fs(tbl,0)>8.6){ tbl.style.fontSize=(fs(tbl,-.2))+'px'; continue; }
-    const tds=[...tbl.querySelectorAll('td')]; const pt=tds.length?parseFloat(getComputedStyle(tds[0]).paddingTop):0;
-    if(pt>1){ tds.forEach(td=>{td.style.paddingTop=td.style.paddingBottom=(pt-.4)+'px';}); continue; }
-    const lis=[...ul.querySelectorAll('li')]; if(lis.length>4){ lis[lis.length-2].remove(); continue; }
+  while((gap()<12||overflow()>0)&&g++<80){
+    if(ul&&fs(ul,0)>7.2){ ul.style.fontSize=(fs(ul,-.2))+'px'; continue; }
+    if(steps&&fs(steps,0)>7.4){ steps.style.fontSize=(fs(steps,-.2))+'px'; continue; }
+    if(tbl&&fs(tbl,0)>7.8){ tbl.style.fontSize=(fs(tbl,-.2))+'px'; continue; }
+    const tds=tbl?[...tbl.querySelectorAll('td')]:[];const pt=tds.length?parseFloat(getComputedStyle(tds[0]).paddingTop):0;
+    if(pt>0.8){ tds.forEach(td=>{td.style.paddingTop=td.style.paddingBottom=(pt-.3)+'px';}); continue; }
+    /* reducir gaps de t-cols y t-data */
+    const cols=el.querySelector('.t-cols'); if(cols){ const cg=parseFloat(getComputedStyle(cols).gap)||12; if(cg>6){ cols.style.gap=(cg-2)+'px'; continue; } }
+    const tdata=el.querySelector('.t-data'); if(tdata){ const dg=parseFloat(getComputedStyle(tdata).gap)||6; if(dg>2){ tdata.style.gap=(dg-1)+'px'; continue; } }
+    /* reducir margin-top de secciones */
+    const boxes=el.querySelectorAll('.t-box,.t-h'); for(const bx of boxes){ const mt=parseFloat(getComputedStyle(bx).marginTop)||0; if(mt>4){ bx.style.marginTop=(mt-2)+'px'; continue; } }
+    if(ul){ const lis=[...ul.querySelectorAll('li')]; if(lis.length>4){ lis[lis.length-2].remove(); continue; } }
+    break;
+  }
+}
+/* Ajustar ficha ilustrada al área de impresión */
+function fitIllustrated(root){
+  const el=(root||document).querySelector('.poster:not(.tech)'); if(!el) return;
+  const cr=el.querySelector('.pst-credit'); if(!cr) return;
+  const sc=(el.getBoundingClientRect().width/el.offsetWidth)||1;
+  const overflow=()=>{ const crBot=cr.getBoundingClientRect().bottom/sc; const elTop=el.getBoundingClientRect().top/sc; return crBot-(elTop+1123); };
+  const fs=(e)=>parseFloat(getComputedStyle(e).fontSize);
+  let g=0;
+  while(overflow()>0&&g++<80){
+    /* 1. Reducir fuente de ingredientes */
+    const ings=el.querySelector('.pst-ings'); if(ings&&fs(ings)>8){ ings.style.fontSize=(fs(ings)-.3)+'px'; continue; }
+    /* 2. Reducir padding/gap de los pasos */
+    const steps=el.querySelector('.pst-steps'); if(steps){ const sg=parseFloat(getComputedStyle(steps).gap)||8; if(sg>3){ steps.style.gap=(sg-1)+'px'; continue; } }
+    /* 3. Reducir fuente de los pasos */
+    const stepPs=el.querySelectorAll('.pst-step p'); if(stepPs.length){ let did=false; for(const sp of stepPs){ if(fs(sp)>7){ sp.style.fontSize=(fs(sp)-.3)+'px'; did=true; } } if(did) continue; }
+    /* 4. Reducir altura de fotos de pasos */
+    const phs=el.querySelectorAll('.pst-step .ph'); if(phs.length){ let did=false; for(const ph of phs){ const h=parseFloat(getComputedStyle(ph).height)||62; if(h>40){ ph.style.height=(h-4)+'px'; did=true; } } if(did) continue; }
+    /* 5. Reducir bottom section */
+    const bot=el.querySelector('.pst-bottom'); if(bot){ const bh=parseFloat(getComputedStyle(bot.children[0]).height); if(bh>140){ [...bot.children].forEach(c=>c.style.height=(bh-6)+'px'); continue; } }
+    /* 6. Reducir ribbons */
+    const ribs=el.querySelectorAll('.pst-ribbon'); for(const rb of ribs){ const rh=parseFloat(getComputedStyle(rb).height)||56; if(rh>36){ rb.style.height=(rh-4)+'px'; continue; } }
+    /* 7. Reducir hero */
+    const hero=el.querySelector('.pst-hero'); if(hero){ const hh=parseFloat(getComputedStyle(hero).height)||150; if(hh>100){ hero.style.height=(hh-8)+'px'; hero.style.width=(parseFloat(getComputedStyle(hero).width)-12)+'px'; continue; } }
+    /* 8. Reducir padding general del poster */
+    const pp=parseFloat(getComputedStyle(el).paddingTop)||20; if(pp>10){ el.style.paddingTop=(pp-2)+'px'; continue; }
     break;
   }
 }
@@ -12792,13 +12835,13 @@ function openPoster(id,mode){
    <div class="row mb"><button class="btn pri" data-act="pstPNG" data-id="${id}">⬇ Descargar imagen (PNG)</button><button class="btn pri" data-act="pstPDF" data-id="${id}">⬇ Descargar PDF A4</button><button class="btn" data-act="pstEdit" data-id="${id}">✎ Personalizar ficha</button><button class="btn" data-act="pstBrand" data-id="${id}">Marca, logo y foto del chef</button></div>
    <p class="tiny muted">Formato A4 vertical. Las raciones son las de la ficha (${S.scale[id]||r.serv}). Si la receta tiene foto de portada o fotos en los pasos, aparecen en la ficha.</p>
    <div class="pst-preview">${posterHTML(r)}</div>`);
-  document.querySelector('#modal .mbox').classList.add('wide'); requestAnimationFrame(()=>{ fitTech(document.querySelector('.pst-preview')); fitPreview(); });
+  document.querySelector('#modal .mbox').classList.add('wide'); requestAnimationFrame(()=>{ const pv=document.querySelector('.pst-preview'); fitTech(pv); fitIllustrated(pv); fitPreview(); });
 }
 async function waitImages(el){ await Promise.all([...el.querySelectorAll('img')].map(i=>i.complete&&i.naturalWidth?0:new Promise(r=>{i.onload=i.onerror=r; setTimeout(r,4000);}))); }
 async function posterCanvas(r){
   await loadScript(H2C);
   let st=document.getElementById('pstStage'); if(!st){ st=document.createElement('div'); st.id='pstStage'; document.body.appendChild(st); }
-  st.innerHTML=posterHTML(r); await hydrate(); await waitImages(st); try{ await document.fonts.ready; }catch(e){} fitTech(st);
+  st.innerHTML=posterHTML(r); await hydrate(); await waitImages(st); try{ await document.fonts.ready; }catch(e){} fitTech(st); fitIllustrated(st);
   const c=await window.html2canvas(st.firstElementChild,{scale:2,useCORS:true,backgroundColor:'#f3e4c8',logging:false});
   st.innerHTML=''; return c;
 }
