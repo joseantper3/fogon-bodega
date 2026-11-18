@@ -12310,7 +12310,7 @@ function recipeForm(r,pre){
     <div><label class="f">Región / comunidad</label><select name="region">${REGIONS.map(c=>`<option ${c===r.region?'selected':''}>${c}</option>`).join('')}</select></div>
     <div><label class="f">Provincia (España)</label><select name="prov"><option value="">— Toda la comunidad / no aplica —</option>${CCAA.map(c=>`<optgroup label="${esc(c[1])}">${c[2].map(p=>`<option ${p===(r.prov||'')?'selected':''}>${p}</option>`).join('')}</optgroup>`).join('')}</select></div>
     <div><label class="f">Raciones</label><input type="number" min="1" name="serv" value="${r.serv}"></div>
-    <div><label class="f">Min. activos</label><input type="number" min="0" name="active" value="${r.active}"></div>
+    <div><label class="f">Min.</label><input type="number" min="0" name="active" value="${r.active}"></div>
     <div><label class="f">Min. reposo/cocción</label><input type="number" min="0" name="rest" value="${r.rest}"></div>
     <div><label class="f">Dificultad</label><select name="diff">${['Fácil','Media','Alta'].map(c=>`<option ${c===r.diff?'selected':''}>${c}</option>`).join('')}</select></div>
    </div>
