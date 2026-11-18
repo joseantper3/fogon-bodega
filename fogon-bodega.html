@@ -11046,7 +11046,7 @@ function viewHome(){
       <div style="flex:1;min-width:240px">
         <div class="tiny" style="letter-spacing:1.4px;text-transform:uppercase;color:#e8c98c;font-weight:700">${tmain&&tmain.rid?'En tu menú de hoy':'Sugerencia del chef'}</div>
         <h2 style="font-size:34px;margin:6px 0 8px">${esc(r.name)}</h2>
-        <div class="meta" style="color:#f0d9c8">${hmin(r.active)} activos · ${esc(r.diff)} · ${r.serv} raciones${r.region&&r.region!=='Otra'?' · '+esc(r.region):''}</div>
+        <div class="meta" style="color:#f0d9c8">${hmin(r.active)} · ${esc(r.diff)} · ${r.serv} raciones${r.region&&r.region!=='Otra'?' · '+esc(r.region):''}</div>
         <div class="row mt"><button class="btn" data-go="receta-${r.id}">Ver ficha</button><button class="btn" data-act="cook" data-id="${r.id}">Modo cocina</button>${vidBtn(r)}${fotoBtn(r)}<select data-act="tonight" style="max-width:220px;background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.25)">${S.recipes.slice().sort((p,q)=>p.name.localeCompare(q.name,'es')).map(x=>`<option value="${x.id}" ${x.id===r.id?'selected':''} style="color:#000">${esc(x.name)}</option>`).join('')}</select><button class="btn" data-act="tonightNext" title="Otra sugerencia al azar">🔀 Otra receta</button></div>
       </div>
       <div style="flex:1;min-width:260px">
@@ -12234,7 +12234,7 @@ function viewRecipe(id){
   const top=rankWines(r.profile).slice(0,4); const bb=bestBottles(r.profile,3);
   return `<button class="btn ghost" data-go="recetas">Recetario</button>
   <div class="detail-hero mt ${hasHero(r)?'ph':''}" style="${heroBg(r.cat)}">${heroMedia(r,false)}${!cover(r)&&genFoto(r)?'<span class="artbadge">Imagen generada con IA</span>':!cover(r)&&(ART[r.id]||SPEC[r.id]||GPRO[r.id])?'<span class="artbadge">Ilustración</span>':''}<div><div class="tiny" style="letter-spacing:1.4px;text-transform:uppercase;font-weight:700;opacity:.85">${esc(r.cat)}${placeLabel(r)?' · '+esc(placeLabel(r)):''}</div><h1>${esc(r.name)}</h1>
-    <div class="meta" style="color:#f3e3d6;margin-top:8px"><span>⏱ ${hmin(r.active)} activos${r.rest?' + '+hmin(r.rest)+' de reposo/cocción':''}</span><span>Dificultad: ${esc(r.diff)}</span></div></div>
+    <div class="meta" style="color:#f3e3d6;margin-top:8px"><span>⏱ ${hmin(r.active)}${r.rest?' + '+hmin(r.rest)+' de reposo/cocción':''}</span><span>Dificultad: ${esc(r.diff)}</span></div></div>
     <div class="row"><button class="btn" data-act="poster" data-id="${id}">Ficha</button><button class="btn" data-act="fav" data-id="${id}">${r.fav?'Favorita ✓':'Favorita'}</button><button class="btn pri" data-act="cook" data-id="${id}">Modo cocina</button>${vidBtn(r)}${fotoBtn(r)}</div></div>
   ${r.hist?`<div class="card mt histcard"><div class="row" style="gap:14px;align-items:flex-start;flex-wrap:nowrap"><span class="histico">📜</span><div><h3>Historia - Curiosidades</h3><p>${esc(r.hist)}</p></div></div></div>`:''}
   ${GOURMET[id]?gProCard(id):''}
