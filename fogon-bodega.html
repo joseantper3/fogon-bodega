@@ -12226,7 +12226,7 @@ function viewRecipe(id){
   return `<button class="btn ghost" data-go="recetas">Recetario</button>
   <div class="detail-hero mt ${hasHero(r)?'ph':''}" style="${heroBg(r.cat)}">${heroMedia(r,false)}${!cover(r)&&genFoto(r)?'<span class="artbadge">Imagen generada con IA</span>':!cover(r)&&(ART[r.id]||SPEC[r.id]||GPRO[r.id])?'<span class="artbadge">Ilustración</span>':''}<div><div class="tiny" style="letter-spacing:1.4px;text-transform:uppercase;font-weight:700;opacity:.85">${esc(r.cat)}${placeLabel(r)?' · '+esc(placeLabel(r)):''}</div><h1>${esc(r.name)}</h1>
     <div class="meta" style="color:#f3e3d6;margin-top:8px"><span>⏱ ${hmin(r.active)} activos${r.rest?' + '+hmin(r.rest)+' de reposo/cocción':''}</span><span>Dificultad: ${esc(r.diff)}</span></div></div>
-    <div class="row"><button class="btn" data-act="poster" data-id="${id}">Ficha</button><button class="btn" data-act="heroPhoto" data-id="${id}">${cover(r)?'Cambiar foto del plato':'Añadir foto del plato'}</button><button class="btn" data-act="fav" data-id="${id}">${r.fav?'Favorita ✓':'Favorita'}</button><button class="btn pri" data-act="cook" data-id="${id}">Modo cocina</button>${vidBtn(r)}${fotoBtn(r)}</div></div>
+    <div class="row"><button class="btn" data-act="poster" data-id="${id}">Ficha</button><button class="btn" data-act="fav" data-id="${id}">${r.fav?'Favorita ✓':'Favorita'}</button><button class="btn pri" data-act="cook" data-id="${id}">Modo cocina</button>${vidBtn(r)}${fotoBtn(r)}</div></div>
   ${r.hist?`<div class="card mt histcard"><div class="row" style="gap:14px;align-items:flex-start;flex-wrap:nowrap"><span class="histico">📜</span><div><h3>Historia - Curiosidades</h3><p>${esc(r.hist)}</p></div></div></div>`:''}
   ${GOURMET[id]?gProCard(id):''}
   <div class="grid g2 mt">
