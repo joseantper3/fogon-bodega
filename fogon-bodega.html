@@ -12780,7 +12780,7 @@ function techHTML(r){
      <div><div class="t-kick">Ficha técnica · Escandallo desglosado</div><div class="t-title" style="font-size:${fs}px">${esc(r.name)}</div><div class="t-sub">${esc(d.family)} · ${esc(placeLabel(r)||r.cat)} · ${n} ${n===1?'ración':'raciones'}</div></div>
    </div>
    <div class="t-data">
-     <div><b>${hmin(r.active)}</b><small>Tiempo activo</small></div>
+     <div><b>${hmin(r.active)}</b><small>Tiempo</small></div>
      <div><b>${hmin(r.rest)}</b><small>Reposo / cocción</small></div>
      <div><b>${esc(r.diff)}</b><small>Dificultad</small></div>
      <div><b>${r.nutr&&r.nutr.k?r.nutr.k:'—'}</b><small>Kcal / ración</small></div>
@@ -12852,7 +12852,7 @@ function posterHTML(r){
      </div>
      <div>${b.chef?`<div class="pst-chef">${imgTag(b.chef)}</div>`:`<div class="pst-tech">
         <div class="pst-pill" style="font-size:14px;margin-bottom:6px">Ficha técnica</div>
-        <div class="row2"><span>Tiempo activo</span><b>${hmin(r.active)}</b></div>
+        <div class="row2"><span>Tiempo</span><b>${hmin(r.active)}</b></div>
         <div class="row2"><span>Reposo / cocción</span><b>${hmin(r.rest)}</b></div>
         <div class="row2"><span>Dificultad</span><b>${esc(r.diff)}</b></div>
         <div class="row2"><span>Coste / ración</span><b>${eur(ec.rac)}</b></div>
