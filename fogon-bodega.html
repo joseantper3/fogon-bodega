@@ -275,7 +275,7 @@ details summary{cursor:pointer;font-weight:600}
   #timers{bottom:84px}
 }
 /* ===== Ficha imprimible (cartel A4) ===== */
-.poster{width:794px;height:1123px;position:relative;overflow:hidden;background:#f3e4c8;background-image:radial-gradient(ellipse at 50% 35%,#fbf1dc 0%,#f3e4c8 55%,#e6cfa6 100%);color:#2a1d19;font-family:'Cormorant Garamond',Georgia,serif;box-sizing:border-box;padding:20px 24px 0}
+.poster{width:794px;height:1123px;position:relative;overflow:hidden;background:#f3e4c8;background-image:radial-gradient(ellipse at 50% 35%,#fbf1dc 0%,#f3e4c8 55%,#e6cfa6 100%);color:#2a1d19;font-family:'Cormorant Garamond',Georgia,serif;box-sizing:border-box;padding:20px 24px 56px}
 .poster *{box-sizing:border-box}
 .poster .frame{position:absolute;inset:8px;border:2px solid #b08a3e;border-radius:6px;pointer-events:none}
 .poster .frame2{position:absolute;inset:13px;border:1px solid rgba(176,138,62,.55);border-radius:4px;pointer-events:none}
@@ -345,8 +345,8 @@ details summary{cursor:pointer;font-weight:600}
 .pst-check li{display:flex;gap:6px;padding:2.5px 0}
 .pst-check li::before{content:'✓';width:12px;height:12px;border:1.5px solid #1f2a22;border-radius:2px;font-size:9px;line-height:10px;text-align:center;flex:none;font-weight:700}
 .pst-stars{text-align:center;color:#1f2a22;letter-spacing:4px;font-size:13px;margin-top:4px}
-.pst-credit{position:absolute;left:0;right:0;bottom:26px;text-align:center;font:700 6.5px 'Plus Jakarta Sans',Inter,sans-serif;letter-spacing:1.6px;color:rgba(60,40,30,.62);pointer-events:none;user-select:none;z-index:9}
-.pst-foot{position:absolute;left:62px;right:62px;bottom:18px;display:flex;justify-content:space-between;gap:8px;font-family:'Playfair Display',serif;font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.8px;color:#4a3426;border-top:1.5px solid #b08a3e;padding-top:6px}
+.pst-credit{position:absolute;left:0;right:0;bottom:44px;text-align:center;font:700 6.5px 'Plus Jakarta Sans',Inter,sans-serif;letter-spacing:1.6px;color:rgba(60,40,30,.62);pointer-events:none;user-select:none;z-index:9}
+.pst-foot{position:absolute;left:62px;right:62px;bottom:44px;display:flex;justify-content:space-between;gap:8px;font-family:'Playfair Display',serif;font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.8px;color:#4a3426;border-top:1.5px solid #b08a3e;padding-top:6px}
 .pst-foot span:not(:last-child)::after{content:'♥';margin-left:8px;color:#6b1a1f}
 .pst-preview{width:100%;overflow:hidden;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.25);background:#e6cfa6}
 .pst-preview .poster{transform-origin:0 0}
@@ -526,7 +526,7 @@ input[type=text],input[type=number],input[type=search],select,textarea{border-ra
 @media (max-width:760px){.hero-tonight h2{font-size:21px!important}}
 
 /* ===== Ficha técnica con escandallo desglosado (A4) ===== */
-.poster.tech{padding:26px 34px 0;font-family:Inter,sans-serif}
+.poster.tech{padding:26px 34px 56px;font-family:Inter,sans-serif}
 .tech .t-head{display:grid;grid-template-columns:96px 92px 1fr;gap:14px;align-items:center;position:relative;z-index:2}
 .tech .t-logo{width:88px;height:88px;border-radius:50%;overflow:hidden}.tech .t-logo img,.tech .t-logo svg{width:100%;height:100%;object-fit:cover}
 .tech .t-kick{font-size:10px;letter-spacing:2.4px;text-transform:uppercase;font-weight:700;color:#6b1a1f}
@@ -559,7 +559,7 @@ input[type=text],input[type=number],input[type=search],select,textarea{border-ra
 .tech .t-two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;position:relative;z-index:2}
 .tech .t-two p{margin:0;font-size:9.6px;line-height:1.38}
 .tech .t-wines{display:flex;gap:4px;justify-content:space-around;align-items:flex-end;font-size:7.8px;font-weight:600;text-align:center;line-height:1.1}
-.tech .t-foot{position:absolute;left:62px;right:62px;bottom:18px;display:flex;justify-content:space-between;font-size:8.6px;letter-spacing:1.2px;text-transform:uppercase;color:#4a3426;border-top:1px solid #b08a3e;padding-top:6px;z-index:2}
+.tech .t-foot{position:absolute;left:62px;right:62px;bottom:44px;display:flex;justify-content:space-between;font-size:8.6px;letter-spacing:1.2px;text-transform:uppercase;color:#4a3426;border-top:1px solid #b08a3e;padding-top:6px;z-index:2}
 .pst-tabs{display:flex;gap:6px;margin:0 0 10px}
 .t-km0{font-size:9px;margin-top:4px;text-align:center;color:#5a2a4a;line-height:1.2}
 .pst-km0{font-size:10px;margin-top:8px;color:#5a2a4a;line-height:1.25;font-family:Inter,sans-serif;border-top:1px dashed rgba(138,106,58,.6);padding-top:5px}
@@ -12652,54 +12652,107 @@ function hygieneHTML(r){
 }
 function fitTech(root){
   const el=(root||document).querySelector('.poster.tech'); if(!el) return;
-  const hy=el.querySelector('.t-hyg'), cr=el.querySelector('.pst-credit'); if(!hy||!cr) return;
+  const cr=el.querySelector('.pst-credit'); if(!cr) return;
   const sc=(el.getBoundingClientRect().width/el.offsetWidth)||1;
-  const gap=()=>(cr.getBoundingClientRect().top-hy.getBoundingClientRect().bottom)/sc;
-  const steps=el.querySelector('.t-steps'), tbl=el.querySelector('table'), ul=hy.querySelector('ul');
-  const fs=(e,d)=>parseFloat(getComputedStyle(e).fontSize)+d;
-  /* también comprobar desbordamiento total del poster */
-  const overflow=()=>{ const ch=[...el.children]; const last=ch[ch.length-1]; const bot=last.getBoundingClientRect().bottom/sc; const elBot=el.getBoundingClientRect().top/sc+1123; return bot-elBot; };
+  const elTop=()=>el.getBoundingClientRect().top/sc;
+  /* Límite: 1cm (38px) libre por debajo del poster → contenido hasta 1123-38=1085, crédito está a bottom:44px (y=1079) → contenido real hasta crédito top */
+  const maxY=()=>elTop()+1123-44-10; /* 10px gap antes del crédito */
+  /* Encontrar el último elemento de contenido (no absoluto) */
+  const contentBottom=()=>{
+    let bot=0;
+    el.querySelectorAll('.t-box,.t-steps,.t-hyg,.t-cols,.t-h,table,.t-data,.t-head').forEach(c=>{
+      const r=c.getBoundingClientRect(); const b=r.bottom/sc;
+      if(b>bot) bot=b;
+    });
+    /* también el tip si existe */
+    const tip=el.querySelector('.t-box:last-of-type'); if(tip){ const b=tip.getBoundingClientRect().bottom/sc; if(b>bot) bot=b; }
+    return bot;
+  };
+  const overflow=()=>contentBottom()-maxY();
+  const steps=el.querySelector('.t-steps'), tbl=el.querySelector('table');
+  const hy=el.querySelector('.t-hyg'); const ul=hy?hy.querySelector('ul'):null;
+  const fs=(e)=>parseFloat(getComputedStyle(e).fontSize);
   let g=0;
-  while((gap()<12||overflow()>0)&&g++<80){
-    if(ul&&fs(ul,0)>7.2){ ul.style.fontSize=(fs(ul,-.2))+'px'; continue; }
-    if(steps&&fs(steps,0)>7.4){ steps.style.fontSize=(fs(steps,-.2))+'px'; continue; }
-    if(tbl&&fs(tbl,0)>7.8){ tbl.style.fontSize=(fs(tbl,-.2))+'px'; continue; }
-    const tds=tbl?[...tbl.querySelectorAll('td')]:[];const pt=tds.length?parseFloat(getComputedStyle(tds[0]).paddingTop):0;
-    if(pt>0.8){ tds.forEach(td=>{td.style.paddingTop=td.style.paddingBottom=(pt-.3)+'px';}); continue; }
-    /* reducir gaps de t-cols y t-data */
-    const cols=el.querySelector('.t-cols'); if(cols){ const cg=parseFloat(getComputedStyle(cols).gap)||12; if(cg>6){ cols.style.gap=(cg-2)+'px'; continue; } }
-    const tdata=el.querySelector('.t-data'); if(tdata){ const dg=parseFloat(getComputedStyle(tdata).gap)||6; if(dg>2){ tdata.style.gap=(dg-1)+'px'; continue; } }
-    /* reducir margin-top de secciones */
-    const boxes=el.querySelectorAll('.t-box,.t-h'); for(const bx of boxes){ const mt=parseFloat(getComputedStyle(bx).marginTop)||0; if(mt>4){ bx.style.marginTop=(mt-2)+'px'; continue; } }
-    if(ul){ const lis=[...ul.querySelectorAll('li')]; if(lis.length>4){ lis[lis.length-2].remove(); continue; } }
+  while(overflow()>0&&g++<120){
+    /* 1. Reducir fuente de tabla de escandallo */
+    if(tbl&&fs(tbl)>7.6){ tbl.style.fontSize=(fs(tbl)-.15)+'px'; continue; }
+    /* 2. Reducir padding de celdas */
+    if(tbl){ const tds=[...tbl.querySelectorAll('td')]; const pt=tds.length?parseFloat(getComputedStyle(tds[0]).paddingTop):0;
+      if(pt>0.6){ tds.forEach(td=>{td.style.paddingTop=td.style.paddingBottom=(pt-.25)+'px';}); continue; } }
+    /* 3. Reducir fuente de pasos */
+    if(steps&&fs(steps)>7){ steps.style.fontSize=(fs(steps)-.15)+'px'; continue; }
+    /* 4. Reducir fuente de higiene */
+    if(ul&&fs(ul)>6.8){ ul.style.fontSize=(fs(ul)-.15)+'px'; continue; }
+    /* 5. Reducir padding de items higiene */
+    if(ul){ const lis=[...ul.querySelectorAll('li')]; const lp=lis.length?parseFloat(getComputedStyle(lis[0]).paddingTop):0;
+      if(lp>0.4){ lis.forEach(li=>{li.style.paddingTop=li.style.paddingBottom=(lp-.2)+'px';}); continue; } }
+    /* 6. Reducir gaps de t-cols */
+    const cols=el.querySelector('.t-cols'); if(cols){ const cg=parseFloat(getComputedStyle(cols).gap)||12; if(cg>4){ cols.style.gap=(cg-1)+'px'; continue; } }
+    /* 7. Reducir margin-top de secciones */
+    let shrunk=false;
+    el.querySelectorAll('.t-box,.t-h,.t-cols').forEach(bx=>{ const mt=parseFloat(getComputedStyle(bx).marginTop)||0; if(mt>2&&!shrunk){ bx.style.marginTop=(mt-1)+'px'; shrunk=true; } });
+    if(shrunk) continue;
+    /* 8. Reducir t-data gaps y padding */
+    const tdata=el.querySelector('.t-data'); if(tdata){ const dg=parseFloat(getComputedStyle(tdata).gap)||6; if(dg>2){ tdata.style.gap=(dg-1)+'px'; continue; }
+      const dp=[...tdata.querySelectorAll('div')]; const dpp=dp.length?parseFloat(getComputedStyle(dp[0]).paddingTop):5; if(dpp>2){ dp.forEach(d=>{d.style.paddingTop=d.style.paddingBottom=(dpp-.5)+'px';}); continue; } }
+    /* 9. Reducir margin de t-data */
+    if(tdata){ const dm=parseFloat(getComputedStyle(tdata).marginTop)||12; if(dm>4){ tdata.style.marginTop=(dm-2)+'px'; tdata.style.marginBottom=(dm-2)+'px'; continue; } }
+    /* 10. Reducir padding top del poster */
+    const pp=parseFloat(getComputedStyle(el).paddingTop)||26; if(pp>14){ el.style.paddingTop=(pp-2)+'px'; continue; }
+    /* 11. Quitar items de higiene si quedan muchos */
+    if(ul){ const lis=[...ul.querySelectorAll('li')]; if(lis.length>3){ lis[lis.length-1].remove(); continue; } }
+    /* 12. Reducir t-head */
+    const thead=el.querySelector('.t-head'); if(thead){ const tl=thead.querySelector('.t-title'); if(tl&&fs(tl)>16){ tl.style.fontSize=(fs(tl)-1)+'px'; continue; } }
+    const tpic=el.querySelector('.t-pic'); if(tpic){ const pw=parseFloat(getComputedStyle(tpic).width)||96; if(pw>60){ tpic.style.width=tpic.style.height=(pw-6)+'px'; continue; } }
     break;
   }
 }
-/* Ajustar ficha ilustrada al área de impresión */
+/* Ajustar ficha ilustrada al área de impresión — dejar 1cm libre por debajo */
 function fitIllustrated(root){
   const el=(root||document).querySelector('.poster:not(.tech)'); if(!el) return;
   const cr=el.querySelector('.pst-credit'); if(!cr) return;
   const sc=(el.getBoundingClientRect().width/el.offsetWidth)||1;
-  const overflow=()=>{ const crBot=cr.getBoundingClientRect().bottom/sc; const elTop=el.getBoundingClientRect().top/sc; return crBot-(elTop+1123); };
+  const elTop=()=>el.getBoundingClientRect().top/sc;
+  /* crédito a bottom:44px; contenido debe acabar 10px antes del crédito → maxY = top + 1123 - 44 - 10 */
+  const maxY=()=>elTop()+1123-44-10;
+  const contentBottom=()=>{
+    let bot=0;
+    el.querySelectorAll('.pst-bottom,.pst-steps,.pst-ribbon,.pst-mid').forEach(c=>{
+      const b=c.getBoundingClientRect().bottom/sc; if(b>bot) bot=b;
+    });
+    return bot;
+  };
+  const overflow=()=>contentBottom()-maxY();
   const fs=(e)=>parseFloat(getComputedStyle(e).fontSize);
   let g=0;
-  while(overflow()>0&&g++<80){
-    /* 1. Reducir fuente de ingredientes */
-    const ings=el.querySelector('.pst-ings'); if(ings&&fs(ings)>8){ ings.style.fontSize=(fs(ings)-.3)+'px'; continue; }
-    /* 2. Reducir padding/gap de los pasos */
-    const steps=el.querySelector('.pst-steps'); if(steps){ const sg=parseFloat(getComputedStyle(steps).gap)||8; if(sg>3){ steps.style.gap=(sg-1)+'px'; continue; } }
-    /* 3. Reducir fuente de los pasos */
-    const stepPs=el.querySelectorAll('.pst-step p'); if(stepPs.length){ let did=false; for(const sp of stepPs){ if(fs(sp)>7){ sp.style.fontSize=(fs(sp)-.3)+'px'; did=true; } } if(did) continue; }
-    /* 4. Reducir altura de fotos de pasos */
-    const phs=el.querySelectorAll('.pst-step .ph'); if(phs.length){ let did=false; for(const ph of phs){ const h=parseFloat(getComputedStyle(ph).height)||62; if(h>40){ ph.style.height=(h-4)+'px'; did=true; } } if(did) continue; }
-    /* 5. Reducir bottom section */
-    const bot=el.querySelector('.pst-bottom'); if(bot){ const bh=parseFloat(getComputedStyle(bot.children[0]).height); if(bh>140){ [...bot.children].forEach(c=>c.style.height=(bh-6)+'px'); continue; } }
-    /* 6. Reducir ribbons */
-    const ribs=el.querySelectorAll('.pst-ribbon'); for(const rb of ribs){ const rh=parseFloat(getComputedStyle(rb).height)||56; if(rh>36){ rb.style.height=(rh-4)+'px'; continue; } }
-    /* 7. Reducir hero */
-    const hero=el.querySelector('.pst-hero'); if(hero){ const hh=parseFloat(getComputedStyle(hero).height)||150; if(hh>100){ hero.style.height=(hh-8)+'px'; hero.style.width=(parseFloat(getComputedStyle(hero).width)-12)+'px'; continue; } }
-    /* 8. Reducir padding general del poster */
-    const pp=parseFloat(getComputedStyle(el).paddingTop)||20; if(pp>10){ el.style.paddingTop=(pp-2)+'px'; continue; }
+  while(overflow()>0&&g++<100){
+    /* 1. Reducir bottom section height */
+    const bot=el.querySelector('.pst-bottom'); if(bot&&bot.children.length){ const bh=parseFloat(getComputedStyle(bot.children[0]).height)||186;
+      if(bh>120){ [...bot.children].forEach(c=>c.style.height=(bh-4)+'px'); continue; } }
+    /* 2. Reducir fuente de ingredientes */
+    const ings=el.querySelector('.pst-ings'); if(ings&&fs(ings)>7.5){ ings.style.fontSize=(fs(ings)-.2)+'px'; continue; }
+    /* 3. Reducir li padding ingredientes */
+    if(ings){ const lis=[...ings.querySelectorAll('li')]; const lp=lis.length?parseFloat(getComputedStyle(lis[0]).paddingTop):2.5;
+      if(lp>0.5){ lis.forEach(li=>{li.style.paddingTop=li.style.paddingBottom=(lp-.3)+'px';}); continue; } }
+    /* 4. Reducir gap de pasos */
+    const steps=el.querySelector('.pst-steps'); if(steps){ const sg=parseFloat(getComputedStyle(steps).gap)||8; if(sg>2){ steps.style.gap=(sg-1)+'px'; continue; } }
+    /* 5. Reducir fuente de pasos */
+    const stepPs=el.querySelectorAll('.pst-step p'); if(stepPs.length){ let did=false; for(const sp of stepPs){ if(fs(sp)>6.5){ sp.style.fontSize=(fs(sp)-.2)+'px'; did=true; } } if(did) continue; }
+    /* 6. Reducir altura de fotos de pasos */
+    const phs=el.querySelectorAll('.pst-step .ph'); if(phs.length){ let did=false; for(const ph of phs){ const h=parseFloat(getComputedStyle(ph).height)||62; if(h>36){ ph.style.height=(h-3)+'px'; did=true; } } if(did) continue; }
+    /* 7. Reducir ribbons */
+    let ribShrunk=false;
+    el.querySelectorAll('.pst-ribbon').forEach(rb=>{ const rh=parseFloat(getComputedStyle(rb).height)||56; if(rh>32&&!ribShrunk){ rb.style.height=(rh-3)+'px'; ribShrunk=true; }
+      const rm=parseFloat(getComputedStyle(rb).marginTop)||8; if(rm>2&&!ribShrunk){ rb.style.marginTop=(rm-2)+'px'; ribShrunk=true; } });
+    if(ribShrunk) continue;
+    /* 8. Reducir hero */
+    const hero=el.querySelector('.pst-hero'); if(hero){ const hh=parseFloat(getComputedStyle(hero).height)||150; if(hh>90){ hero.style.height=(hh-6)+'px'; hero.style.width=(parseFloat(getComputedStyle(hero).width)-9)+'px'; continue; } }
+    /* 9. Reducir margin-top de pst-mid */
+    const mid=el.querySelector('.pst-mid'); if(mid){ const mg=parseFloat(getComputedStyle(mid).gap)||12; if(mg>6){ mid.style.gap=(mg-1)+'px'; continue; } }
+    /* 10. Reducir padding general del poster */
+    const pp=parseFloat(getComputedStyle(el).paddingTop)||20; if(pp>8){ el.style.paddingTop=(pp-2)+'px'; continue; }
+    /* 11. Reducir fuente de pst-bottom */
+    if(bot){ const bp=bot.querySelectorAll('p'); let did=false; for(const p of bp){ if(fs(p)>7.5){ p.style.fontSize=(fs(p)-.2)+'px'; did=true; } } if(did) continue; }
     break;
   }
 }
