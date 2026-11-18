@@ -12361,7 +12361,7 @@ function viewPairing(){
     const rank=rankWines(p); const bb=bestBottles(p,4);
     const fs=(k,l)=>`<div class="slider"><label class="small">${l}</label><input type="range" min="0" max="5" value="${UI.free[k]}" data-free="${k}"><span>${UI.free[k]}</span></div>`;
     body = `<div class="grid g2">
-      <div class="card">${m==='plato'?`<label class="f">Elige un plato de tu recetario</label><select data-act="pairRid">${S.recipes.map(r=>`<option value="${r.id}" ${r.id===UI.pairRid?'selected':''}>${esc(r.name)}</option>`).join('')}</select>
+      <div class="card">${m==='plato'?`<label class="f">Elige un plato de tu recetario</label><select data-act="pairRid">${S.recipes.slice().sort((a,b)=>a.name.localeCompare(b.name,'es')).map(r=>`<option value="${r.id}" ${r.id===UI.pairRid?'selected':''}>${esc(r.name)}</option>`).join('')}</select>
         <p class="small muted mt">Perfil: intensidad ${p.i}, grasa ${p.f}, acidez ${p.a}, sal ${p.s}, dulzor ${p.d}, picante ${p.h}, umami ${p.u}, amargor ${p.b} · ${PROT[p.p]}${p.r?' · '+esc(p.r):''}</p>`
         :`<h3>Describe tu plato</h3><p class="small muted">Mueve los controles como lo haría un sumiller al leer la comanda.</p>
         ${fs('i','Intensidad')}${fs('f','Grasa')}${fs('a','Acidez')}${fs('s','Sal')}${fs('d','Dulzor')}${fs('h','Picante')}${fs('u','Umami')}${fs('b','Amargor')}
