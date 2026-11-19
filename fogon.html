@@ -573,10 +573,18 @@ input[type=text],input[type=number],input[type=search],select,textarea{border-ra
 @media (max-width:600px){
   html{-webkit-text-size-adjust:100%}
   body{font-size:14px}
-  main{padding:14px 12px 92px}
+  main{padding:14px 10px 92px}
   h1{font-size:25px!important}
   h2{font-size:20px}
   h3{font-size:16.5px}
+  .head{flex-direction:column;align-items:center;text-align:center}
+  .head h1::after{margin-left:auto;margin-right:auto}
+  .head .row{justify-content:center}
+  .head .sub{text-align:center}
+  .scopetgl{justify-content:center}
+  .viewtgl{justify-content:center}
+  .crumb{text-align:center}
+  .rcnt{text-align:center;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px}
   .card{padding:12px;border-radius:14px}
   .btn{padding:7px 11px;font-size:12px;border-radius:9px;gap:5px}
   .btn.sm{padding:5px 9px;font-size:11px}
