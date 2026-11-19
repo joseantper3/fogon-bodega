@@ -614,13 +614,6 @@ input[type=text],input[type=number],input[type=search],select,textarea{border-ra
 .evcard{display:flex;gap:12px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:var(--shadow)}
 .evi{flex:none;width:44px;height:44px;border-radius:12px;background:#f6ede2;color:var(--wine);display:flex;align-items:center;justify-content:center}
 .evi svg{width:28px;height:28px}
-.evcard.hasimg{flex-direction:column;gap:0;padding:0;overflow:hidden}
-.evcard.hasimg .evph{position:relative;height:118px;background:#2a1d19;flex:none}
-.evcard.hasimg .evph img{width:100%;height:100%;object-fit:cover;display:block}
-.evcard.hasimg .evph::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,12,10,0) 45%,rgba(20,12,10,.45))}
-.evcard.hasimg .evi{position:absolute;left:10px;bottom:-14px;z-index:2;width:36px;height:36px;border-radius:50%;background:var(--paper);border:2px solid var(--paper);box-shadow:0 2px 8px rgba(0,0,0,.25)}
-.evcard.hasimg .evi svg{width:20px;height:20px}
-.evcard.hasimg .evb{padding:20px 12px 12px}
 .evb{min-width:0;flex:1}.evt b{font-size:15px;line-height:1.25}
 .evm{font-size:12px;color:var(--muted,#8a7a6e);margin-top:4px;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center}
 .evn{font-size:13px;margin:6px 0 8px;line-height:1.4}
@@ -10603,39 +10596,9 @@ const CCAA_NAMES=new Set(CCAA.map(c=>c[0]));
 const evIsES=e=>CCAA_NAMES.has(e[2]);
 const evOrder=e=>{ const cur=new Date().getMonth()+1; if(!e[4].length) return 99; return Math.min(...e[4].map(m=>(m-cur+12)%12)); };
 function evMonthLabel(e){ return e[4].length?e[4].map(m=>MESES[m-1]).join(' · '):'Fecha por confirmar'; }
-/* Fotos de plato ya creadas (fotos/rN.jpg) reutilizadas como imagen ilustrativa de cada evento */
-const EVFOTO_RULES=[
- [/queso|quesada|torta del casar|idiazabal|cabrales|gamon/,'r30'],
- [/jam[oó]n|jabugo|embutido|chosco|butifarra|matanza|ib[eé]rico/,'r16'],
- [/trufa|hongos|setas/,'r7'],
- [/callos/,'r56'],
- [/sidra/,'r21'],
- [/jerez|sherry|montilla|manzanilla|pedro xim|oloroso/,'r55'],
- [/vendimia|uva|moscatel|verema/,'r15'],
- [/paella|arr[oó]s|firarr|fideu/,'r20'],
- [/pulpo|lac[oó]n/,'r3'],
- [/at[uú]n|almadraba/,'r9'],
- [/bonito|anchoa|conserva|gastrolata/,'r39'],
- [/mejill|marisco|lamprea|calamar|choco|pescado|cabracho|sardin/,'r52'],
- [/pimiento|piquillo|pinchos|pintxo/,'r35'],
- [/tapa/,'r23'],
- [/esp[aá]rrago|verdura|nabo|alubia|habas|cebolleta/,'r71'],
- [/turr[oó]n|galleta|dulce|mantecado|miel|avellana|nuez|navidad/,'r68'],
- [/aceite|oliva|olivar|azafr[aá]n/,'r69'],
- [/cordero|lechazo|cochinillo|carne/,'r10'],
- [/whisk|ginebra|vermu|cocktail|c[oó]ctel|bourbon|orujo|tropikal|destil/,'r34']
-];
-const EVFOTO_POOL={Alimentos:['r2','r70','r73','r33','r71'],Cocina:['r18','r19','r20','r22','r34'],Vino:['r4','r55','r15','r26'],Cerveza:['r17','r23','r59'],Destilados:['r34','r55']};
-function evFoto(e){
-  const t=(e[0]+' '+e[5]).toLowerCase();
-  for(const [re,id] of EVFOTO_RULES){ if(re.test(t)) return 'fotos/'+id+'.jpg'; }
-  let h=0; for(const c of e[0]) h=(h*31+c.charCodeAt(0))>>>0;
-  const p=EVFOTO_POOL[e[1]]||EVFOTO_POOL.Alimentos;
-  return 'fotos/'+p[h%p.length]+'.jpg';
-}
 function evCard(e){
   const q=encodeURIComponent(e[0]+' '+e[3]+' fechas web oficial');
-  return `<div class="evcard hasimg"><div class="evph"><img src="${evFoto(e)}" alt="Imagen ilustrativa: ${esc(e[0])}" loading="lazy" decoding="async" onerror="this.remove()"><div class="evi">${evIcon(e[1])}</div></div><div class="evb"><div class="evt"><b>${esc(e[0])}</b></div><div class="evm"><span class="pill p-grey">${e[1]}</span> <span>📍 ${esc(e[3])}</span> · <span>🗓 ${evMonthLabel(e)}</span></div><p class="evn">${esc(e[5])}</p><a class="btn sm" style="text-decoration:none" href="https://www.google.com/search?q=${q}" target="_blank" rel="noopener">🔎 Web oficial y fechas</a></div></div>`;
+  return `<div class="evcard"><div class="evi">${evIcon(e[1])}</div><div class="evb"><div class="evt"><b>${esc(e[0])}</b></div><div class="evm"><span class="pill p-grey">${e[1]}</span> <span>📍 ${esc(e[3])}</span> · <span>🗓 ${evMonthLabel(e)}</span></div><p class="evn">${esc(e[5])}</p><a class="btn sm" style="text-decoration:none" href="https://www.google.com/search?q=${q}" target="_blank" rel="noopener">🔎 Web oficial y fechas</a></div></div>`;
 }
 function viewEventos(){
   const E=UI.ev||(UI.ev={t:'',s:'todas',ca:'',co:'',m:0});
