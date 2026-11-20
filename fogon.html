@@ -98,6 +98,7 @@ textarea{min-height:110px;resize:vertical}
 .rcard{padding:0;overflow:hidden;cursor:pointer;transition:transform .15s}
 .rcard:hover{transform:translateY(-2px)}
 .rhero{height:112px;display:flex;align-items:flex-end;justify-content:space-between;padding:12px 14px;color:#fff;position:relative}
+.rcard .rhero.ph{height:auto;aspect-ratio:3/2}
 .rhero .em{font-size:44px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
 .rhero .reg{font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:600;opacity:.9}
 .rbody{padding:12px 14px 14px}
@@ -221,7 +222,7 @@ details summary{cursor:pointer;font-weight:600}
 @media (max-width:860px){.rlist .hm{display:none}}
 .rgrid{grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:12px}
 .rgrid .rhero{height:84px;padding:8px 10px}
-.rgrid .rhero.ph{height:104px}
+.rgrid .rhero.ph{height:auto;aspect-ratio:3/2}
 .rgrid .rhero .em{font-size:30px}
 .rgrid .rhero .reg{font-size:9.5px}
 .rgrid .rbody{padding:8px 10px 10px}
@@ -430,8 +431,6 @@ h1{letter-spacing:-.2px}
 .stat b{font-size:40px;background:linear-gradient(135deg,#7b1e2b,#b0562a);-webkit-background-clip:text;background-clip:text;color:transparent}
 .rcard{border-radius:var(--r);transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
 .rcard:hover{transform:translateY(-6px) scale(1.01);box-shadow:var(--shadow2)}
-.rcard .rhero.ph{height:120px}
-.rgrid .rcard .rhero.ph{height:92px}
 .rcard .hero-img{transition:transform .6s cubic-bezier(.2,.7,.2,1);object-fit:cover}
 .rcard:hover .hero-img{transform:scale(1.08)}
 .rhero .reg{background:rgba(20,12,10,.55);backdrop-filter:blur(6px);padding:3px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.18);letter-spacing:.9px}
