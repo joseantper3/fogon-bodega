@@ -98,6 +98,7 @@ textarea{min-height:110px;resize:vertical}
 .rcard{padding:0;overflow:hidden;cursor:pointer;transition:transform .15s}
 .rcard:hover{transform:translateY(-2px)}
 .rhero{height:112px;display:flex;align-items:flex-end;justify-content:space-between;padding:12px 14px;color:#fff;position:relative}
+.rcard .rhero.ph{height:auto;aspect-ratio:3/2}
 .rhero .em{font-size:44px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
 .rhero .reg{font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:600;opacity:.9}
 .rbody{padding:12px 14px 14px}
@@ -221,7 +222,7 @@ details summary{cursor:pointer;font-weight:600}
 @media (max-width:860px){.rlist .hm{display:none}}
 .rgrid{grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:12px}
 .rgrid .rhero{height:84px;padding:8px 10px}
-.rgrid .rhero.ph{height:104px}
+.rgrid .rhero.ph{height:auto;aspect-ratio:3/2}
 .rgrid .rhero .em{font-size:30px}
 .rgrid .rhero .reg{font-size:9.5px}
 .rgrid .rbody{padding:8px 10px 10px}
@@ -430,8 +431,6 @@ h1{letter-spacing:-.2px}
 .stat b{font-size:40px;background:linear-gradient(135deg,#7b1e2b,#b0562a);-webkit-background-clip:text;background-clip:text;color:transparent}
 .rcard{border-radius:var(--r);transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
 .rcard:hover{transform:translateY(-6px) scale(1.01);box-shadow:var(--shadow2)}
-.rcard .rhero.ph{height:120px}
-.rgrid .rcard .rhero.ph{height:92px}
 .rcard .hero-img{transition:transform .6s cubic-bezier(.2,.7,.2,1);object-fit:cover}
 .rcard:hover .hero-img{transform:scale(1.08)}
 .rhero .reg{background:rgba(20,12,10,.55);backdrop-filter:blur(6px);padding:3px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.18);letter-spacing:.9px}
@@ -573,10 +572,18 @@ input[type=text],input[type=number],input[type=search],select,textarea{border-ra
 @media (max-width:600px){
   html{-webkit-text-size-adjust:100%}
   body{font-size:14px}
-  main{padding:14px 12px 92px}
+  main{padding:14px 10px 92px}
   h1{font-size:25px!important}
   h2{font-size:20px}
   h3{font-size:16.5px}
+  .head{flex-direction:column;align-items:center;text-align:center}
+  .head h1::after{margin-left:auto;margin-right:auto}
+  .head .row{justify-content:center}
+  .head .sub{text-align:center}
+  .scopetgl{justify-content:center}
+  .viewtgl{justify-content:center}
+  .crumb{text-align:center}
+  .rcnt{text-align:center;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px}
   .card{padding:12px;border-radius:14px}
   .btn{padding:7px 11px;font-size:12px;border-radius:9px;gap:5px}
   .btn.sm{padding:5px 9px;font-size:11px}
@@ -587,9 +594,12 @@ input[type=text],input[type=number],input[type=search],select,textarea{border-ra
   #nav{padding:5px 2px calc(5px + env(safe-area-inset-bottom));gap:0;justify-content:stretch}
   #nav .navbtn,#app .navbtn{flex:1 1 0;min-width:0;font-size:8px;letter-spacing:0;padding:5px 1px;gap:1px;line-height:1.1;text-align:center}
   #nav .navbtn svg{width:21px;height:21px;padding:2px}
-  .detail-hero{padding:16px;gap:12px}
-  .detail-hero.ph{min-height:230px}
+  .detail-hero{padding:16px;gap:12px;width:100%}
+  .detail-hero.ph{min-height:200px;aspect-ratio:auto}
   .detail-hero .btn{padding:6px 10px;font-size:11px}
+  .detail-hero .row{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px}
+  .detail-hero .row::-webkit-scrollbar{display:none}
+  .detail-hero .tiny{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
   .hero-tonight h2{font-size:19px!important}
   .artbadge{display:none}
   .histcard p{font-size:15px;line-height:1.55}.histcard h3{font-size:17px}
@@ -614,13 +624,6 @@ input[type=text],input[type=number],input[type=search],select,textarea{border-ra
 .evcard{display:flex;gap:12px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:var(--shadow)}
 .evi{flex:none;width:44px;height:44px;border-radius:12px;background:#f6ede2;color:var(--wine);display:flex;align-items:center;justify-content:center}
 .evi svg{width:28px;height:28px}
-.evcard.hasimg{flex-direction:column;gap:0;padding:0;overflow:hidden}
-.evcard.hasimg .evph{position:relative;height:118px;background:#2a1d19;flex:none}
-.evcard.hasimg .evph img{width:100%;height:100%;object-fit:cover;display:block}
-.evcard.hasimg .evph::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,12,10,0) 45%,rgba(20,12,10,.45))}
-.evcard.hasimg .evi{position:absolute;left:10px;bottom:-14px;z-index:2;width:36px;height:36px;border-radius:50%;background:var(--paper);border:2px solid var(--paper);box-shadow:0 2px 8px rgba(0,0,0,.25)}
-.evcard.hasimg .evi svg{width:20px;height:20px}
-.evcard.hasimg .evb{padding:20px 12px 12px}
 .evb{min-width:0;flex:1}.evt b{font-size:15px;line-height:1.25}
 .evm{font-size:12px;color:var(--muted,#8a7a6e);margin-top:4px;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center}
 .evn{font-size:13px;margin:6px 0 8px;line-height:1.4}
@@ -8143,7 +8146,7 @@ const ART = {
    return o+glass('#a5562a'); },
 };
 /* Imágenes de plato generadas con IA (archivos fotos/<id>.jpg junto a la app) */
-const FOTOS={r1:1,r2:1,r3:1,r4:1,r5:1,r6:1,r7:1,r8:1,r9:1,r10:1,r11:1,r12:1,r13:1,r14:1,r15:1,r16:1,r17:1,r18:1,r19:1,r20:1,r21:1,r22:1,r23:1,r24:1,r25:1,r26:1,r27:1,r28:1,r29:1,r30:1,r31:1,r32:1,r33:1,r34:1,r35:1,r36:1,r37:1,r38:1,r39:1,r40:1,r41:1,r42:1,r43:1,r44:1,r45:1,r46:1,r47:1,r48:1,r49:1,r50:1,r51:1,r52:1,r53:1,r55:1,r56:1,r57:1,r58:1,r59:1,r60:1,r61:1,r62:1,r63:1,r64:1,r65:1,r66:1,r67:1,r68:1,r69:1,r70:1,r71:1,r72:1,r73:1,r74:1,r75:1,r76:1,r77:1,r78:1,r79:1,r80:1,r81:1,r82:1,r83:1,r84:1,r85:1,r86:1,r87:1,r88:1,r89:1,r90:1,r91:1,r92:1,r93:1,r94:1,r95:1,r96:1,r97:1,r98:1,r99:1,r100:1,r101:1,r102:1,r103:1,r104:1,r105:1,r106:1,r107:1,r108:1,r109:1,r110:1,r111:1,r112:1,r113:1,r114:1,r115:1,r116:1,r117:1,r118:1,r119:1,r120:1,r121:1,r122:1,r123:1,r124:1,r125:1,r126:1,r127:1,r128:1,r129:1,r130:1,r131:1,r132:1,r133:1,r134:1,r135:1,r136:1,r137:1,r138:1,r139:1,r140:1,r141:1,r142:1,r143:1,r144:1,r145:1,r146:1,r147:1,r148:1,r149:1,r150:1,r151:1,r152:1,r153:1,r154:1,r155:1,r156:1,r157:1,r158:1,r159:1,r160:1,r161:1,r162:1,r163:1,r164:1,r165:1,r166:1,r167:1,r168:1,r169:1,r170:1,r171:1,r172:1,r173:1,r174:1,r175:1,r176:1,r177:1,r178:1,r179:1,r180:1,r181:1,r182:1,r183:1,r184:1,r185:1,r186:1,r187:1,r188:1,r189:1,r190:1,r191:1,r192:1,r193:1,r194:1,r195:1,r196:1,r197:1,r198:1,r199:1,r200:1,r201:1,r202:1,r203:1,r204:1,r205:1,r206:1,r207:1,r208:1,r209:1,r210:1,r211:1,r212:1,r213:1,r214:1,r215:1,r216:1,r217:1,r218:1,r219:1,r220:1,r221:1,r222:1,r223:1,r224:1,r225:1,r226:1,r227:1,r228:1,r229:1,r230:1,r231:1,r232:1,r233:1,r234:1,r235:1,r236:1,r237:1,r238:1,r239:1,r240:1,r241:1,r242:1,r243:1,r244:1,r245:1,r246:1,r247:1,r248:1,r249:1,r250:1,r251:1,r252:1,r253:1,r254:1,r255:1,r256:1,r257:1,r258:1,r259:1,r260:1,r261:1,r262:1,r263:1,r264:1,r265:1,r266:1,r267:1,r268:1,r318:1};
+const FOTOS={r1:1,r2:1,r3:1,r4:1,r5:1,r6:1,r7:1,r8:1,r9:1,r10:1,r11:1,r12:1,r13:1,r14:1,r15:1,r16:1,r17:1,r18:1,r19:1,r20:1,r21:1,r22:1,r23:1,r24:1,r25:1,r26:1,r27:1,r28:1,r29:1,r30:1,r31:1,r32:1,r33:1,r34:1,r35:1,r36:1,r37:1,r38:1,r39:1,r40:1,r41:1,r42:1,r43:1,r44:1,r45:1,r46:1,r47:1,r48:1,r49:1,r50:1,r51:1,r52:1,r53:1,r55:1,r56:1,r57:1,r58:1,r59:1,r60:1,r61:1,r62:1,r63:1,r64:1,r65:1,r66:1,r67:1,r68:1,r69:1,r70:1,r71:1,r72:1,r73:1,r74:1,r75:1,r76:1,r77:1,r78:1,r79:1,r80:1,r81:1,r82:1,r83:1,r84:1,r85:1,r86:1,r87:1,r88:1,r89:1,r90:1,r91:1,r92:1,r93:1,r94:1,r95:1,r96:1,r97:1,r98:1,r99:1,r100:1,r101:1,r102:1,r103:1,r104:1,r105:1,r106:1,r107:1,r108:1,r109:1,r110:1,r111:1,r112:1,r113:1,r114:1,r115:1,r116:1,r117:1,r118:1,r119:1,r120:1,r121:1,r122:1,r123:1,r124:1,r125:1,r126:1,r127:1,r128:1,r129:1,r130:1,r131:1,r132:1,r133:1,r134:1,r135:1,r136:1,r137:1,r138:1,r139:1,r140:1,r141:1,r142:1,r143:1,r144:1,r145:1,r146:1,r147:1,r148:1,r149:1,r150:1,r151:1,r152:1,r153:1,r154:1,r155:1,r156:1,r157:1,r158:1,r159:1,r160:1,r161:1,r162:1,r163:1,r164:1,r165:1,r166:1,r167:1,r168:1,r169:1,r170:1,r171:1,r172:1,r173:1,r174:1,r175:1,r176:1,r177:1,r178:1,r179:1,r180:1,r181:1,r182:1,r183:1,r184:1,r185:1,r186:1,r187:1,r188:1,r189:1,r190:1,r191:1,r192:1,r193:1,r194:1,r195:1,r196:1,r197:1,r198:1,r199:1,r200:1,r201:1,r202:1,r203:1,r204:1,r205:1,r206:1,r207:1,r208:1,r209:1,r210:1,r211:1,r212:1,r213:1,r214:1,r215:1,r216:1,r217:1,r218:1,r219:1,r220:1,r221:1,r222:1,r223:1,r224:1,r225:1,r226:1,r227:1,r228:1,r229:1,r230:1,r231:1,r232:1,r233:1,r234:1,r235:1,r236:1,r237:1,r238:1,r239:1,r240:1,r241:1,r242:1,r243:1,r244:1,r245:1,r246:1,r247:1,r248:1,r249:1,r250:1,r251:1,r252:1,r253:1,r254:1,r255:1,r256:1,r257:1,r258:1,r259:1,r260:1,r261:1,r262:1,r263:1,r264:1,r265:1,r266:1,r267:1,r268:1,r269:1,r270:1,r271:1,r272:1,r273:1,r274:1,r275:1,r276:1,r277:1,r278:1,r279:1,r280:1,r281:1,r282:1,r283:1,r284:1,r285:1,r286:1,r287:1,r288:1,r289:1,r290:1,r291:1,r292:1,r293:1,r294:1,r295:1,r296:1,r297:1,r298:1,r299:1,r300:1,r301:1,r302:1,r303:1,r304:1,r305:1,r306:1,r307:1,r308:1,r309:1,r310:1,r311:1,r312:1,r313:1,r314:1,r315:1,r316:1,r317:1,r318:1,r319:1,r321:1,r322:1,r323:1,r324:1,r327:1,r328:1,r329:1,r330:1,r335:1,r336:1,r338:1,r361:1,r362:1,r363:1,r320:1,r331:1,r334:1,r337:1,r325:1,r326:1,r332:1,r333:1,r391:1,r451:1,r460:1,r472:1,r540:1,r587:1,r613:1,r695:1,r706:1,r707:1,r721:1,r727:1,r733:1,r750:1,r759:1,r804:1,r873:1,r958:1,r978:1,r1009:1,r340:1,r343:1,r458:1,r466:1,r546:1,r588:1,r625:1,r631:1,r638:1,r643:1,r654:1,r681:1,r716:1,r740:1,r761:1,r782:1,r793:1,r865:1,r901:1,r903:1,r918:1,r954:1,r963:1,r991:1,r1006:1,r1012:1,r1016:1,r1022:1,r1037:1,r1050:1,r635:1,r666:1,r935:1};
 const genFoto = r => FOTOS[r.id] ? 'fotos/'+r.id+'.jpg' : '';
 function fotoFail(el){ const r=S.recipes.find(x=>x.id===el.dataset.rid); delete FOTOS[el.dataset.rid]; const b=el.parentNode&&el.parentNode.querySelector('.artbadge'); if(b) b.textContent='Ilustración'; el.outerHTML=r?dishArt(r):''; }
 function heroMedia(r,thumb){ const c=cover(r); if(c) return mediaEl(c,'hero-img',thumb); const g=genFoto(r); if(g) return `<img class="hero-img" src="${g}" data-rid="${r.id}" alt="Imagen de ${esc(r.name)}" loading="lazy" decoding="async" onerror="fotoFail(this)">`; return dishArt(r); }
@@ -10603,39 +10606,9 @@ const CCAA_NAMES=new Set(CCAA.map(c=>c[0]));
 const evIsES=e=>CCAA_NAMES.has(e[2]);
 const evOrder=e=>{ const cur=new Date().getMonth()+1; if(!e[4].length) return 99; return Math.min(...e[4].map(m=>(m-cur+12)%12)); };
 function evMonthLabel(e){ return e[4].length?e[4].map(m=>MESES[m-1]).join(' · '):'Fecha por confirmar'; }
-/* Fotos de plato ya creadas (fotos/rN.jpg) reutilizadas como imagen ilustrativa de cada evento */
-const EVFOTO_RULES=[
- [/queso|quesada|torta del casar|idiazabal|cabrales|gamon/,'r30'],
- [/jam[oó]n|jabugo|embutido|chosco|butifarra|matanza|ib[eé]rico/,'r16'],
- [/trufa|hongos|setas/,'r7'],
- [/callos/,'r56'],
- [/sidra/,'r21'],
- [/jerez|sherry|montilla|manzanilla|pedro xim|oloroso/,'r55'],
- [/vendimia|uva|moscatel|verema/,'r15'],
- [/paella|arr[oó]s|firarr|fideu/,'r20'],
- [/pulpo|lac[oó]n/,'r3'],
- [/at[uú]n|almadraba/,'r9'],
- [/bonito|anchoa|conserva|gastrolata/,'r39'],
- [/mejill|marisco|lamprea|calamar|choco|pescado|cabracho|sardin/,'r52'],
- [/pimiento|piquillo|pinchos|pintxo/,'r35'],
- [/tapa/,'r23'],
- [/esp[aá]rrago|verdura|nabo|alubia|habas|cebolleta/,'r71'],
- [/turr[oó]n|galleta|dulce|mantecado|miel|avellana|nuez|navidad/,'r68'],
- [/aceite|oliva|olivar|azafr[aá]n/,'r69'],
- [/cordero|lechazo|cochinillo|carne/,'r10'],
- [/whisk|ginebra|vermu|cocktail|c[oó]ctel|bourbon|orujo|tropikal|destil/,'r34']
-];
-const EVFOTO_POOL={Alimentos:['r2','r70','r73','r33','r71'],Cocina:['r18','r19','r20','r22','r34'],Vino:['r4','r55','r15','r26'],Cerveza:['r17','r23','r59'],Destilados:['r34','r55']};
-function evFoto(e){
-  const t=(e[0]+' '+e[5]).toLowerCase();
-  for(const [re,id] of EVFOTO_RULES){ if(re.test(t)) return 'fotos/'+id+'.jpg'; }
-  let h=0; for(const c of e[0]) h=(h*31+c.charCodeAt(0))>>>0;
-  const p=EVFOTO_POOL[e[1]]||EVFOTO_POOL.Alimentos;
-  return 'fotos/'+p[h%p.length]+'.jpg';
-}
 function evCard(e){
   const q=encodeURIComponent(e[0]+' '+e[3]+' fechas web oficial');
-  return `<div class="evcard hasimg"><div class="evph"><img src="${evFoto(e)}" alt="Imagen ilustrativa: ${esc(e[0])}" loading="lazy" decoding="async" onerror="this.remove()"><div class="evi">${evIcon(e[1])}</div></div><div class="evb"><div class="evt"><b>${esc(e[0])}</b></div><div class="evm"><span class="pill p-grey">${e[1]}</span> <span>📍 ${esc(e[3])}</span> · <span>🗓 ${evMonthLabel(e)}</span></div><p class="evn">${esc(e[5])}</p><a class="btn sm" style="text-decoration:none" href="https://www.google.com/search?q=${q}" target="_blank" rel="noopener">🔎 Web oficial y fechas</a></div></div>`;
+  return `<div class="evcard"><div class="evi">${evIcon(e[1])}</div><div class="evb"><div class="evt"><b>${esc(e[0])}</b></div><div class="evm"><span class="pill p-grey">${e[1]}</span> <span>📍 ${esc(e[3])}</span> · <span>🗓 ${evMonthLabel(e)}</span></div><p class="evn">${esc(e[5])}</p><a class="btn sm" style="text-decoration:none" href="https://www.google.com/search?q=${q}" target="_blank" rel="noopener">🔎 Web oficial y fechas</a></div></div>`;
 }
 function viewEventos(){
   const E=UI.ev||(UI.ev={t:'',s:'todas',ca:'',co:'',m:0});
